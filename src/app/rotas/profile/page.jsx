@@ -37,12 +37,19 @@ export default function Profile() {
   const loadUserData = async () => {
     try {
       const userData = localStorage.getItem('user');
-      if (!userData) {
+      const token = localStorage.getItem('token');
+      
+      console.log('Debug - userData:', userData);
+      console.log('Debug - token:', token);
+      
+      if (!userData || !token) {
+        console.log('Debug - Sem dados de usuário ou token, redirecionando...');
         router.push('/');
         return;
       }
 
       const currentUser = JSON.parse(userData);
+      console.log('Debug - currentUser:', currentUser);
       setUser(currentUser);
       setEditData(currentUser);
 
@@ -73,6 +80,11 @@ export default function Profile() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log('Debug - Tentando atualizar perfil...');
+      console.log('Debug - user.id:', user.id);
+      console.log('Debug - editData:', editData);
+      console.log('Debug - token:', localStorage.getItem('token'));
+      
       const response = await apiService.updateUserProfile(user.id, editData);
       setUser(response.usuario);
       localStorage.setItem('user', JSON.stringify(response.usuario));

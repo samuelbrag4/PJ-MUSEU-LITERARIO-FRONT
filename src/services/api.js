@@ -14,8 +14,10 @@ class ApiService {
 
     // Adicionar token se existir
     const token = localStorage.getItem('token');
+    console.log('Debug API - token:', token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('Debug API - Authorization header:', config.headers.Authorization);
     }
 
     try {
