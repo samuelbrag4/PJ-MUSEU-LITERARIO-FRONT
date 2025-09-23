@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import Popup from '../components/Popup';
+import Footer from '../components/Footer';
 import apiService from '../services/api';
 
 export default function Login() {
@@ -59,7 +60,8 @@ export default function Login() {
   };
 
   return (
-    <main className={styles.main}>
+    <>
+      <main className={styles.main}>
       <div className={styles.formSection}>
         <div className={styles.container}>
           <div className={styles.loginBox}>
@@ -160,5 +162,7 @@ export default function Login() {
         onClose={hidePopup}
       />
     </main>
+    <Footer />
+    </>
   );
 }

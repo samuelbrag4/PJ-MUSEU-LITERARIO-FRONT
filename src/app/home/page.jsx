@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import styles from './home.module.css';
 
 export default function Home() {
@@ -186,6 +187,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }
