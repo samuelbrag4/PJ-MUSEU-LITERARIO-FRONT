@@ -1,6 +1,24 @@
 const API_BASE_URL = 'http://localhost:5000';
 
 class ApiService {
+  // Verificar se o token é válido (não expirou)
+  isTokenValid() {
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+
+    try {
+      // Decodificar o payload do JWT (segunda parte)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      
+      // Verificar se ainda não expirou
+      return payload.exp > currentTime;
+    } catch (error) {
+      console.error('Erro ao verificar token:', error);
+      return false;
+    }
+  }
+
   // Método para fazer requisições
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
@@ -14,10 +32,8 @@ class ApiService {
 
     // Adicionar token se existir
     const token = localStorage.getItem('token');
-    console.log('Debug API - token:', token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log('Debug API - Authorization header:', config.headers.Authorization);
     }
 
     try {
@@ -25,6 +41,13 @@ class ApiService {
       const data = await response.json();
 
       if (!response.ok) {
+        // Se token expirou, limpar localStorage e redirecionar
+        if (response.status === 401 && data.error === 'Token inválido.') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/';
+          return;
+        }
         throw new Error(data.error || `Erro ${response.status}: ${response.statusText}`);
       }
 

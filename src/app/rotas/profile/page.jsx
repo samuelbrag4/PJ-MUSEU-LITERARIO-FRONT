@@ -48,6 +48,15 @@ export default function Profile() {
         return;
       }
 
+      // Verificar se o token ainda é válido
+      if (!apiService.isTokenValid()) {
+        console.log('Debug - Token expirado, redirecionando para login...');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        router.push('/');
+        return;
+      }
+
       const currentUser = JSON.parse(userData);
       console.log('Debug - currentUser:', currentUser);
       setUser(currentUser);
