@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Header from '../../components/Header';
 import styles from './home.module.css';
 
 export default function Home() {
@@ -9,101 +10,182 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Verificar se o usuário está logado
-    const token = localStorage.getItem('token');
+    // Verificar se há usuário logado
     const userData = localStorage.getItem('user');
-
-    if (!token || !userData) {
+    const token = localStorage.getItem('token');
+    
+    if (!userData || !token) {
       router.push('/');
       return;
     }
-
-    try {
-      setUser(JSON.parse(userData));
-    } catch (error) {
-      console.error('Erro ao carregar dados do usuário:', error);
-      router.push('/');
-    } finally {
-      setLoading(false);
-    }
+    
+    setUser(JSON.parse(userData));
+    setLoading(false);
   }, [router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    router.push('/');
-  };
 
   if (loading) {
     return (
-      <div className={styles.loading}>
+      <div className={styles.loadingContainer}>
         <div className={styles.spinner}></div>
         <p>Carregando...</p>
       </div>
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.welcome}>
-            <h1 className={styles.title}>Bem-vindo ao Museu Literário!</h1>
-            <p className={styles.greeting}>
-              Olá, <span className={styles.userName}>{user.nome}</span>! 
-              Que bom ter você aqui. 📚
+    <>
+      <Header />
+      <main className={styles.main}>
+        {/* Hero Section */}
+        <section className={styles.hero}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>
+              Bem-vindo ao Museu Literário Brasileiro
+              {user && <span className={styles.userName}>, {user.nome}!</span>}
+            </h1>
+            <p className={styles.heroSubtitle}>
+              Explore a rica tradição literária do Brasil através de nossa vasta coleção 
+              de obras, biografias e análises dos grandes mestres da literatura nacional.
             </p>
-          </div>
-          
-          <div className={styles.userInfo}>
-            {user.foto && (
-              <img 
-                src={`http://localhost:5000${user.foto}`} 
-                alt="Foto do usuário" 
-                className={styles.userPhoto}
-              />
-            )}
-            <div className={styles.userDetails}>
-              <p><strong>Usuário:</strong> @{user.nomeUsuario}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Tipo:</strong> {user.tipo}</p>
+            <div className={styles.heroActions}>
+              <button className={styles.primaryButton}>
+                📚 Explorar Acervo
+              </button>
+              <button className={styles.secondaryButton}>
+                ✍️ Conhecer Escritores
+              </button>
             </div>
           </div>
-        </header>
-
-        <div className={styles.content}>
-          <div className={styles.card}>
-            <h2>🏛️ Explore o Acervo</h2>
-            <p>Descubra centenas de obras literárias brasileiras clássicas e contemporâneas.</p>
-            <button className={styles.button}>Ver Livros</button>
+          <div className={styles.heroImage}>
+            <div className={styles.bookAnimation}>📖</div>
           </div>
+        </section>
 
-          <div className={styles.card}>
-            <h2>⭐ Seus Favoritos</h2>
-            <p>Gerencie sua lista de livros favoritos e acompanhe seu progresso de leitura.</p>
-            <button className={styles.button}>Meus Favoritos</button>
+        {/* Stats Section */}
+        <section className={styles.stats}>
+          <div className={styles.container}>
+            <div className={styles.statsGrid}>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>📚</div>
+                <div className={styles.statNumber}>2,847</div>
+                <div className={styles.statLabel}>Livros Catalogados</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>✍️</div>
+                <div className={styles.statNumber}>456</div>
+                <div className={styles.statLabel}>Escritores</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>👥</div>
+                <div className={styles.statNumber}>12,389</div>
+                <div className={styles.statLabel}>Usuários Ativos</div>
+              </div>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>⭐</div>
+                <div className={styles.statNumber}>18,567</div>
+                <div className={styles.statLabel}>Avaliações</div>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div className={styles.card}>
-            <h2>✍️ Perfil</h2>
-            <p>Edite suas informações pessoais e defina seu livro destaque.</p>
-            <button className={styles.button}>Editar Perfil</button>
+        {/* Features Section */}
+        <section className={styles.features}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Descubra a Literatura Brasileira</h2>
+            <div className={styles.featuresGrid}>
+              <div className={styles.featureCard}>
+                <div className={styles.featureIcon}>📖</div>
+                <h3 className={styles.featureTitle}>Acervo Digital</h3>
+                <p className={styles.featureDescription}>
+                  Explore nossa vasta coleção de obras digitalizadas, desde clássicos 
+                  até autores contemporâneos.
+                </p>
+                <button className={styles.featureButton}>Explorar Livros</button>
+              </div>
+              
+              <div className={styles.featureCard}>
+                <div className={styles.featureIcon}>🎭</div>
+                <h3 className={styles.featureTitle}>Biografias</h3>
+                <p className={styles.featureDescription}>
+                  Conheça a vida e obra dos grandes nomes da literatura brasileira 
+                  através de biografias detalhadas.
+                </p>
+                <button className={styles.featureButton}>Ver Escritores</button>
+              </div>
+              
+              <div className={styles.featureCard}>
+                <div className={styles.featureIcon}>💭</div>
+                <h3 className={styles.featureTitle}>Análises</h3>
+                <p className={styles.featureDescription}>
+                  Acesse análises críticas e interpretações de especialistas sobre 
+                  as principais obras literárias.
+                </p>
+                <button className={styles.featureButton}>Ler Análises</button>
+              </div>
+              
+              <div className={styles.featureCard}>
+                <div className={styles.featureIcon}>❤️</div>
+                <h3 className={styles.featureTitle}>Favoritos</h3>
+                <p className={styles.featureDescription}>
+                  Crie sua biblioteca pessoal salvando suas obras e autores favoritos 
+                  para acesso rápido.
+                </p>
+                <button className={styles.featureButton}>Meus Favoritos</button>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <footer className={styles.footer}>
-          <button 
-            onClick={handleLogout}
-            className={styles.logoutButton}
-          >
-            Sair da Conta
-          </button>
-        </footer>
-      </div>
-    </main>
+        {/* Recent Books Section */}
+        <section className={styles.recentBooks}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Livros em Destaque</h2>
+            <div className={styles.booksGrid}>
+              <div className={styles.bookCard}>
+                <div className={styles.bookCover}>📚</div>
+                <h3 className={styles.bookTitle}>Dom Casmurro</h3>
+                <p className={styles.bookAuthor}>Machado de Assis</p>
+                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+              </div>
+              
+              <div className={styles.bookCard}>
+                <div className={styles.bookCover}>📖</div>
+                <h3 className={styles.bookTitle}>O Cortiço</h3>
+                <p className={styles.bookAuthor}>Aluísio Azevedo</p>
+                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+              </div>
+              
+              <div className={styles.bookCard}>
+                <div className={styles.bookCover}>📕</div>
+                <h3 className={styles.bookTitle}>Iracema</h3>
+                <p className={styles.bookAuthor}>José de Alencar</p>
+                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+              </div>
+              
+              <div className={styles.bookCard}>
+                <div className={styles.bookCover}>📗</div>
+                <h3 className={styles.bookTitle}>Capitães da Areia</h3>
+                <p className={styles.bookAuthor}>Jorge Amado</p>
+                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className={styles.cta}>
+          <div className={styles.container}>
+            <div className={styles.ctaContent}>
+              <h2 className={styles.ctaTitle}>Comece sua Jornada Literária</h2>
+              <p className={styles.ctaDescription}>
+                Junte-se a milhares de leitores que já descobriram o prazer da literatura brasileira.
+              </p>
+              <button className={styles.ctaButton}>Explorar Agora</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
