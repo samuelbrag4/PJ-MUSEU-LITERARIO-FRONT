@@ -4,14 +4,14 @@ import styles from './popup.module.css';
 
 export default function Popup({ type, message, isVisible, onClose }) {
   useEffect(() => {
-    if (isVisible) {
+    if (isVisible && type !== 'loading') {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000); // Auto-close após 3 segundos
+      }, 3000); // Auto-close após 3 segundos (exceto para loading)
 
       return () => clearTimeout(timer);
     }
-  }, [isVisible, onClose]);
+  }, [isVisible, onClose, type]);
 
   if (!isVisible) return null;
 
@@ -19,15 +19,19 @@ export default function Popup({ type, message, isVisible, onClose }) {
     <div className={styles.overlay}>
       <div className={`${styles.popup} ${styles[type]}`}>
         <div className={styles.icon}>
-          {type === 'success' ? '✓' : '✕'}
+          {type === 'success' ? '✓' : type === 'loading' ? (
+            <div className={styles.spinner}></div>
+          ) : '✕'}
         </div>
         <p className={styles.message}>{message}</p>
-        <button 
-          className={styles.closeButton}
-          onClick={onClose}
-        >
-          ×
-        </button>
+        {type !== 'loading' && (
+          <button 
+            className={styles.closeButton}
+            onClick={onClose}
+          >
+            ×
+          </button>
+        )}
       </div>
     </div>
   );

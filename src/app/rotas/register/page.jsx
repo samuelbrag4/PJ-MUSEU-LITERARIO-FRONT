@@ -13,8 +13,7 @@ export default function Register() {
     email: '',
     senha: '',
     nascimento: '',
-    idade: '',
-    tipo: 'NORMAL',
+    tipo: 'leitor',
     foto: null
   });
   const [loading, setLoading] = useState(false);
@@ -38,11 +37,10 @@ export default function Register() {
         ...prev,
         foto: file
       }));
-      
-      // Preview da imagem
+
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setFotoPreview(e.target.result);
+      reader.onload = () => {
+        setFotoPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -54,7 +52,7 @@ export default function Register() {
       foto: null
     }));
     setFotoPreview(null);
-    // Limpar o input file
+    
     const fileInput = document.getElementById('foto');
     if (fileInput) {
       fileInput.value = '';
@@ -69,27 +67,25 @@ export default function Register() {
     setPopup({ isVisible: false, type: '', message: '' });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       let fotoUrl = null;
-      
-      // Upload da foto se existir
+
       if (formData.foto) {
         try {
-          console.log('Fazendo upload da foto...');
           const uploadResponse = await apiService.uploadFoto(formData.foto);
-          console.log('Resposta do upload:', uploadResponse);
           
           // Converter caminho relativo em URI completa
           const relativePath = uploadResponse.url;
           fotoUrl = `http://localhost:5000${relativePath}`;
-          
-          console.log('fotoUrl extraída:', fotoUrl);
         } catch (uploadError) {
-          console.error('Erro no upload:', uploadError);
           showPopup('error', 'Erro ao fazer upload da foto. Continuando sem foto...');
         }
       }
@@ -114,119 +110,115 @@ export default function Register() {
         registerData.foto = fotoUrl;
       }
 
-      console.log('Dados sendo enviados para registro:', registerData);
-      console.log('fotoUrl:', fotoUrl);
-
       const response = await apiService.register(registerData);
       
-      showPopup('success', 'Conta criada com sucesso! Redirecionando para login...');
+      showPopup('loading', 'Conta criada com sucesso! Redirecionando para login...');
       
-      // Redirecionar após 2 segundos
       setTimeout(() => {
         router.push('/');
       }, 2000);
       
     } catch (error) {
       showPopup('error', error.message || 'Erro ao criar conta. Tente novamente.');
-    } finally {
       setLoading(false);
     }
   };
 
   return (
     <main className={styles.main}>
-      <div className={styles.container}>
-        <div className={styles.registerBox}>
-          <hgroup className={styles.hgroup}>
-            <h1 className={styles.title}>Criar Conta</h1>
-            <h2 className={styles.subtitle}>Junte-se ao Museu Literário</h2>
-          </hgroup>
+      <div className={styles.formSection}>
+        <div className={styles.container}>
+          <div className={styles.registerBox}>
+            <hgroup className={styles.hgroup}>
+              <h1 className={styles.title}>Criar Conta</h1>
+              <h2 className={styles.subtitle}>Junte-se ao Museu Literário</h2>
+            </hgroup>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.row}>
-              <div className={styles.inputGroup}>
-                <label htmlFor="nome" className={styles.label}>Nome Completo</label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="nome"
-                  value={formData.nome}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  required
-                  placeholder="Digite seu nome completo"
-                />
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.row}>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="nome" className={styles.label}>Nome Completo</label>
+                  <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    required
+                    placeholder="Digite seu nome completo"
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="nomeUsuario" className={styles.label}>Nome de Usuário</label>
+                  <input
+                    type="text"
+                    id="nomeUsuario"
+                    name="nomeUsuario"
+                    value={formData.nomeUsuario}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    required
+                    placeholder="Digite um nome de usuário"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.row}>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="email" className={styles.label}>Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    required
+                    placeholder="Digite seu email"
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="nascimento" className={styles.label}>Ano de Nascimento</label>
+                  <input
+                    type="number"
+                    id="nascimento"
+                    name="nascimento"
+                    value={formData.nascimento}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    required
+                    min="1900"
+                    max="2010"
+                    placeholder="Ex: 1990"
+                  />
+                </div>
               </div>
 
               <div className={styles.inputGroup}>
-                <label htmlFor="nomeUsuario" className={styles.label}>Nome de Usuário</label>
-                <input
-                  type="text"
-                  id="nomeUsuario"
-                  name="nomeUsuario"
-                  value={formData.nomeUsuario}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  required
-                  placeholder="Digite seu nome de usuário"
-                />
-              </div>
-            </div>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="email" className={styles.label}>Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className={styles.input}
-                required
-                placeholder="Digite seu email"
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <label htmlFor="senha" className={styles.label}>Senha</label>
-              <div className={styles.passwordWrapper}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="senha"
-                  name="senha"
-                  value={formData.senha}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  required
-                  placeholder="Digite sua senha (mínimo 6 caracteres)"
-                  minLength="6"
-                />
-                <button
-                  type="button"
-                  className={styles.passwordToggle}
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                >
-                  {showPassword ? "👁️" : "👁️‍🗨️"}
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.inputGroup}>
-                <label htmlFor="nascimento" className={styles.label}>Ano de Nascimento</label>
-                <input
-                  type="number"
-                  id="nascimento"
-                  name="nascimento"
-                  value={formData.nascimento}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  required
-                  placeholder="Ex: 1995"
-                  min="1900"
-                  max={new Date().getFullYear()}
-                />
+                <label htmlFor="senha" className={styles.label}>Senha</label>
+                <div className={styles.passwordWrapper}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="senha"
+                    name="senha"
+                    value={formData.senha}
+                    onChange={handleInputChange}
+                    className={styles.passwordInput}
+                    required
+                    placeholder="Digite uma senha segura"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className={styles.passwordToggle}
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showPassword ? "🙈" : "👁️"}
+                  </button>
+                </div>
               </div>
 
               <div className={styles.inputGroup}>
@@ -239,54 +231,79 @@ export default function Register() {
                   className={styles.select}
                   required
                 >
-                  <option value="NORMAL">Usuário Normal</option>
-                  <option value="ESCRITOR">Escritor</option>
+                  <option value="leitor">Leitor</option>
+                  <option value="escritor">Escritor</option>
                 </select>
               </div>
-            </div>
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="foto" className={styles.label}>Foto de Perfil (Opcional)</label>
-              <input
-                type="file"
-                id="foto"
-                name="foto"
-                onChange={handleFileChange}
-                className={styles.fileInput}
-                accept="image/*"
-              />
-              {fotoPreview && (
-                <div className={styles.preview}>
-                  <div className={styles.previewContainer}>
-                    <img src={fotoPreview} alt="Preview" className={styles.previewImage} />
+              <div className={styles.inputGroup}>
+                <label htmlFor="foto" className={styles.label}>Foto de Perfil (Opcional)</label>
+                <input
+                  type="file"
+                  id="foto"
+                  name="foto"
+                  onChange={handleFileChange}
+                  className={styles.fileInput}
+                  accept="image/*"
+                />
+                
+                {fotoPreview && (
+                  <div className={styles.photoPreview}>
+                    <img src={fotoPreview} alt="Preview da foto" className={styles.previewImage} />
                     <button
                       type="button"
-                      className={styles.removePhoto}
                       onClick={removeFoto}
+                      className={styles.removePhotoBtn}
                       aria-label="Remover foto"
                     >
                       ✕
                     </button>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+
+              <button type="submit" className={styles.submitButton} disabled={loading}>
+                {loading ? 'Criando conta...' : 'Criar Conta'}
+              </button>
+            </form>
+
+            <div className={styles.loginLink}>
+              <p>Já tem uma conta? 
+                <Link href="/" className={styles.link}>
+                  Clique aqui para fazer login
+                </Link>
+              </p>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <button 
-              type="submit" 
-              className={styles.submitButton}
-              disabled={loading}
-            >
-              {loading ? 'Criando conta...' : 'Criar Conta'}
-            </button>
-          </form>
-
-          <div className={styles.loginLink}>
-            <p>Já tem uma conta? 
-              <Link href="/" className={styles.link}>
-                Clique aqui para fazer login
-              </Link>
+      <div className={styles.aboutSection}>
+        <div className={styles.aboutContainer}>
+          <h2 className={styles.aboutTitle}>Sobre o Museu Literário Brasileiro</h2>
+          <div className={styles.aboutContent}>
+            <p className={styles.aboutText}>
+              O Museu Literário Brasileiro é uma plataforma digital dedicada à preservação 
+              e celebração da rica tradição literária do Brasil. Nossa missão é conectar 
+              leitores, escritores e pesquisadores em um espaço colaborativo de descoberta cultural.
             </p>
+            
+            <div className={styles.features}>
+              <div className={styles.feature}>
+                <h3>📚 Acervo Digital</h3>
+                <p>Explore nossa vasta coleção de obras, biografias e análises literárias dos grandes mestres brasileiros.</p>
+              </div>
+              
+              <div className={styles.feature}>
+                <h3>✍️ Comunidade Ativa</h3>
+                <p>Conecte-se com outros amantes da literatura, compartilhe resenhas e participe de discussões enriquecedoras.</p>
+              </div>
+              
+              <div className={styles.feature}>
+                <h3>🎓 Recursos Educacionais</h3>
+                <p>Acesse materiais didáticos, guias de estudo e conteúdos especialmente criados para estudantes e educadores.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
