@@ -1,0 +1,476 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-display: swap;
+}
+
+.pageContainer {
+  min-height: 100vh;
+  background: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.profileHeader {
+  background: linear-gradient(135deg, #f8ffe6 0%, #edffc8 100%);
+  padding: 80px 0 60px 0;
+  margin-bottom: 60px;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.photoContainer {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #a6f02b;
+  box-shadow: 0 10px 30px rgba(166, 240, 43, 0.3);
+  background: white;
+}
+
+.profilePhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #dcfe98, #a6f02b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: white;
+}
+
+.photoUpload {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #4f8209;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(79, 130, 9, 0.3);
+}
+
+.photoUpload:hover {
+  background: #3d6707;
+  transform: scale(1.1);
+}
+
+.userDetails h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4f8209;
+  margin: 0 0 10px 0;
+}
+
+.userName {
+  font-size: 1.2rem;
+  color: #4f8209;
+  opacity: 0.8;
+  margin: 0 0 15px 0;
+}
+
+.userType {
+  background: linear-gradient(135deg, #a6f02b, #4f8209);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.memberSince {
+  color: #4f8209;
+  opacity: 0.7;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+/* Seções de Conteúdo */
+.contentSection {
+  background: #f8ffe6;
+  border-radius: 25px;
+  padding: 40px;
+  margin-bottom: 40px;
+  border: 2px solid #edffc8;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4f8209;
+  margin: 0 0 30px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.sectionIcon {
+  font-size: 1.5rem;
+}
+
+/* Formulário de Edição */
+.editForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-weight: 600;
+  color: #4f8209;
+  font-size: 1rem;
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+  padding: 15px 20px;
+  border: 2px solid #dcfe98;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #4f8209;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: #a6f02b;
+  box-shadow: 0 0 0 3px rgba(166, 240, 43, 0.1);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.formActions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.saveButton,
+.cancelButton {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #a6f02b, #4f8209);
+  color: white;
+}
+
+.saveButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(166, 240, 43, 0.3);
+}
+
+.cancelButton {
+  background: #edffc8;
+  color: #4f8209;
+  border: 2px solid #dcfe98;
+}
+
+.cancelButton:hover {
+  background: #dcfe98;
+}
+
+/* Informações de Exibição */
+.infoDisplay {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.infoItem {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #edffc8;
+  transition: all 0.3s ease;
+}
+
+.infoItem:hover {
+  border-color: #a6f02b;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(166, 240, 43, 0.1);
+}
+
+.infoLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4f8209;
+  opacity: 0.7;
+  margin-bottom: 5px;
+}
+
+.infoValue {
+  font-size: 1.1rem;
+  color: #4f8209;
+  font-weight: 500;
+}
+
+.editButton {
+  background: linear-gradient(135deg, #dcfe98, #a6f02b);
+  color: #4f8209;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.editButton:hover {
+  background: linear-gradient(135deg, #a6f02b, #4f8209);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Seção de Livros (Para Escritores) */
+.booksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.bookCard {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  border: 2px solid #edffc8;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.bookCard:hover {
+  border-color: #a6f02b;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(166, 240, 43, 0.2);
+}
+
+.bookImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.bookTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4f8209;
+  margin: 0 0 8px 0;
+}
+
+.bookInfo {
+  font-size: 0.9rem;
+  color: #4f8209;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.bookActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.editBookButton,
+.deleteBookButton {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editBookButton {
+  background: #dcfe98;
+  color: #4f8209;
+}
+
+.editBookButton:hover {
+  background: #a6f02b;
+  color: white;
+}
+
+.deleteBookButton {
+  background: #ffcdd2;
+  color: #d32f2f;
+}
+
+.deleteBookButton:hover {
+  background: #f44336;
+  color: white;
+}
+
+.addBookButton {
+  background: linear-gradient(135deg, #a6f02b, #4f8209);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addBookButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(166, 240, 43, 0.3);
+}
+
+/* Loading e Estados */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  font-size: 1.2rem;
+  color: #4f8209;
+}
+
+.error {
+  background: #ffebee;
+  color: #d32f2f;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 20px 0;
+  border: 2px solid #ffcdd2;
+}
+
+.success {
+  background: #e8f5e8;
+  color: #2e7d32;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 20px 0;
+  border: 2px solid #c8e6c9;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .profileInfo {
+    flex-direction: column;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .userDetails h1 {
+    font-size: 2rem;
+  }
+
+  .contentSection {
+    padding: 25px;
+  }
+
+  .editForm {
+    grid-template-columns: 1fr;
+  }
+
+  .infoDisplay {
+    grid-template-columns: 1fr;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .booksGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileHeader {
+    padding: 60px 0 40px 0;
+  }
+
+  .photoContainer {
+    width: 120px;
+    height: 120px;
+  }
+
+  .userDetails h1 {
+    font-size: 1.7rem;
+  }
+
+  .contentSection {
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+}

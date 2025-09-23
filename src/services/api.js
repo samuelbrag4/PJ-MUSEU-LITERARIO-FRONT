@@ -96,6 +96,59 @@ class ApiService {
       body: JSON.stringify({ livroId, status }),
     });
   }
+
+  // Buscar perfil do usuário
+  async getUserProfile(id) {
+    return this.request(`/users/${id}`);
+  }
+
+  // Atualizar perfil do usuário
+  async updateUserProfile(id, userData) {
+    return this.request(`/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(userData),
+    });
+  }
+
+  // Buscar livros do escritor (para escritores)
+  async getAuthorBooks(autorId) {
+    return this.request(`/livros/autor/${autorId}`);
+  }
+
+  // Adicionar novo livro (para escritores)
+  async createBook(bookData) {
+    return this.request('/livros', {
+      method: 'POST',
+      body: JSON.stringify(bookData),
+    });
+  }
+
+  // Atualizar livro (para escritores)
+  async updateBook(id, bookData) {
+    return this.request(`/livros/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(bookData),
+    });
+  }
+
+  // Deletar livro (para escritores)
+  async deleteBook(id) {
+    return this.request(`/livros/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Upload de foto de perfil
+  async uploadProfilePhoto(formData) {
+    const token = localStorage.getItem('token');
+    return fetch(`${API_BASE_URL}/users/upload-photo`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    }).then(response => response.json());
+  }
 }
 
 const apiService = new ApiService();

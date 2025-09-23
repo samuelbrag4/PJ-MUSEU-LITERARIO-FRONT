@@ -95,7 +95,7 @@ export default function Header() {
 
               {isUserMenuOpen && (
                 <div className={styles.userDropdown}>
-                  <Link href="/profile" className={styles.dropdownItem}>
+                  <Link href="/rotas/profile" className={styles.dropdownItem}>
                     👤 Meu Perfil
                   </Link>
                   <Link href="/configuracoes" className={styles.dropdownItem}>
@@ -153,7 +153,7 @@ export default function Header() {
             {user && (
               <>
                 <hr className={styles.mobileDivider} />
-                <Link href="/profile" className={styles.mobileNavLink}>
+                <Link href="/rotas/profile" className={styles.mobileNavLink}>
                   👤 Meu Perfil
                 </Link>
                 <Link href="/configuracoes" className={styles.mobileNavLink}>
