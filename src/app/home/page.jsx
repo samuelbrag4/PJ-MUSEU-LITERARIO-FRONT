@@ -8,6 +8,17 @@ import styles from './home.module.css';
 export default function Home() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // Search states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [sortBy, setSortBy] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [itemsPerPage] = useState(6);
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +34,172 @@ export default function Home() {
     setUser(JSON.parse(userData));
     setLoading(false);
   }, [router]);
+
+  // Search functions
+  const handleSearch = async () => {
+    if (!searchQuery.trim() && !sortBy) return;
+    
+    setSearchLoading(true);
+    try {
+      // Construir URL de busca
+      const params = new URLSearchParams();
+      
+      if (searchQuery.trim()) {
+        // Verificar se é um ID (número)
+        if (!isNaN(searchQuery) && searchQuery.trim()) {
+          params.append('id', searchQuery.trim());
+        } else {
+          // Pesquisa geral por título, autor ou gênero
+          params.append('busca', searchQuery.trim());
+        }
+      }
+      
+      if (sortBy) {
+        const [field, order] = sortBy.split('_');
+        params.append('ordenar', field);
+        params.append('ordem', order);
+      }
+      
+      params.append('pagina', currentPage.toString());
+      params.append('limite', itemsPerPage.toString());
+      
+      // Simular resposta da API (substitua pela chamada real)
+      const mockResults = await simulateApiCall(params);
+      
+      setSearchResults(mockResults.books);
+      setTotalResults(mockResults.total);
+      setTotalPages(Math.ceil(mockResults.total / itemsPerPage));
+      
+    } catch (error) {
+      console.error('Erro na busca:', error);
+      setSearchResults([]);
+      setTotalResults(0);
+      setTotalPages(1);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  // Função para simular API (substitua pela real)
+  const simulateApiCall = async (params) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const mockBooks = [
+          {
+            id: 1,
+            titulo: "Dom Casmurro",
+            autor: "Machado de Assis",
+            genero: "Romance",
+            ano_lancamento: 1899
+          },
+          {
+            id: 2,
+            titulo: "O Cortiço",
+            autor: "Aluísio Azevedo",
+            genero: "Naturalismo",
+            ano_lancamento: 1890
+          },
+          {
+            id: 3,
+            titulo: "Iracema",
+            autor: "José de Alencar",
+            genero: "Romance",
+            ano_lancamento: 1865
+          },
+          {
+            id: 4,
+            titulo: "Capitães da Areia",
+            autor: "Jorge Amado",
+            genero: "Romance Social",
+            ano_lancamento: 1937
+          },
+          {
+            id: 5,
+            titulo: "O Guarani",
+            autor: "José de Alencar",
+            genero: "Romance",
+            ano_lancamento: 1857
+          },
+          {
+            id: 6,
+            titulo: "Casa Grande & Senzala",
+            autor: "Gilberto Freyre",
+            genero: "Sociologia",
+            ano_lancamento: 1933
+          }
+        ];
+        
+        let filteredBooks = [...mockBooks];
+        const busca = params.get('busca');
+        const id = params.get('id');
+        
+        if (id) {
+          filteredBooks = filteredBooks.filter(book => book.id.toString() === id);
+        } else if (busca) {
+          const searchTerm = busca.toLowerCase();
+          filteredBooks = filteredBooks.filter(book =>
+            book.titulo.toLowerCase().includes(searchTerm) ||
+            book.autor.toLowerCase().includes(searchTerm) ||
+            book.genero.toLowerCase().includes(searchTerm)
+          );
+        }
+        
+        // Aplicar ordenação
+        const ordenar = params.get('ordenar');
+        const ordem = params.get('ordem');
+        
+        if (ordenar && ordem) {
+          filteredBooks.sort((a, b) => {
+            let valueA, valueB;
+            
+            switch (ordenar) {
+              case 'titulo':
+                valueA = a.titulo.toLowerCase();
+                valueB = b.titulo.toLowerCase();
+                break;
+              case 'autor':
+                valueA = a.autor.toLowerCase();
+                valueB = b.autor.toLowerCase();
+                break;
+              case 'ano':
+                valueA = a.ano_lancamento;
+                valueB = b.ano_lancamento;
+                break;
+              default:
+                return 0;
+            }
+            
+            if (ordem === 'asc') {
+              return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+            } else {
+              return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+            }
+          });
+        }
+        
+        resolve({
+          books: filteredBooks,
+          total: filteredBooks.length
+        });
+      }, 500);
+    });
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSortBy('');
+    setSearchResults([]);
+    setCurrentPage(1);
+    setTotalResults(0);
+    setTotalPages(1);
+  };
+
+  // Efeito para refazer busca quando página ou filtros mudam
+  useEffect(() => {
+    if (searchQuery || sortBy) {
+      handleSearch();
+    }
+  }, [currentPage, sortBy]);
 
   if (loading) {
     return (
@@ -171,6 +348,150 @@ export default function Home() {
                 <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Search Section */}
+        <section className={styles.searchSection}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Pesquisar Livros</h2>
+            
+            {/* Search Bar and Filters */}
+            <div className={styles.searchContainer}>
+              <div className={styles.searchBar}>
+                <div className={styles.searchInputWrapper}>
+                  <input
+                    type="text"
+                    placeholder="Pesquisar por título, autor, gênero ou ID..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className={styles.searchInput}
+                  />
+                  <button 
+                    onClick={handleSearch}
+                    className={styles.searchButton}
+                    disabled={searchLoading}
+                  >
+                    {searchLoading ? '🔄' : '🔍'}
+                  </button>
+                </div>
+              </div>
+              
+              {/* Filters */}
+              <div className={styles.filtersContainer}>
+                <div className={styles.filterGroup}>
+                  <label className={styles.filterLabel}>Ordenar por:</label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className={styles.filterSelect}
+                  >
+                    <option value="">Selecione...</option>
+                    <option value="titulo_asc">Título A-Z</option>
+                    <option value="titulo_desc">Título Z-A</option>
+                    <option value="autor_asc">Autor A-Z</option>
+                    <option value="autor_desc">Autor Z-A</option>
+                    <option value="ano_asc">Ano ↑ (Antigo → Recente)</option>
+                    <option value="ano_desc">Ano ↓ (Recente → Antigo)</option>
+                  </select>
+                </div>
+                
+                <button 
+                  onClick={clearFilters}
+                  className={styles.clearFiltersBtn}
+                >
+                  🗑️ Limpar Filtros
+                </button>
+              </div>
+            </div>
+
+            {/* Search Results */}
+            {searchResults.length > 0 && (
+              <div className={styles.searchResults}>
+                <div className={styles.resultsHeader}>
+                  <h3 className={styles.resultsTitle}>
+                    {totalResults} resultado(s) encontrado(s)
+                    {searchQuery && ` para "${searchQuery}"`}
+                  </h3>
+                </div>
+                
+                <div className={styles.resultsGrid}>
+                  {searchResults.map((book) => (
+                    <div key={book.id} className={styles.resultCard}>
+                      <div className={styles.resultCover}>📚</div>
+                      <div className={styles.resultInfo}>
+                        <h4 className={styles.resultTitle}>{book.titulo}</h4>
+                        <p className={styles.resultAuthor}>{book.autor}</p>
+                        <p className={styles.resultGenre}>{book.genero}</p>
+                        <p className={styles.resultYear}>{book.ano_lancamento}</p>
+                        <div className={styles.resultActions}>
+                          <button className={styles.viewBookBtn}>
+                            👁️ Ver Detalhes
+                          </button>
+                          <button className={styles.favoriteBtn}>
+                            ❤️ Favoritar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className={styles.pagination}>
+                    <button
+                      onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                      disabled={currentPage === 1}
+                      className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disabled : ''}`}
+                    >
+                      ← Anterior
+                    </button>
+                    
+                    <div className={styles.paginationInfo}>
+                      <span className={styles.paginationText}>
+                        Página {currentPage} de {totalPages}
+                      </span>
+                      <div className={styles.paginationNumbers}>
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          const pageNum = Math.max(1, Math.min(totalPages, currentPage - 2 + i));
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => setCurrentPage(pageNum)}
+                              className={`${styles.paginationNumber} ${
+                                currentPage === pageNum ? styles.active : ''
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                      disabled={currentPage === totalPages}
+                      className={`${styles.paginationBtn} ${currentPage === totalPages ? styles.disabled : ''}`}
+                    >
+                      Próxima →
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* No Results */}
+            {searchQuery && searchResults.length === 0 && !searchLoading && (
+              <div className={styles.noResults}>
+                <div className={styles.noResultsIcon}>📭</div>
+                <h3 className={styles.noResultsTitle}>Nenhum livro encontrado</h3>
+                <p className={styles.noResultsText}>
+                  Tente pesquisar com outros termos ou verifique se a grafia está correta.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
