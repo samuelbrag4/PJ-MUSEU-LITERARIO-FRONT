@@ -79,9 +79,17 @@ export default function Register() {
       // Upload da foto se existir
       if (formData.foto) {
         try {
+          console.log('Fazendo upload da foto...');
           const uploadResponse = await apiService.uploadFoto(formData.foto);
-          fotoUrl = uploadResponse.url;
+          console.log('Resposta do upload:', uploadResponse);
+          
+          // Converter caminho relativo em URI completa
+          const relativePath = uploadResponse.url;
+          fotoUrl = `http://localhost:5000${relativePath}`;
+          
+          console.log('fotoUrl extraída:', fotoUrl);
         } catch (uploadError) {
+          console.error('Erro no upload:', uploadError);
           showPopup('error', 'Erro ao fazer upload da foto. Continuando sem foto...');
         }
       }
@@ -105,6 +113,9 @@ export default function Register() {
       if (fotoUrl) {
         registerData.foto = fotoUrl;
       }
+
+      console.log('Dados sendo enviados para registro:', registerData);
+      console.log('fotoUrl:', fotoUrl);
 
       const response = await apiService.register(registerData);
       
