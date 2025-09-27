@@ -1,10 +1,21 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { 
+  FaExclamationTriangle, 
+  FaCalendarAlt, 
+  FaTheaterMasks, 
+  FaDollarSign, 
+  FaBookOpen, 
+  FaChartBar, 
+  FaFilm, 
+  FaBook,
+  FaPen 
+} from 'react-icons/fa';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
-import CardBook from '../../../components/CardBook';
+import CardBook from '../../../components/CardBook';  
 import styles from './livro.module.css';
 
 export default function LivroPage() {
@@ -145,7 +156,7 @@ export default function LivroPage() {
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.error}>
-              <h2>❌ {error}</h2>
+              <h2><FaExclamationTriangle /> {error}</h2>
               <button 
                 className={styles.backButton}
                 onClick={() => router.back()}
@@ -167,7 +178,7 @@ export default function LivroPage() {
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.error}>
-              <h2>❌ Livro não encontrado</h2>
+              <h2><FaExclamationTriangle /> Livro não encontrado</h2>
               <button 
                 className={styles.backButton}
                 onClick={() => router.back()}
@@ -214,7 +225,7 @@ export default function LivroPage() {
                 <div className={styles.bookDetails}>
                   {autor && (
                     <div className={styles.detail}>
-                      <span className={styles.detailLabel}>✍️ Autor:</span>
+                      <span className={styles.detailLabel}><FaPen /> Autor:</span>
                       <Link 
                         href={`/autor/${autor.id}`} 
                         className={styles.authorLink}
@@ -225,27 +236,27 @@ export default function LivroPage() {
                   )}
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>📅 Ano:</span>
+                    <span className={styles.detailLabel}><FaCalendarAlt /> Ano:</span>
                     <span className={styles.detailValue}>{livro.anoLancamento}</span>
                   </div>
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>🎭 Gênero:</span>
+                    <span className={styles.detailLabel}><FaTheaterMasks /> Gênero:</span>
                     <span className={styles.genreTag}>{livro.genero}</span>
                   </div>
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>💰 Preço:</span>
+                    <span className={styles.detailLabel}><FaDollarSign /> Preço:</span>
                     <span className={styles.priceValue}>R$ {livro.mediaPreco}</span>
                   </div>
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>📖 Páginas:</span>
+                    <span className={styles.detailLabel}><FaBookOpen /> Páginas:</span>
                     <span className={styles.detailValue}>{livro.numeroPaginas}</span>
                   </div>
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>📊 Dificuldade:</span>
+                    <span className={styles.detailLabel}><FaChartBar /> Dificuldade:</span>
                     <span 
                       className={styles.difficultyTag}
                       style={{ backgroundColor: getDificuldadeColor(livro.dificuldade) }}
@@ -255,10 +266,10 @@ export default function LivroPage() {
                   </div>
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>🎬 Adaptação:</span>
+                    <span className={styles.detailLabel}><FaFilm /> Adaptação:</span>
                     <span className={styles.detailValue}>
                       {livro.temAdaptacao ? 'Sim' : 'Não'}
-                      {livro.temAdaptacao && ' 🎭'}
+                      {livro.temAdaptacao && <FaTheaterMasks />}
                     </span>
                   </div>
                 </div>
@@ -267,7 +278,7 @@ export default function LivroPage() {
 
             {livro.descricao && (
               <div className={styles.description}>
-                <h2 className={styles.descriptionTitle}>📚 Descrição</h2>
+                <h2 className={styles.descriptionTitle}><FaBook /> Descrição</h2>
                 <p className={styles.descriptionText}>{livro.descricao}</p>
               </div>
             )}
@@ -300,7 +311,7 @@ export default function LivroPage() {
                     </p>
                   )}
                   <div className={styles.authorStats}>
-                    <span>📚 {autor.livros?.length || 0} obras</span>
+                    <span><FaBook /> {autor.livros?.length || 0} obras</span>
                     {autor.email && <span>📧 {autor.email}</span>}
                   </div>
                   <span className={styles.clickHint}>Clique para ver mais →</span>
@@ -313,7 +324,7 @@ export default function LivroPage() {
           {outrosLivrosDoAutor.length > 0 && (
             <section className={styles.otherBooksSection}>
               <h2 className={styles.sectionTitle}>
-                📖 Outros livros de {autor?.nome}
+                <FaBookOpen /> Outros livros de {autor?.nome}
               </h2>
               
               <div className={styles.booksGrid}>

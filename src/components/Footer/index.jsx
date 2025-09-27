@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { FaBook, FaHome, FaBookOpen, FaUser } from 'react-icons/fa';
 import styles from './footer.module.css';
 
 export default function Footer() {
@@ -37,7 +38,7 @@ export default function Footer() {
           <div className={styles.aboutSection}>
             <div className={styles.logoSection}>
               <div className={styles.footerLogo}>
-                <span className={styles.logoIcon}>📚</span>
+                <span className={styles.logoIcon}><FaBook /></span>
                 <span className={styles.logoText}>Museu Literário</span>
               </div>
               <p className={styles.aboutText}>
@@ -52,16 +53,16 @@ export default function Footer() {
             <h3 className={styles.sectionTitle}>Navegação</h3>
             <nav className={styles.footerNav}>
               <Link href="/home" className={styles.footerLink}>
-                🏠 Início
+                <FaHome /> Início
               </Link>
               <Link href="/rotas/livros" className={styles.footerLink}>
-                📖 Acervo
+                <FaBookOpen /> Acervo
               </Link>
               <Link href="/rotas/escritores" className={styles.footerLink}>
-                ✍️ Escritores
+                <FaUser /> Escritores
               </Link>
               <Link href="/rotas/profile" className={styles.footerLink}>
-                👤 Perfil
+                <FaUser /> Perfil
               </Link>
               <Link href="/rotas/favoritos" className={styles.footerLink}>
                 ❤️ Favoritos

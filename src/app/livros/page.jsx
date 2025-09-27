@@ -2,6 +2,17 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { 
+  FaBookOpen, 
+  FaBook, 
+  FaStar, 
+  FaTheaterMasks, 
+  FaUser, 
+  FaPen, 
+  FaSearch, 
+  FaRocket,
+  FaHeart
+} from 'react-icons/fa';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import CardBook from '../../components/CardBook';
@@ -36,17 +47,17 @@ export default function Livros() {
 
   // Ícones para cada gênero
   const iconesGeneros = {
-    'Romance': '💝',
-    'Terror': '👻',
-    'Ficção': '🌟',
-    'Drama': '🎭',
-    'Aventura': '⚔️',
-    'Biográfico': '👤',
-    'Crônicas': '📝',
-    'Poesia': '🌹',
-    'Suspense': '🔍',
-    'Fantasia': '🧙‍♂️',
-    'Sci-fi': '🚀',
+    'Romance': <FaHeart />,
+    'Terror': <FaSearch />,
+    'Ficção': <FaStar />,
+    'Drama': <FaTheaterMasks />,
+    'Aventura': <FaRocket />,
+    'Biográfico': <FaUser />,
+    'Crônicas': <FaPen />,
+    'Poesia': <FaHeart />,
+    'Suspense': <FaSearch />,
+    'Fantasia': <FaStar />,
+    'Sci-fi': <FaRocket />,
     'História': '📜'
   };
 
@@ -265,7 +276,7 @@ export default function Livros() {
           {/* Seção de Introdução */}
           <section className={styles.introSection}>
             <div className={styles.introContent}>
-              <h1 className={styles.pageTitle}>📖 Biblioteca Brasileira</h1>
+              <h1 className={styles.pageTitle}><FaBookOpen /> Biblioteca Brasileira</h1>
               <p className={styles.pageDescription}>
                 Explore o rico universo da literatura brasileira! Aqui você pode descobrir e pesquisar 
                 obras incríveis de autores nacionais, organizadas por categorias para facilitar sua busca. 
@@ -292,7 +303,7 @@ export default function Livros() {
                 className={`${styles.categoryCard} ${selectedCategory === 'todos' ? styles.active : ''}`}
                 onClick={() => setSelectedCategory('todos')}
               >
-                <span className={styles.categoryIcon}>📚</span>
+                <span className={styles.categoryIcon}><FaBook /></span>
                 <span className={styles.categoryName}>Todos os Livros</span>
               </button>
               
@@ -302,7 +313,7 @@ export default function Livros() {
                   className={`${styles.categoryCard} ${selectedCategory === genero ? styles.active : ''}`}
                   onClick={() => setSelectedCategory(genero)}
                 >
-                  <span className={styles.categoryIcon}>{iconesGeneros[genero] || '📖'}</span>
+                  <span className={styles.categoryIcon}>{iconesGeneros[genero] || <FaBookOpen />}</span>
                   <span className={styles.categoryName}>{genero}</span>
                 </button>
               ))}
@@ -316,7 +327,7 @@ export default function Livros() {
               Object.entries(livrosPorGenero).map(([genero, livros]) => (
                 <div key={genero} className={styles.genreSection}>
                   <h2 className={styles.genreTitle}>
-                    {iconesGeneros[genero] || '📖'} {genero}
+                    {iconesGeneros[genero] || <FaBookOpen />} {genero}
                   </h2>
                   <div className={styles.booksCarousel}>
                     {livros.map(livro => (
@@ -330,7 +341,7 @@ export default function Livros() {
               livrosPorGenero[selectedCategory] && (
                 <div className={styles.genreSection}>
                   <h2 className={styles.genreTitle}>
-                    {iconesGeneros[selectedCategory] || '📖'} {selectedCategory}
+                    {iconesGeneros[selectedCategory] || <FaBookOpen />} {selectedCategory}
                   </h2>
                   <div className={styles.booksGrid}>
                     {livrosPorGenero[selectedCategory].map(livro => (

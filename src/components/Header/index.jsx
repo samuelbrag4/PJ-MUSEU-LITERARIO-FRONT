@@ -2,6 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { 
+  FaBook, 
+  FaHome, 
+  FaBookOpen, 
+  FaUser, 
+  FaBars, 
+  FaTimes 
+} from 'react-icons/fa';
 import styles from './header.module.css';
 
 export default function Header() {
@@ -39,7 +47,7 @@ export default function Header() {
         {/* Logo */}
         <div className={styles.logo}>
           <Link href="/home" className={styles.logoLink}>
-            <span className={styles.logoIcon}>📚</span>
+            <span className={styles.logoIcon}><FaBook /></span>
             <span className={styles.logoText}>Museu Literário</span>
           </Link>
         </div>
@@ -49,12 +57,12 @@ export default function Header() {
           <ul className={styles.navList}>
             <li className={styles.navItem}>
               <Link href="/home" className={styles.navLink}>
-                🏠 Início
+                <FaHome /> Início
               </Link>
             </li>
             <li className={styles.navItem}>
               <Link href="/livros" className={styles.navLink}>
-                📖 Livros
+                <FaBookOpen /> Livros
               </Link>
             </li>
             <li className={styles.navItem}>
@@ -86,7 +94,7 @@ export default function Header() {
                   />
                 ) : (
                   <div className={styles.userAvatar}>
-                    {user.nome?.charAt(0)?.toUpperCase() || '👤'}
+                    {user.nome?.charAt(0)?.toUpperCase() || <FaUser />}
                   </div>
                 )}
                 <span className={styles.userName}>{user.nome}</span>
@@ -96,7 +104,7 @@ export default function Header() {
               {isUserMenuOpen && (
                 <div className={styles.userDropdown}>
                   <Link href="/rotas/profile" className={styles.dropdownItem}>
-                    👤 Meu Perfil
+                    <FaUser /> Meu Perfil
                   </Link>
                   <Link href="/configuracoes" className={styles.dropdownItem}>
                     ⚙️ Configurações
@@ -138,10 +146,10 @@ export default function Header() {
         <div className={styles.mobileMenu}>
           <nav className={styles.mobileNav}>
             <Link href="/home" className={styles.mobileNavLink}>
-              🏠 Início
+              <FaHome /> Início
             </Link>
             <Link href="/livros" className={styles.mobileNavLink}>
-              📖 Livros
+              <FaBookOpen /> Livros
             </Link>
             <Link href="/escritores" className={styles.mobileNavLink}>
               ✍️ Escritores
@@ -154,7 +162,7 @@ export default function Header() {
               <>
                 <hr className={styles.mobileDivider} />
                 <Link href="/rotas/profile" className={styles.mobileNavLink}>
-                  👤 Meu Perfil
+                  <FaUser /> Meu Perfil
                 </Link>
                 <Link href="/configuracoes" className={styles.mobileNavLink}>
                   ⚙️ Configurações

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FaChartBar, FaFilm } from 'react-icons/fa';
 import styles from './cardBook.module.css';
 
 export default function CardBook({ livro }) {
@@ -34,11 +35,11 @@ export default function CardBook({ livro }) {
           {livro.dificuldade && (
             <div className={styles.bookMeta}>
               <span className={styles.difficulty}>
-                📊 {livro.dificuldade}
+                <FaChartBar /> {livro.dificuldade}
               </span>
               {livro.temAdaptacao && (
                 <span className={styles.adaptation}>
-                  🎬 Tem adaptação
+                  <FaFilm /> Tem adaptação
                 </span>
               )}
             </div>

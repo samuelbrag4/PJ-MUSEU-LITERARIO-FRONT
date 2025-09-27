@@ -1,6 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { 
+  FaExclamationTriangle, 
+  FaCalendarAlt, 
+  FaBook, 
+  FaBookOpen 
+} from 'react-icons/fa';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import CardBook from '../../../components/CardBook';
@@ -116,7 +122,7 @@ export default function AutorPage() {
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.error}>
-              <h2>❌ {error}</h2>
+              <h2><FaExclamationTriangle /> {error}</h2>
               <button 
                 className={styles.backButton}
                 onClick={() => router.back()}
@@ -138,7 +144,7 @@ export default function AutorPage() {
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.error}>
-              <h2>❌ Autor não encontrado</h2>
+              <h2><FaExclamationTriangle /> Autor não encontrado</h2>
               <button 
                 className={styles.backButton}
                 onClick={() => router.back()}
@@ -188,7 +194,7 @@ export default function AutorPage() {
                 <div className={styles.authorDetails}>
                   {autor.dataNascimento && (
                     <div className={styles.detail}>
-                      <span className={styles.detailLabel}>📅 Nascimento:</span>
+                      <span className={styles.detailLabel}><FaCalendarAlt /> Nascimento:</span>
                       <span className={styles.detailValue}>
                         {formatarData(autor.dataNascimento)}
                         {idade && ` (${idade} anos${isVivo ? '' : ' quando faleceu'})`}
@@ -213,7 +219,7 @@ export default function AutorPage() {
                   )}
                   
                   <div className={styles.detail}>
-                    <span className={styles.detailLabel}>📚 Obras:</span>
+                    <span className={styles.detailLabel}><FaBook /> Obras:</span>
                     <span className={styles.detailValue}>
                       {livros.length} {livros.length === 1 ? 'obra' : 'obras'} cadastradas
                     </span>
@@ -224,7 +230,7 @@ export default function AutorPage() {
 
             {autor.biografia && (
               <div className={styles.biography}>
-                <h2 className={styles.biographyTitle}>📖 Biografia</h2>
+                <h2 className={styles.biographyTitle}><FaBookOpen /> Biografia</h2>
                 <p className={styles.biographyText}>{autor.biografia}</p>
               </div>
             )}
@@ -233,7 +239,7 @@ export default function AutorPage() {
           {/* Obras do Autor */}
           <section className={styles.worksSection}>
             <h2 className={styles.sectionTitle}>
-              📚 Obras de {autor.nome}
+              <FaBook /> Obras de {autor.nome}
             </h2>
             
             {livros.length > 0 ? (

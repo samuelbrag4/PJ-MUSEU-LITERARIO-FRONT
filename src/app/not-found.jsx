@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FaBook } from 'react-icons/fa';
 import styles from './not-found.module.css';
 
 export default function NotFound() {
@@ -21,7 +22,7 @@ export default function NotFound() {
             Ela pode ter sido removida, renomeada ou talvez nunca tenha existido.
           </p>
           
-          <div className={styles.bookIcon}>📚</div>
+          <div className={styles.bookIcon}><FaBook /></div>
           
           <div className={styles.actions}>
             <Link href="/home" className={styles.primaryButton}>
