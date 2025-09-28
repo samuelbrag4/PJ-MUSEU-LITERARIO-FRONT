@@ -1,0 +1,409 @@
+/* Página Meus Escritores - Sistema de Seguir */
+
+.main {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8ffe6 0%, #edffc8 100%);
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: #4f8209;
+  font-size: 1.2rem;
+}
+
+.spinner {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Seção de Introdução */
+.introSection {
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(79, 130, 9, 0.1);
+}
+
+.pageTitle {
+  font-size: 3rem;
+  color: #4f8209;
+  margin-bottom: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.pageTitle svg {
+  color: #ff69b4;
+}
+
+.pageDescription {
+  font-size: 1.2rem;
+  color: #6b8e23;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Seção de Estatísticas */
+.statsSection {
+  margin-bottom: 50px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.statCard {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+  border-left: 5px solid #a6f02b;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(79, 130, 9, 0.2);
+}
+
+.statIcon {
+  font-size: 2.5rem;
+  color: #4f8209;
+  background: rgba(166, 240, 43, 0.1);
+  padding: 15px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statInfo h3 {
+  font-size: 2rem;
+  color: #4f8209;
+  margin: 0;
+  font-weight: 700;
+}
+
+.statInfo p {
+  color: #6b8e23;
+  margin: 5px 0 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Seção de Escritores */
+.writersSection {
+  margin-bottom: 50px;
+}
+
+.sectionTitle {
+  font-size: 2.2rem;
+  color: #4f8209;
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.writersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.writerCard {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.writerCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(79, 130, 9, 0.2);
+  border-color: #a6f02b;
+}
+
+.writerImage {
+  position: relative;
+  height: 200px;
+  background: linear-gradient(135deg, #f0f8e6, #e8f5d0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.writerImage img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.2);
+}
+
+.popularBadge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+}
+
+.writerInfo {
+  padding: 25px;
+}
+
+.writerNameLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.writerName {
+  font-size: 1.5rem;
+  color: #4f8209;
+  margin-bottom: 12px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.writerNameLink:hover .writerName {
+  color: #a6f02b;
+}
+
+.writerBio {
+  color: #5a6b2d;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.writerStats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.bookCount,
+.followersCount {
+  background: rgba(79, 130, 9, 0.1);
+  color: #4f8209;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(79, 130, 9, 0.2);
+}
+
+.followersCount {
+  background: rgba(166, 240, 43, 0.1);
+  border-color: rgba(166, 240, 43, 0.3);
+}
+
+.followInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b8e23;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  border-left: 3px solid #a6f02b;
+}
+
+.writerActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.viewProfileButton {
+  background: rgba(79, 130, 9, 0.1);
+  color: #4f8209;
+  border: 2px solid rgba(79, 130, 9, 0.3);
+  padding: 10px 18px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  flex: 1;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.viewProfileButton:hover {
+  background: #4f8209;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 130, 9, 0.3);
+}
+
+/* Estado sem escritores */
+.noWriters {
+  text-align: center;
+  padding: 80px 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.1);
+}
+
+.noWritersIcon {
+  font-size: 4rem;
+  color: #ff69b4;
+  margin-bottom: 25px;
+  opacity: 0.8;
+}
+
+.noWriters h3 {
+  font-size: 1.8rem;
+  color: #4f8209;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.noWriters p {
+  font-size: 1.1rem;
+  color: #6b8e23;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exploreButton {
+  background: linear-gradient(135deg, #4f8209, #a6f02b);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.3);
+}
+
+.exploreButton:hover {
+  background: linear-gradient(135deg, #3d6607, #8fd024);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(79, 130, 9, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 2.2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pageDescription {
+    font-size: 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard {
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .statIcon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    padding: 12px;
+  }
+
+  .writersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .writerImage {
+    height: 150px;
+  }
+
+  .writerImage img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .writerActions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .writerInfo {
+    padding: 20px;
+  }
+
+  .writerStats {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

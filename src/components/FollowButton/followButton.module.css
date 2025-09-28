@@ -1,0 +1,113 @@
+/* Botão de Seguir - Estilo Instagram */
+
+.followButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  min-width: 120px;
+  justify-content: center;
+}
+
+/* Estado: Não seguindo */
+.notFollowing {
+  background: linear-gradient(135deg, #4f8209, #a6f02b);
+  color: white;
+  box-shadow: 0 4px 15px rgba(79, 130, 9, 0.3);
+}
+
+.notFollowing:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3d6607, #8fd024);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 130, 9, 0.4);
+}
+
+/* Estado: Seguindo */
+.following {
+  background: #e8f5d0;
+  color: #4f8209;
+  border: 2px solid #a6f02b;
+}
+
+.following:hover:not(:disabled) {
+  background: #ffebee;
+  color: #d32f2f;
+  border-color: #f44336;
+}
+
+.following:hover:not(:disabled)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(244, 67, 54, 0.1);
+  border-radius: 25px;
+}
+
+/* Estado: Carregando */
+.loading {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.followButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Spinner de loading */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Versões menores do botão */
+.followButton.small {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  min-width: 90px;
+}
+
+.followButton.large {
+  padding: 12px 24px;
+  font-size: 1rem;
+  min-width: 140px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .followButton {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    min-width: 100px;
+  }
+  
+  .followButton.large {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .followButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+}

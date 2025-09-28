@@ -5,11 +5,15 @@ import {
   FaExclamationTriangle, 
   FaCalendarAlt, 
   FaBook, 
-  FaBookOpen 
+  FaBookOpen, 
+  FaUsers,
+  FaHeart
 } from 'react-icons/fa';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import CardBook from '../../../components/CardBook';
+import FollowButton from '../../../components/FollowButton';
+import apiService from '../../../services/api';
 import styles from './autor.module.css';
 
 export default function AutorPage() {
@@ -17,6 +21,7 @@ export default function AutorPage() {
   const [livros, setLivros] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [seguidores, setSeguidores] = useState(0);
   
   const router = useRouter();
   const params = useParams();
@@ -25,8 +30,19 @@ export default function AutorPage() {
   useEffect(() => {
     if (autorId) {
       carregarAutor();
+      carregarSeguidores();
     }
   }, [autorId]);
+
+  const carregarSeguidores = async () => {
+    try {
+      const response = await apiService.getSeguidoresEscritor(autorId);
+      setSeguidores(response.totalSeguidores || 0);
+    } catch (error) {
+      console.error('Erro ao carregar seguidores:', error);
+      setSeguidores(0);
+    }
+  };
 
   const carregarAutor = async () => {
     try {
@@ -224,6 +240,21 @@ export default function AutorPage() {
                       {livros.length} {livros.length === 1 ? 'obra' : 'obras'} cadastradas
                     </span>
                   </div>
+                  
+                  <div className={styles.detail}>
+                    <span className={styles.detailLabel}><FaUsers /> Seguidores:</span>
+                    <span className={styles.detailValue}>
+                      {seguidores} {seguidores === 1 ? 'seguidor' : 'seguidores'}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Botão de Seguir */}
+                <div className={styles.followSection}>
+                  <FollowButton 
+                    escritorId={parseInt(autorId)} 
+                    onFollowChange={carregarSeguidores}
+                  />
                 </div>
               </div>
             </div>

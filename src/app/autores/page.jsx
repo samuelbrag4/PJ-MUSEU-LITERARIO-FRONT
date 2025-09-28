@@ -8,10 +8,14 @@ import {
   FaSearch, 
   FaFilter,
   FaCalendarAlt,
-  FaPen
+  FaPen,
+  FaUserFriends,
+  FaCrown
 } from 'react-icons/fa';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import FollowButton from '../../components/FollowButton';
+import apiService from '../../services/api';
 import styles from './autores.module.css';
 
 export default function Autores() {
@@ -21,12 +25,15 @@ export default function Autores() {
   const [filteredAuthors, setFilteredAuthors] = useState([]);
   const [generosDisponiveis, setGenerosDisponiveis] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('todos');
+  const [rankingEscritores, setRankingEscritores] = useState([]);
+  const [showRanking, setShowRanking] = useState(false);
   
   const router = useRouter();
 
   useEffect(() => {
     carregarAutores();
     carregarGeneros();
+    carregarRanking();
   }, []);
 
   const carregarAutores = async () => {
@@ -82,6 +89,17 @@ export default function Autores() {
       }
     } catch (error) {
       console.error('Erro ao carregar gêneros:', error);
+    }
+  };
+
+  const carregarRanking = async () => {
+    try {
+      const response = await apiService.getRankingEscritores(10);
+      if (response.ranking) {
+        setRankingEscritores(response.ranking);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar ranking:', error);
     }
   };
 
@@ -160,6 +178,56 @@ export default function Autores() {
             </div>
           </section>
 
+          {/* Seção de Top Escritores */}
+          {rankingEscritores.length > 0 && (
+            <section className={styles.rankingSection}>
+              <div className={styles.rankingHeader}>
+                <h2 className={styles.rankingTitle}>
+                  <FaCrown /> Top Escritores Mais Seguidos
+                </h2>
+                <button 
+                  className={styles.toggleRankingButton}
+                  onClick={() => setShowRanking(!showRanking)}
+                >
+                  {showRanking ? 'Ocultar' : 'Ver Ranking'}
+                </button>
+              </div>
+              
+              {showRanking && (
+                <div className={styles.rankingGrid}>
+                  {rankingEscritores.slice(0, 6).map((autor, index) => (
+                    <div key={autor.id} className={styles.rankingCard}>
+                      <div className={styles.rankingPosition}>#{index + 1}</div>
+                      <div className={styles.rankingImage}>
+                        <img 
+                          src={autor.foto || '/autores/default.jpg'} 
+                          alt={autor.nome}
+                          onError={(e) => {
+                            e.target.src = '/autores/default.jpg';
+                          }}
+                        />
+                      </div>
+                      <div className={styles.rankingInfo}>
+                        <h4 className={styles.rankingName}>{autor.nome}</h4>
+                        <div className={styles.rankingStats}>
+                          <span><FaUserFriends /> {autor.totalSeguidores} seguidores</span>
+                          <span><FaBook /> {autor.totalLivros} obras</span>
+                        </div>
+                        <div className={styles.rankingActions}>
+                          <FollowButton 
+                            escritorId={autor.id} 
+                            escritorNome={autor.nome}
+                            onFollowChange={() => carregarRanking()}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
+
           {/* Barra de Pesquisa */}
           <section className={styles.searchSection}>
             <div className={styles.searchContainer}>
@@ -209,60 +277,88 @@ export default function Autores() {
             {filteredAuthors.length > 0 ? (
               <div className={styles.authorsGrid}>
                 {filteredAuthors.map(autor => (
-                  <Link key={autor.id} href={`/autor/${autor.id}`} className={styles.authorCardLink}>
-                    <div className={styles.authorCard}>
-                      <div className={styles.authorImage}>
-                        <img 
-                          src={autor.fotoPerfilUrl || autor.foto || '/autores/default.jpg'} 
-                          alt={autor.nome}
-                          onError={(e) => {
-                            e.target.src = '/autores/default.jpg';
-                          }}
-                        />
-                      </div>
-                      
-                      <div className={styles.authorInfo}>
+                  <div key={autor.id} className={styles.authorCard}>
+                    <div className={styles.authorImage}>
+                      <img 
+                        src={autor.fotoPerfilUrl || autor.foto || '/autores/default.jpg'} 
+                        alt={autor.nome}
+                        onError={(e) => {
+                          e.target.src = '/autores/default.jpg';
+                        }}
+                      />
+                      {/* Badge de ranking se for top autor */}
+                      {autor.ranking && autor.ranking <= 3 && (
+                        <div className={styles.rankingBadge}>
+                          <FaCrown /> #{autor.ranking}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className={styles.authorInfo}>
+                      <Link href={`/autor/${autor.id}`} className={styles.authorNameLink}>
                         <h3 className={styles.authorName}>{autor.nome}</h3>
-                        
-                        {autor.dataNascimento && (
-                          <div className={styles.authorDate}>
-                            <FaCalendarAlt />
-                            <span>
-                              {formatarData(autor.dataNascimento)}
-                              {calcularIdade(autor.dataNascimento, autor.dataFalecimento) && 
-                                ` (${calcularIdade(autor.dataNascimento, autor.dataFalecimento)} anos${autor.dataFalecimento ? ' quando faleceu' : ''})`
-                              }
-                            </span>
-                          </div>
-                        )}
-                        
-                        <div className={styles.authorStats}>
-                          <span className={styles.bookCount}>
-                            <FaBook /> {autor.livros?.length || autor.totalLivros || 0} obra{(autor.livros?.length || autor.totalLivros || 0) !== 1 ? 's' : ''}
+                      </Link>
+                      
+                      {autor.dataNascimento && (
+                        <div className={styles.authorDate}>
+                          <FaCalendarAlt />
+                          <span>
+                            {formatarData(autor.dataNascimento)}
+                            {calcularIdade(autor.dataNascimento, autor.dataFalecimento) && 
+                              ` (${calcularIdade(autor.dataNascimento, autor.dataFalecimento)} anos${autor.dataFalecimento ? ' quando faleceu' : ''})`
+                            }
                           </span>
                         </div>
-                        
-                        {autor.biografia && (
-                          <p className={styles.authorBio}>
-                            {autor.biografia.length > 150 
-                              ? `${autor.biografia.substring(0, 150)}...` 
-                              : autor.biografia}
-                          </p>
-                        )}
-                        
-                        {/* Gêneros do autor */}
-                        {autor.livros && autor.livros.length > 0 && (
-                          <div className={styles.authorGenres}>
-                            {[...new Set(autor.livros.map(livro => livro.genero).filter(Boolean))].slice(0, 3).map(genero => (
-                              <span key={genero} className={styles.genreTag}>
-                                {genero}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+                      )}
+                      
+                      <div className={styles.authorStats}>
+                        <span className={styles.bookCount}>
+                          <FaBook /> {autor.livros?.length || autor.totalLivros || 0} obra{(autor.livros?.length || autor.totalLivros || 0) !== 1 ? 's' : ''}
+                        </span>
+                        <span className={styles.followersCount}>
+                          <FaUserFriends /> {autor.totalSeguidores || 0} seguidor{(autor.totalSeguidores || 0) !== 1 ? 'es' : ''}
+                        </span>
+                      </div>
+                      
+                      {autor.biografia && (
+                        <p className={styles.authorBio}>
+                          {autor.biografia.length > 150 
+                            ? `${autor.biografia.substring(0, 150)}...` 
+                            : autor.biografia}
+                        </p>
+                      )}
+                      
+                      {/* Gêneros do autor */}
+                      {autor.livros && autor.livros.length > 0 && (
+                        <div className={styles.authorGenres}>
+                          {[...new Set(autor.livros.map(livro => livro.genero).filter(Boolean))].slice(0, 3).map(genero => (
+                            <span key={genero} className={styles.genreTag}>
+                              {genero}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {/* Botão de seguir */}
+                      <div className={styles.authorActions}>
+                        <FollowButton 
+                          escritorId={autor.id} 
+                          escritorNome={autor.nome}
+                          onFollowChange={(escritorId, seguindo) => {
+                            // Atualizar contador de seguidores localmente
+                            setAutores(prev => prev.map(a => 
+                              a.id === escritorId 
+                                ? { ...a, totalSeguidores: (a.totalSeguidores || 0) + (seguindo ? 1 : -1) }
+                                : a
+                            ));
+                          }}
+                        />
+                        <Link href={`/autor/${autor.id}`} className={styles.viewProfileButton}>
+                          <FaUser /> Ver Perfil
+                        </Link>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             ) : (

@@ -20,6 +20,132 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Seção de Ranking */
+.rankingSection {
+  margin-bottom: 40px;
+}
+
+.rankingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.rankingTitle {
+  font-size: 2rem;
+  color: #4f8209;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggleRankingButton {
+  background: linear-gradient(135deg, #4f8209, #a6f02b);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggleRankingButton:hover {
+  background: linear-gradient(135deg, #3d6607, #8fd024);
+  transform: translateY(-2px);
+}
+
+.rankingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.rankingCard {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.rankingCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(79, 130, 9, 0.2);
+  border-color: #a6f02b;
+}
+
+.rankingPosition {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+}
+
+.rankingImage {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #a6f02b;
+}
+
+.rankingImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rankingInfo {
+  text-align: center;
+}
+
+.rankingName {
+  color: #4f8209;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.rankingStats {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.rankingStats span {
+  background: #f0f8e6;
+  color: #4f8209;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rankingActions {
+  display: flex;
+  justify-content: center;
+}
+
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -321,6 +447,77 @@
   font-size: 1rem;
   line-height: 1.5;
   color: #555;
+}
+
+/* Novos elementos dos cards */
+.rankingBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+}
+
+.authorNameLink {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.authorNameLink:hover {
+  color: #a6f02b;
+}
+
+.followersCount {
+  background: rgba(166, 240, 43, 0.1);
+  color: #4f8209;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(166, 240, 43, 0.3);
+}
+
+.authorActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.viewProfileButton {
+  background: rgba(79, 130, 9, 0.1);
+  color: #4f8209;
+  border: 2px solid rgba(79, 130, 9, 0.3);
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  flex: 1;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.viewProfileButton:hover {
+  background: #4f8209;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 130, 9, 0.3);
 }
 
 /* Responsividade */

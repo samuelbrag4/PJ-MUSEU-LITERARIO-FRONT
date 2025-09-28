@@ -174,6 +174,59 @@ class ApiService {
       body: formData,
     }).then(response => response.json());
   }
+
+  // ========================================
+  // 🎯 SISTEMA DE SEGUIDORES - ESTILO INSTAGRAM
+  // ========================================
+
+  // Seguir um escritor
+  async seguirEscritor(escritorId) {
+    return this.request(`/seguidores/seguir/${escritorId}`, {
+      method: 'POST',
+    });
+  }
+
+  // Deixar de seguir um escritor
+  async deixarDeSeguirEscritor(escritorId) {
+    return this.request(`/seguidores/deixar-de-seguir/${escritorId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Meus escritores seguindo
+  async getMeusEscritores() {
+    return this.request('/seguidores/meus-escritores');
+  }
+
+  // Verificar se sigo um escritor
+  async verificarSeguindo(escritorId) {
+    return this.request(`/seguidores/verificar/${escritorId}`);
+  }
+
+  // Minhas estatísticas
+  async getMinhasEstatisticas() {
+    return this.request('/seguidores/minhas-estatisticas');
+  }
+
+  // Seguidores de um escritor (público)
+  async getSeguidoresEscritor(escritorId) {
+    return this.request(`/seguidores/escritor/${escritorId}/seguidores`);
+  }
+
+  // Ranking de escritores mais seguidos (público)
+  async getRankingEscritores(limite = 10) {
+    return this.request(`/seguidores/ranking?limite=${limite}`);
+  }
+
+  // Escritores que um usuário segue (público)
+  async getEscritoresSeguindo(usuarioId) {
+    return this.request(`/seguidores/usuario/${usuarioId}/seguindo`);
+  }
+
+  // Estatísticas de um usuário (público)
+  async getEstatisticasUsuario(usuarioId) {
+    return this.request(`/seguidores/usuario/${usuarioId}/estatisticas`);
+  }
 }
 
 const apiService = new ApiService();

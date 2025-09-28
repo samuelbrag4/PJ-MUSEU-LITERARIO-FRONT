@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import FollowingModal from '../../../components/FollowingModal';
 import apiService from '../../../services/api';
 import styles from './profile.module.css';
 
@@ -16,6 +17,12 @@ export default function Profile() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showAddBook, setShowAddBook] = useState(false);
+  const [socialStats, setSocialStats] = useState({
+    seguindo: 0,
+    seguidores: 0,
+    livrosFavoritos: 0
+  });
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [newBook, setNewBook] = useState({
     titulo: '',
     anoLancamento: '',
@@ -33,6 +40,24 @@ export default function Profile() {
   useEffect(() => {
     loadUserData();
   }, []);
+
+  const loadSocialStats = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      // Carregar estatísticas sociais
+      const meusEscritores = await apiService.getMeusEscritores();
+      
+      setSocialStats({
+        seguindo: meusEscritores.escritores?.length || 0,
+        seguidores: 0, // Para usuários normais
+        livrosFavoritos: 0 // Implementar depois se necessário
+      });
+    } catch (error) {
+      console.error('Erro ao carregar estatísticas sociais:', error);
+    }
+  };
 
   const loadUserData = async () => {
     try {
@@ -66,6 +91,9 @@ export default function Profile() {
       if (currentUser.tipo === 'ESCRITOR') {
         loadAuthorBooks(currentUser.id);
       }
+
+      // Carregar estatísticas sociais para todos os usuários
+      loadSocialStats();
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       setError('Erro ao carregar perfil do usuário');
@@ -227,6 +255,30 @@ export default function Profile() {
               </div>
               <div className={styles.memberSince}>
                 Membro desde {formatDate(user.entrouEm)}
+              </div>
+              
+              {/* Estatísticas Sociais estilo Instagram */}
+              <div className={styles.socialStats}>
+                <div 
+                  className={styles.statItem}
+                  onClick={() => setShowFollowingModal(true)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className={styles.statNumber}>{socialStats.seguindo}</span>
+                  <span className={styles.statLabel}>seguindo</span>
+                </div>
+                
+                {user.tipo === 'ESCRITOR' && (
+                  <div className={styles.statItem}>
+                    <span className={styles.statNumber}>{socialStats.seguidores}</span>
+                    <span className={styles.statLabel}>seguidores</span>
+                  </div>
+                )}
+                
+                <div className={styles.statItem}>
+                  <span className={styles.statNumber}>{books.length}</span>
+                  <span className={styles.statLabel}>{user.tipo === 'ESCRITOR' ? 'livros' : 'favoritos'}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -565,6 +617,12 @@ export default function Profile() {
       </div>
 
       <Footer />
+      
+      {/* Modal de Escritores Seguidos */}
+      <FollowingModal 
+        isOpen={showFollowingModal}
+        onClose={() => setShowFollowingModal(false)}
+      />
     </div>
   );
 }
