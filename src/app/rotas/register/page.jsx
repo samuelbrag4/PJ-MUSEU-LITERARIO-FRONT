@@ -80,6 +80,7 @@ export default function Register() {
             </hgroup>
 
             <form className={styles.form} onSubmit={handleSubmit}>
+              {/* Nome completo - campo largo */}
               <div className={styles.inputGroup}>
                 <label htmlFor="nome" className={styles.label}>Nome Completo</label>
                 <input
@@ -94,20 +95,37 @@ export default function Register() {
                 />
               </div>
 
-              <div className={styles.inputGroup}>
-                <label htmlFor="email" className={styles.label}>Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  required
-                  placeholder="Digite seu email"
-                />
+              {/* Email e Telefone lado a lado */}
+              <div className={styles.formRow}>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="email" className={styles.label}>Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    required
+                    placeholder="Digite seu email"
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="telefone" className={styles.label}>Telefone</label>
+                  <input
+                    type="tel"
+                    id="telefone"
+                    name="telefone"
+                    value={formData.telefone}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    placeholder="Digite seu telefone"
+                  />
+                </div>
               </div>
 
+              {/* Senha - campo largo */}
               <div className={styles.inputGroup}>
                 <label htmlFor="senha" className={styles.label}>Senha</label>
                 <div className={styles.passwordWrapper}>
@@ -132,48 +150,39 @@ export default function Register() {
                 </div>
               </div>
 
-              <div className={styles.inputGroup}>
-                <label htmlFor="telefone" className={styles.label}>Telefone</label>
-                <input
-                  type="tel"
-                  id="telefone"
-                  name="telefone"
-                  value={formData.telefone}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  placeholder="Digite seu telefone"
-                />
+              {/* Data de Nascimento e Gênero lado a lado */}
+              <div className={styles.formRow}>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="dataNascimento" className={styles.label}>Data de Nascimento</label>
+                  <input
+                    type="date"
+                    id="dataNascimento"
+                    name="dataNascimento"
+                    value={formData.dataNascimento}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="genero" className={styles.label}>Gênero</label>
+                  <select
+                    id="genero"
+                    name="genero"
+                    value={formData.genero}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                  >
+                    <option value="">Selecione...</option>
+                    <option value="MASCULINO">Masculino</option>
+                    <option value="FEMININO">Feminino</option>
+                    <option value="OUTRO">Outro</option>
+                    <option value="NAO_INFORMAR">Prefiro não informar</option>
+                  </select>
+                </div>
               </div>
 
-              <div className={styles.inputGroup}>
-                <label htmlFor="dataNascimento" className={styles.label}>Data de Nascimento</label>
-                <input
-                  type="date"
-                  id="dataNascimento"
-                  name="dataNascimento"
-                  value={formData.dataNascimento}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                />
-              </div>
-
-              <div className={styles.inputGroup}>
-                <label htmlFor="genero" className={styles.label}>Gênero</label>
-                <select
-                  id="genero"
-                  name="genero"
-                  value={formData.genero}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                >
-                  <option value="">Selecione...</option>
-                  <option value="MASCULINO">Masculino</option>
-                  <option value="FEMININO">Feminino</option>
-                  <option value="OUTRO">Outro</option>
-                  <option value="NAO_INFORMAR">Prefiro não informar</option>
-                </select>
-              </div>
-
+              {/* Tipo de Usuário - campo largo */}
               <div className={styles.inputGroup}>
                 <label htmlFor="tipoUsuario" className={styles.label}>Tipo de Usuário</label>
                 <select

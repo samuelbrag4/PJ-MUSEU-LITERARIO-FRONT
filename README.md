@@ -32,34 +32,93 @@ O **Museu Literário** é uma plataforma social para literatura que oferece:
 - **ESLint 9.0** - Linting e qualidade de código
 - **PostCSS** - Processamento de CSS
 
-## 🏗️ Arquitetura do Projeto
+## 🏗️ Estrutura Completa do Projeto
 
 ```
-src/
-├── app/                    # App Router (Next.js 13+)
-│   ├── page.jsx           # Página de Login (Raiz)
-│   ├── layout.jsx         # Layout global
-│   ├── globals.css        # Estilos globais
-│   ├── home/              # Dashboard principal
-│   ├── livros/            # Catálogo de livros
-│   ├── livro/[id]/        # Detalhes do livro
-│   ├── autores/           # Lista de autores
-│   ├── autor/[id]/        # Perfil do autor
-│   ├── seguindo/          # Escritores seguidos
-│   ├── curiosidades/      # Conteúdo educacional
-│   └── rotas/             # Rotas protegidas
-│       ├── profile/       # Perfil do usuário
-│       ├── login/         # Login alternativo
-│       └── register/      # Cadastro
-├── components/            # Componentes reutilizáveis
-│   ├── Header/           # Navegação principal
-│   ├── Footer/           # Rodapé
-│   ├── CardBook/         # Card de livro
-│   ├── Popup/            # Notificações
-│   ├── FollowButton/     # Botão de seguir
-│   └── FollowingModal/   # Modal de seguidos
-└── services/             # Integração com APIs
-    └── api.js           # Serviço principal da API
+PJ-MUSEU-LITERARIO-FRONT/
+├── .git/
+├── .next/
+├── node_modules/
+├── public/
+│   ├── fonts/
+│   │   ├── Poppins-Bold.woff2
+│   │   └── Poppins-Regular.woff2
+│   └── icons/
+│       └── favicon.ico
+├── src/
+│   ├── app/
+│   │   ├── autor/
+│   │   │   └── [id]/
+│   │   │       ├── autor.module.css
+│   │   │       └── page.jsx
+│   │   ├── autores/
+│   │   │   ├── autores.module.css
+│   │   │   └── page.jsx
+│   │   ├── curiosidades/
+│   │   │   ├── curiosidades.module.css
+│   │   │   └── page.jsx
+│   │   ├── dashboard/
+│   │   ├── home/
+│   │   │   ├── home.module.css
+│   │   │   └── page.jsx
+│   │   ├── livro/
+│   │   │   └── [id]/
+│   │   │       ├── livro.module.css
+│   │   │       └── page.jsx
+│   │   ├── livros/
+│   │   │   ├── livros.module.css
+│   │   │   └── page.jsx
+│   │   ├── rotas/
+│   │   │   ├── [book]/
+│   │   │   │   ├── [book].module.css
+│   │   │   │   └── page.jsx
+│   │   │   ├── login/
+│   │   │   │   ├── login.module.css
+│   │   │   │   └── page.jsx
+│   │   │   ├── profile/
+│   │   │   │   ├── page.jsx
+│   │   │   │   └── profile.module.css
+│   │   │   └── register/
+│   │   │       ├── page.jsx
+│   │   │       └── register.module.css
+│   │   ├── seguindo/
+│   │   │   ├── page.jsx
+│   │   │   └── seguindo.module.css
+│   │   ├── globals.css
+│   │   ├── layout.jsx
+│   │   ├── not-found.jsx
+│   │   ├── not-found.module.css
+│   │   ├── page.jsx
+│   │   └── page.module.css
+│   ├── components/
+│   │   ├── CardBook/
+│   │   │   ├── cardBook.module.css
+│   │   │   └── index.jsx
+│   │   ├── FollowButton/
+│   │   │   ├── followButton.module.css
+│   │   │   └── index.jsx
+│   │   ├── FollowingModal/
+│   │   │   ├── followingModal.module.css
+│   │   │   └── index.jsx
+│   │   ├── Footer/
+│   │   │   ├── footer.module.css
+│   │   │   └── index.jsx
+│   │   ├── Header/
+│   │   │   ├── header.module.css
+│   │   │   └── index.jsx
+│   │   └── Popup/
+│   │       ├── index.jsx
+│   │       └── popup.module.css
+│   └── services/
+│       └── api.js
+├── .gitignore
+├── eslint.config.mjs
+├── jsconfig.json
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+└── README.md
 ```
 
 ## 📱 Páginas e Funcionalidades
