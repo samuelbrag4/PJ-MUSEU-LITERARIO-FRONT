@@ -10,3 +10,26 @@ html, body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: white;
 }
+
+/* Espaçamento global para evitar sobreposição do header fixo */
+main {
+  padding-top: 130px; /* 90px (altura do header) + 20px (top) + 20px (margem extra) */
+}
+
+/* Para dispositivos móveis, ajustar o espaçamento */
+@media (max-width: 768px) {
+  main {
+    padding-top: 110px; /* 70px (altura mobile) + 20px (top) + 20px (margem extra) */
+  }
+}
+
+/* Garantir que o conteúdo principal não seja sobreposto */
+.page-content {
+  min-height: calc(100vh - 130px);
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    min-height: calc(100vh - 110px);
+  }
+}

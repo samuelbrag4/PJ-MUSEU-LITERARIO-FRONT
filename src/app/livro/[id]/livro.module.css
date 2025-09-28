@@ -15,7 +15,7 @@
 .main {
     min-height: 100vh;
     background: linear-gradient(135deg, #f8ffe6, #edffc8);
-    padding-top: 140px;
+    /* padding-top removido - usando o global do globals.css */
     padding-bottom: 40px;
     font-family: 'Poppins', sans-serif;
 }
@@ -328,10 +328,6 @@
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .main {
-        padding-top: 120px;
-    }
-    
     .container {
         padding: 0 15px;
     }

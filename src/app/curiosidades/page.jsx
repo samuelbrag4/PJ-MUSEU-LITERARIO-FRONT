@@ -153,22 +153,67 @@ export default function CuriosidadesPage() {
       ],
       gerações: [
         {
-          nome: '1ª Geração - Nacionalista/Indianista',
+          nome: '1ª Geração - Nacionalista/Indianista (1836-1850)',
           periodo: '1836-1850',
-          características: ['Exaltação da pátria', 'Indianismo', 'Natureza brasileira'],
-          autores: ['Gonçalves Dias', 'Gonçalves de Magalhães']
+          características: [
+            'Exaltação da pátria e criação de uma identidade nacional',
+            'Indianismo como tema central - índio como herói nacional',
+            'Idealização da natureza brasileira e do "bom selvagem"',
+            'Saudosismo e nostalgia da terra natal',
+            'Linguagem elevada e solene',
+            'Influência do Romantismo europeu adaptado ao Brasil',
+            'Criação de mitos nacionais e lendas heroicas'
+          ],
+          contexto: 'Período pós-independência, necessidade de criar uma literatura genuinamente brasileira que se diferenciasse da portuguesa.',
+          temas: ['Indianismo', 'Nacionalismo', 'Exílio', 'Saudade da pátria', 'Natureza tropical'],
+          autores: [
+            'Gonçalves Dias - "Canção do Exílio", "I-Juca Pirama"',
+            'Gonçalves de Magalhães - "Suspiros Poéticos e Saudades"',
+            'Araújo Porto-Alegre - pioneiro da crítica literária romântica'
+          ]
         },
         {
-          nome: '2ª Geração - Ultrarromântica/Byroniana',
+          nome: '2ª Geração - Ultrarromântica/Byroniana (1850-1860)',
           periodo: '1850-1860',
-          características: ['Pessimismo', 'Morte', 'Amor impossível', 'Mal do século'],
-          autores: ['Álvares de Azevedo', 'Casimiro de Abreu', 'Junqueira Freire']
+          características: [
+            'Pessimismo exacerbado e "mal do século"',
+            'Culto à morte como escape dos sofrimentos',
+            'Amor impossível e idealização da mulher',
+            'Subjetivismo extremo e egocentrismo',
+            'Influência de Lord Byron - byronismo',
+            'Ironia e sarcasmo como máscaras da dor',
+            'Boemia e vida noturna como temática',
+            'Tuberculose como "mal romântico"'
+          ],
+          contexto: 'Geração influenciada pelo spleen europeu, vivendo a contradição entre ideais românticos e realidade burguesa.',
+          temas: ['Morte', 'Pessimismo', 'Spleen', 'Tédio existencial', 'Amor platônico', 'Boemia'],
+          autores: [
+            'Álvares de Azevedo - "Lira dos Vinte Anos", "Noite na Taverna"',
+            'Casimiro de Abreu - "Primaveras", nostalgia da infância',
+            'Junqueira Freire - "Inspirações do Claustro", conflito religioso',
+            'Fagundes Varela - "Noturno de Belo Horizonte"'
+          ]
         },
         {
-          nome: '3ª Geração - Condoreira/Social',
+          nome: '3ª Geração - Condoreira/Social (1860-1881)',
           periodo: '1860-1881',
-          características: ['Abolicionismo', 'Republicanismo', 'Poesia social'],
-          autores: ['Castro Alves', 'Sousândrade']
+          características: [
+            'Abolicionismo e luta contra a escravidão',
+            'Republicanismo e ideais democráticos',
+            'Poesia social e engajamento político',
+            'Oratória grandiosa - "condoreirismo"',
+            'Influência de Victor Hugo e do liberalismo',
+            'Exaltação da liberdade e dos direitos humanos',
+            'Temática americana e pan-americanismo',
+            'Retórica elevada e tom épico'
+          ],
+          contexto: 'Período de efervescência política, campanhas abolicionista e republicana, Guerra do Paraguai.',
+          temas: ['Abolicionismo', 'Liberdade', 'Justiça social', 'Américanismo', 'Crítica social'],
+          autores: [
+            'Castro Alves - "O Navio Negreiro", "Vozes d\'África", o "Poeta dos Escravos"',
+            'Sousândrade - "O Guesa", experimentação formal pioneira',
+            'Tobias Barreto - crítico da escravidão e do império'
+          ]
         }
       ],
       autores: [
@@ -363,61 +408,160 @@ export default function CuriosidadesPage() {
       ],
       fases: [
         {
-          nome: '1ª Fase - Heroica (1922-1930)',
+          nome: '1ª Fase - Heroica ou Destruidora (1922-1930)',
+          periodo: '1922-1930',
           características: [
-            'Destruição de valores tradicionais',
-            'Espírito polêmico e irreverente',
-            'Experimentação formal',
-            'Antropofagia cultural',
-            'Semana de Arte Moderna (1922)'
+            'Destruição completa dos valores estéticos tradicionais',
+            'Espírito polêmico, irreverente e iconoclasta',
+            'Experimentação radical com formas e linguagem',
+            'Antropofagia cultural - "devorar" influências estrangeiras',
+            'Semana de Arte Moderna (1922) como marco inicial',
+            'Valorização do primitivo e do folclórico brasileiro',
+            'Verso livre e linguagem coloquial',
+            'Manifestos como instrumentos de combate'
+          ],
+          contexto: 'Período de ruptura total com o passado literário. A Semana de 22 marcou o início oficial do movimento, questionando todas as tradições artísticas estabelecidas.',
+          manifestos: [
+            'Manifesto da Poesia Pau-Brasil (1924) - Oswald de Andrade',
+            'Manifesto Antropófago (1928) - Oswald de Andrade',
+            'A Escrava que não é Isaura (1925) - Mário de Andrade'
           ],
           autores: [
             {
               nome: 'Mário de Andrade',
-              obras: ['Pauliceia Desvairada', 'Macunaíma'],
-              importancia: 'Teórico do Modernismo brasileiro'
+              obras: ['Pauliceia Desvairada (1922)', 'Macunaíma (1928)', 'Amar, Verbo Intransitivo'],
+              importancia: 'Principal teórico do Modernismo brasileiro, criador do herói sem caráter',
+              caracteristicas: 'Pesquisador da cultura popular, experimentador da linguagem'
             },
             {
               nome: 'Oswald de Andrade',
-              obras: ['Pau-Brasil', 'Manifesto Antropófago'],
-              importancia: 'Criador da poesia pau-brasil'
+              obras: ['Pau-Brasil (1925)', 'Serafim Ponte Grande', 'Manifesto Antropófago'],
+              importancia: 'Criador da poesia pau-brasil e do movimento antropófago',
+              caracteristicas: 'Ironia, síntese, crítica social através do humor'
             },
             {
               nome: 'Manuel Bandeira',
-              obras: ['A Cinza das Horas', 'Libertinagem'],
-              importancia: 'Poeta da simplicidade e cotidiano'
+              obras: ['A Cinza das Horas', 'Libertinagem (1930)', 'Estrela da Manhã'],
+              importancia: 'Poeta da simplicidade e do cotidiano brasileiro',
+              caracteristicas: 'Lirismo intimista, temas da morte e da vida simples'
+            },
+            {
+              nome: 'Alcântara Machado',
+              obras: ['Brás, Bexiga e Barra Funda', 'Laranja da China'],
+              importancia: 'Cronista da vida urbana paulistana',
+              caracteristicas: 'Linguagem cinematográfica, retrato do imigrante'
             }
           ]
         },
         {
-          nome: '2ª Fase - Madura (1930-1945)',
+          nome: '2ª Fase - Construtiva ou de Consolidação (1930-1945)',
+          periodo: '1930-1945',
           características: [
-            'Consolidação das conquistas',
-            'Preocupação social',
-            'Romance de 30',
-            'Regionalismo nordestino',
-            'Amadurecimento técnico'
+            'Consolidação das conquistas da fase anterior',
+            'Preocupação social e política mais acentuada',
+            'Romance de 30 - amadurecimento da prosa',
+            'Regionalismo nordestino com crítica social',
+            'Amadurecimento técnico e estilístico',
+            'Temática urbana e industrial',
+            'Influência do contexto político mundial',
+            'Equilíbrio entre inovação e tradição'
+          ],
+          contexto: 'Era Vargas, crise econômica mundial, crescimento urbano. Literatura mais madura, com obras de grande qualidade técnica e profundidade social.',
+          subgeneros: [
+            'Romance Social Nordestino - retrato da seca e miséria',
+            'Romance Urbano - vida nas grandes cidades',
+            'Poesia Social - engajamento político',
+            'Romance Psicológico - análise da condição humana'
           ],
           autores: [
             {
               nome: 'Carlos Drummond de Andrade',
-              obras: ['Alguma Poesia', 'Sentimento do Mundo'],
-              importancia: 'Maior poeta brasileiro do século XX'
+              obras: ['Alguma Poesia (1930)', 'Sentimento do Mundo (1940)', 'A Rosa do Povo (1945)'],
+              importancia: 'Maior poeta brasileiro do século XX',
+              caracteristicas: 'Ironia mineira, reflexão existencial, engajamento social'
             },
             {
               nome: 'Graciliano Ramos',
-              obras: ['Vidas Secas', 'São Bernardo', 'Memórias do Cárcere'],
-              importancia: 'Mestre da prosa moderna brasileira'
+              obras: ['Caetés', 'São Bernardo (1934)', 'Angústia', 'Vidas Secas (1938)'],
+              importancia: 'Mestre da prosa moderna brasileira',
+              caracteristicas: 'Estilo enxuto, análise psicológica, crítica social'
             },
             {
               nome: 'Jorge Amado',
-              obras: ['Gabriela, Cravo e Canela', 'Dona Flor e Seus Dois Maridos'],
-              importancia: 'Escritor brasileiro mais traduzido no mundo'
+              obras: ['O País do Carnaval', 'Jubiabá', 'Capitães da Areia', 'Terras do Sem Fim'],
+              importancia: 'Escritor brasileiro mais traduzido no mundo',
+              caracteristicas: 'Realismo mágico baiano, crítica social, sensualidade'
             },
             {
               nome: 'Rachel de Queiroz',
-              obras: ['O Quinze', 'Dora Doralina'],
-              importancia: 'Primeira mulher na Academia Brasileira de Letras'
+              obras: ['O Quinze (1930)', 'Caminho de Pedras', 'As Três Marias'],
+              importancia: 'Primeira mulher na Academia Brasileira de Letras',
+              caracteristicas: 'Romance social nordestino, protagonistas femininas fortes'
+            },
+            {
+              nome: 'José Lins do Rego',
+              obras: ['Menino de Engenho', 'Doidinho', 'Banguê', 'Usina', 'Fogo Morto'],
+              importancia: 'Cronista da decadência dos engenhos nordestinos',
+              caracteristicas: 'Ciclo da cana-de-açúcar, memorialismo, regionalismo'
+            },
+            {
+              nome: 'Érico Veríssimo',
+              obras: ['Clarissa', 'Música ao Longe', 'O Tempo e o Vento'],
+              importancia: 'Grande romancista gaúcho',
+              caracteristicas: 'Saga familiar, retrato do Rio Grande do Sul'
+            }
+          ]
+        },
+        {
+          nome: '3ª Fase - Pós-Modernista ou de Aperfeiçoamento (1945-1960)',
+          periodo: '1945-1960',
+          características: [
+            'Aperfeiçoamento e universalização das conquistas',
+            'Retorno parcial ao formalismo (Geração de 45)',
+            'Temática existencial e universal',
+            'Experimentação com novas técnicas narrativas',
+            'Influência das vanguardas europeias do pós-guerra',
+            'Literatura introspectiva e psicológica',
+            'Renovação da linguagem poética',
+            'Síntese entre tradição e modernidade'
+          ],
+          contexto: 'Pós-Segunda Guerra Mundial, redemocratização do país, influências existencialistas europeias, desenvolvimento urbano acelerado.',
+          tendencias: [
+            'Geração de 45 - retorno ao rigor formal na poesia',
+            'Experimentalismo narrativo - novas técnicas de romance',
+            'Literatura intimista - análise psicológica profunda',
+            'Universalismo temático - questões existenciais'
+          ],
+          autores: [
+            {
+              nome: 'Clarice Lispector',
+              obras: ['"Perto do Coração Selvagem" (1943)', '"A Maçã no Escuro"', '"A Hora da Estrela" (1977)'],
+              importancia: 'Revolucionou a ficção brasileira com técnica inovadora',
+              caracteristicas: 'Fluxo de consciência, introspecção, epifanias, linguagem poética'
+            },
+            {
+              nome: 'Guimarães Rosa',
+              obras: ['"Sagarana" (1946)', '"Grande Sertão: Veredas" (1956)', '"Primeiras Estórias"'],
+              importancia: 'Revolucionou a linguagem literária brasileira',
+              caracteristicas: 'Neologismos, regionalismo universal, experimentação linguística'
+            },
+            {
+              nome: 'João Cabral de Melo Neto',
+              obras: ['"Pedra do Sono"', '"Morte e Vida Severina" (1955)', '"A Educação pela Pedra"'],
+              importancia: 'Poeta da objetividade e precisão construtiva',
+              caracteristicas: 'Geometria poética, concisão, temática nordestina elaborada'
+            },
+            {
+              nome: 'Ariano Suassuna',
+              obras: ['"Auto da Compadecida" (1955)', '"Romance d\'A Pedra do Reino"'],
+              importancia: 'Mestre do teatro popular brasileiro',
+              caracteristicas: 'Cultura popular nordestina, humor, elementos barrocos'
+            },
+            {
+              nome: 'Lygia Fagundes Telles',
+              obras: ['"Ciranda de Pedra"', '"Verão no Aquário"', '"As Meninas" (1973)'],
+              importancia: 'Grande contista e romancista brasileira',
+              caracteristicas: 'Análise psicológica feminina, atmosfera misteriosa'
             }
           ]
         }
@@ -562,8 +706,8 @@ export default function CuriosidadesPage() {
                     </div>
                     <p className={styles.timelineDescription}>{periodo.resumo}</p>
                     <div className={styles.timelineAuthors}>
-                      <FaUser /> {periodo.autores.slice(0, 2).map(autor => autor.nome).join(', ')}
-                      {periodo.autores.length > 2 && '...'}
+                      <FaUser /> {periodo.autores?.slice(0, 2).map(autor => autor.nome).join(', ') || 'Vários autores'}
+                      {periodo.autores?.length > 2 && '...'}
                     </div>
                   </div>
                 </div>
@@ -611,19 +755,89 @@ export default function CuriosidadesPage() {
                         {periodo.fases.map((fase, index) => (
                           <div key={index} className={styles.phaseCard}>
                             <h5>{fase.nome}</h5>
-                            <ul>
-                              {fase.características.map((char, charIndex) => (
-                                <li key={charIndex}>{char}</li>
-                              ))}
-                            </ul>
+                            {fase.periodo && (
+                              <div className={styles.phasePeriod}>
+                                📅 {fase.periodo}
+                              </div>
+                            )}
+                            
+                            <div className={styles.phaseCharacteristics}>
+                              <h6>Características Principais:</h6>
+                              <ul>
+                                {fase.características?.map((char, charIndex) => (
+                                  <li key={charIndex}>{char}</li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {fase.contexto && (
+                              <div className={styles.phaseContext}>
+                                <h6>Contexto Histórico:</h6>
+                                <p>{fase.contexto}</p>
+                              </div>
+                            )}
+
+                            {fase.manifestos && (
+                              <div className={styles.phaseManifestos}>
+                                <h6>Principais Manifestos:</h6>
+                                <ul className={styles.manifestosList}>
+                                  {fase.manifestos.map((manifesto, manifestoIndex) => (
+                                    <li key={manifestoIndex}>{manifesto}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {fase.subgeneros && (
+                              <div className={styles.phaseSubgeneros}>
+                                <h6>Subgêneros Desenvolvidos:</h6>
+                                <ul className={styles.subgenerosList}>
+                                  {fase.subgeneros.map((subgenero, subIndex) => (
+                                    <li key={subIndex}>{subgenero}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {fase.tendencias && (
+                              <div className={styles.phaseTendencias}>
+                                <h6>Principais Tendências:</h6>
+                                <ul className={styles.tendenciasList}>
+                                  {fase.tendencias.map((tendencia, tendIndex) => (
+                                    <li key={tendIndex}>{tendencia}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
                             {fase.autores && (
                               <div className={styles.phaseAuthors}>
-                                <strong>Principais autores:</strong>
-                                {fase.autores.map((autor, autorIndex) => (
-                                  <span key={autorIndex} className={styles.authorTag}>
-                                    {autor.nome}
-                                  </span>
-                                ))}
+                                <strong>Principais Autores desta Fase:</strong>
+                                <div className={styles.phaseAuthorCards}>
+                                  {fase.autores?.map((autor, autorIndex) => (
+                                    <div key={autorIndex} className={styles.phaseAuthorCard}>
+                                      <h6>{typeof autor === 'string' ? autor : autor.nome}</h6>
+                                      {autor.importancia && (
+                                        <p className={styles.phaseAuthorImportance}>{autor.importancia}</p>
+                                      )}
+                                      {autor.caracteristicas && (
+                                        <div className={styles.phaseAuthorCharacteristics}>
+                                          <strong>Características:</strong> {autor.caracteristicas}
+                                        </div>
+                                      )}
+                                      {autor.obras && (
+                                        <div className={styles.phaseAuthorWorks}>
+                                          <strong>Principais Obras:</strong>
+                                          <ul>
+                                            {autor.obras.map((obra, obraIndex) => (
+                                              <li key={obraIndex}>{obra}</li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             )}
                           </div>
@@ -637,19 +851,46 @@ export default function CuriosidadesPage() {
                         {periodo.gerações.map((geracao, index) => (
                           <div key={index} className={styles.generationCard}>
                             <h5>{geracao.nome}</h5>
-                            <p><strong>Período:</strong> {geracao.periodo}</p>
-                            <ul>
-                              {geracao.características.map((char, charIndex) => (
-                                <li key={charIndex}>{char}</li>
-                              ))}
-                            </ul>
+                            {geracao.periodo && (
+                              <div className={styles.generationPeriod}>
+                                📅 {geracao.periodo}
+                              </div>
+                            )}
+                            
+                            <div className={styles.generationCharacteristics}>
+                              <h6>Características:</h6>
+                              <ul>
+                                {geracao.características?.map((char, charIndex) => (
+                                  <li key={charIndex}>{char}</li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {geracao.contexto && (
+                              <div className={styles.generationContext}>
+                                <h6>Contexto Histórico:</h6>
+                                <p>{geracao.contexto}</p>
+                              </div>
+                            )}
+
+                            {geracao.temas && (
+                              <div className={styles.generationTemas}>
+                                <h6>Principais Temas:</h6>
+                                <ul className={styles.temasList}>
+                                  {geracao.temas.map((tema, temaIndex) => (
+                                    <li key={temaIndex}>{tema}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
                             <div className={styles.generationAuthors}>
-                              <strong>Principais autores:</strong>
-                              {geracao.autores.map((autor, autorIndex) => (
-                                <span key={autorIndex} className={styles.authorTag}>
-                                  {autor}
-                                </span>
-                              ))}
+                              <strong>Principais Autores e Obras:</strong>
+                              <ul className={styles.generationAuthorsList}>
+                                {geracao.autores?.map((autor, autorIndex) => (
+                                  <li key={autorIndex}>{autor}</li>
+                                ))}
+                              </ul>
                             </div>
                           </div>
                         ))}
@@ -659,14 +900,14 @@ export default function CuriosidadesPage() {
                     <div className={styles.mainAuthors}>
                       <h4>Principais Autores e Obras</h4>
                       <div className={styles.authorsGrid}>
-                        {periodo.autores.map((autor, index) => (
+                        {periodo.autores?.map((autor, index) => (
                           <div key={index} className={styles.authorCard}>
                             <h5>{autor.nome}</h5>
                             <p className={styles.authorImportance}>{autor.importancia}</p>
                             <div className={styles.authorWorks}>
                               <strong>Principais obras:</strong>
                               <ul>
-                                {autor.obras.map((obra, obraIndex) => (
+                                {autor.obras?.map((obra, obraIndex) => (
                                   <li key={obraIndex}>{obra}</li>
                                 ))}
                               </ul>
@@ -684,7 +925,7 @@ export default function CuriosidadesPage() {
                     <div className={styles.curiosities}>
                       <h4>Curiosidades</h4>
                       <ul>
-                        {periodo.curiosidades.map((curiosidade, index) => (
+                        {periodo.curiosidades?.map((curiosidade, index) => (
                           <li key={index}>{curiosidade}</li>
                         ))}
                       </ul>
@@ -726,12 +967,12 @@ export default function CuriosidadesPage() {
                 <div className={styles.modalSection}>
                   <h3>Principais Autores</h3>
                   <div className={styles.modalAuthors}>
-                    {selectedPeriod.autores.slice(0, 3).map((autor, index) => (
+                    {selectedPeriod.autores?.slice(0, 3).map((autor, index) => (
                       <div key={index} className={styles.modalAuthor}>
                         <h4>{autor.nome}</h4>
                         <p>{autor.importancia}</p>
                         <div className={styles.modalWorks}>
-                          {autor.obras.slice(0, 2).map((obra, obraIndex) => (
+                          {autor.obras?.slice(0, 2).map((obra, obraIndex) => (
                             <span key={obraIndex} className={styles.workBadge}>
                               {obra}
                             </span>

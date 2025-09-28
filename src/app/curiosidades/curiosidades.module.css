@@ -3,7 +3,7 @@
 .main {
   min-height: 100vh;
   background: linear-gradient(135deg, #f8ffe6 0%, #edffc8 100%);
-  padding-top: 120px;
+  /* padding-top removido - usando o global do globals.css */
 }
 
 .container {
@@ -286,33 +286,312 @@
 /* Fases e Gerações */
 .phases,
 .generations {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .phaseCard,
 .generationCard {
-  background: #f8ffe6;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  border-left: 4px solid #a6f02b;
+  background: linear-gradient(135deg, #f8ffe6, #f0f8e6);
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  border-left: 6px solid #a6f02b;
+  box-shadow: 0 4px 15px rgba(79, 130, 9, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.phaseCard:hover,
+.generationCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(79, 130, 9, 0.15);
+  border-left-color: #4f8209;
 }
 
 .phaseCard h5,
 .generationCard h5 {
   color: #4f8209;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.phaseCard h5::before {
+  content: '📚';
   font-size: 1.2rem;
+}
+
+.generationCard h5::before {
+  content: '🌟';
+  font-size: 1.2rem;
+}
+
+.generationPeriod {
+  background: rgba(79, 130, 9, 0.1);
+  color: #4f8209;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.generationContext,
+.generationTemas {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border-left: 3px solid #a6f02b;
+}
+
+.generationContext h6,
+.generationTemas h6 {
+  color: #4f8209;
+  font-size: 1.1rem;
   margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.generationContext p {
+  color: #5a6b2d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.temasList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.temasList li {
+  background: #a6f02b;
+  color: #2d4a0d;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.generationAuthorsList {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.generationAuthorsList li {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border-left: 4px solid #a6f02b;
+  color: #5a6b2d;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(79, 130, 9, 0.05);
+}
+
+.generationAuthorsList li::before {
+  content: '✍️';
+  margin-right: 10px;
+}
+
+.phasePeriod {
+  background: rgba(79, 130, 9, 0.1);
+  color: #4f8209;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.phaseContext,
+.phaseManifestos,
+.phaseSubgeneros,
+.phaseTendencias {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border-left: 3px solid #a6f02b;
+}
+
+.phaseContext h6,
+.phaseManifestos h6,
+.phaseSubgeneros h6,
+.phaseTendencias h6 {
+  color: #4f8209;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.phaseContext p {
+  color: #5a6b2d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.manifestosList,
+.subgenerosList,
+.tendenciasList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.manifestosList li,
+.subgenerosList li,
+.tendenciasList li {
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  color: #5a6b2d;
+  line-height: 1.5;
+}
+
+.manifestosList li::before {
+  content: '📜';
+  position: absolute;
+  left: 0;
+}
+
+.subgenerosList li::before,
+.tendenciasList li::before {
+  content: '▶';
+  position: absolute;
+  left: 0;
+  color: #a6f02b;
+  font-weight: bold;
 }
 
 .phaseCard ul,
 .generationCard ul {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding-left: 0;
+}
+
+.phaseCard ul li,
+.generationCard ul li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #5a6b2d;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(79, 130, 9, 0.1);
+}
+
+.phaseCard ul li:last-child,
+.generationCard ul li:last-child {
+  border-bottom: none;
+}
+
+.phaseCard ul li::before,
+.generationCard ul li::before {
+  content: '✨';
+  position: absolute;
+  left: 0;
+  color: #a6f02b;
+  font-size: 1.1rem;
 }
 
 .phaseAuthors,
 .generationAuthors {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(79, 130, 9, 0.1);
+}
+
+.phaseAuthors strong,
+.generationAuthors strong {
+  color: #4f8209;
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.phaseAuthorCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
   margin-top: 15px;
+}
+
+.phaseAuthorCard {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #e8f5d0;
+  transition: all 0.3s ease;
+}
+
+.phaseAuthorCard:hover {
+  border-color: #a6f02b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 130, 9, 0.1);
+}
+
+.phaseAuthorCard h6 {
+  color: #4f8209;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.phaseAuthorImportance {
+  color: #6b8e23;
+  font-style: italic;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.phaseAuthorCharacteristics {
+  color: #5a6b2d;
+  font-size: 0.9rem;
+  background: #f0f8e6;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.phaseAuthorWorks {
+  margin-top: 12px;
+}
+
+.phaseAuthorWorks strong {
+  color: #4f8209;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.phaseAuthorWorks ul {
+  margin: 0 !important;
+  padding-left: 15px !important;
+}
+
+.phaseAuthorWorks li {
+  color: #5a6b2d !important;
+  font-size: 0.9rem !important;
+  padding: 4px 0 !important;
+  border: none !important;
+  line-height: 1.3 !important;
+}
+
+.phaseAuthorWorks li::before {
+  content: '📖' !important;
+  font-size: 0.8rem !important;
 }
 
 .authorTag {
@@ -328,89 +607,199 @@
 /* Grid de autores */
 .authorsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
 }
 
 .authorCard {
-  background: #f8ffe6;
-  padding: 20px;
-  border-radius: 12px;
+  background: linear-gradient(135deg, #f8ffe6, #f0f8e6);
+  padding: 25px;
+  border-radius: 15px;
   border: 2px solid #e8f5d0;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.authorCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4f8209, #a6f02b);
 }
 
 .authorCard:hover {
   border-color: #a6f02b;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(79, 130, 9, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(79, 130, 9, 0.2);
 }
 
 .authorCard h5 {
   color: #4f8209;
-  font-size: 1.3rem;
-  margin-bottom: 8px;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.authorCard h5::before {
+  content: '✍️';
+  font-size: 1.2rem;
 }
 
 .authorImportance {
   color: #6b8e23;
   font-style: italic;
-  margin-bottom: 15px;
-  line-height: 1.4;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 3px solid #a6f02b;
+}
+
+.authorWorks {
+  margin-top: 20px;
 }
 
 .authorWorks strong {
   color: #4f8209;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
 .authorWorks ul {
-  margin-top: 8px;
-  padding-left: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .authorWorks li {
   color: #5a6b2d;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  position: relative;
+  padding-left: 35px;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.authorWorks li:hover {
+  background: rgba(166, 240, 43, 0.1);
+  transform: translateX(5px);
+}
+
+.authorWorks li::before {
+  content: '📖';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 1rem;
 }
 
 /* Contexto histórico e curiosidades */
 .historicalContext,
 .curiosities {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+}
+
+.historicalContext h4,
+.curiosities h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.historicalContext h4::before {
+  content: '🏛️';
+  font-size: 1.2rem;
+}
+
+.curiosities h4::before {
+  content: '🤓';
+  font-size: 1.2rem;
 }
 
 .historicalContext p {
   color: #5a6b2d;
-  line-height: 1.6;
-  background: #f0f8e6;
-  padding: 20px;
-  border-radius: 12px;
-  border-left: 4px solid #4f8209;
+  line-height: 1.8;
+  background: linear-gradient(135deg, #f0f8e6, #e8f5d0);
+  padding: 25px;
+  border-radius: 15px;
+  border-left: 6px solid #4f8209;
+  font-size: 1.05rem;
+  box-shadow: 0 4px 15px rgba(79, 130, 9, 0.1);
+  margin: 0;
 }
 
 .curiosities ul {
   list-style: none;
   padding: 0;
+  display: grid;
+  gap: 15px;
 }
 
 .curiosities li {
-  background: #fff3cd;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  border-left: 4px solid #ffc107;
+  background: linear-gradient(135deg, #fff8e1, #fff3cd);
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 6px solid #ffc107;
   color: #856404;
   position: relative;
-  padding-left: 40px;
+  padding-left: 55px;
+  line-height: 1.6;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.1);
+  transition: all 0.3s ease;
+}
+
+.curiosities li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+  border-left-color: #ff9800;
 }
 
 .curiosities li::before {
-  content: '💡';
+  content: '🤔';
   position: absolute;
-  left: 15px;
-  top: 15px;
+  left: 20px;
+  top: 20px;
+  font-size: 1.3rem;
+}
+
+/* Seções melhoradas */
+.periodOverview,
+.mainAuthors,
+.historicalContext,
+.curiosities {
+  margin-bottom: 50px;
+}
+
+.periodOverview h4,
+.mainAuthors h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.periodOverview h4::before {
+  content: '📋';
+  font-size: 1.2rem;
+}
+
+.mainAuthors h4::before {
+  content: '👥';
+  font-size: 1.2rem;
 }
 
 /* Modal */
@@ -578,10 +967,6 @@
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .main {
-    padding-top: 100px;
-  }
-
   .pageTitle {
     font-size: 2.2rem;
     flex-direction: column;
