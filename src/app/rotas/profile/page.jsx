@@ -49,9 +49,22 @@ export default function Profile() {
       // Carregar estatísticas sociais
       const meusEscritores = await apiService.getMeusEscritores();
       
+      let seguidoresCount = 0;
+      
+      // Se for escritor, carregar número de seguidores
+      const currentUser = JSON.parse(localStorage.getItem('user'));
+      if (currentUser && currentUser.tipo === 'ESCRITOR') {
+        try {
+          const seguidoresResponse = await apiService.getSeguidoresEscritor(currentUser.id);
+          seguidoresCount = seguidoresResponse.totalSeguidores || 0;
+        } catch (error) {
+          console.error('Erro ao carregar seguidores do escritor:', error);
+        }
+      }
+      
       setSocialStats({
         seguindo: meusEscritores.escritores?.length || 0,
-        seguidores: 0, // Para usuários normais
+        seguidores: seguidoresCount,
         livrosFavoritos: 0 // Implementar depois se necessário
       });
     } catch (error) {

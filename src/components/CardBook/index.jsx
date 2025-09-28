@@ -13,7 +13,23 @@ export default function CardBook({ livro }) {
             src={livro.imagem || '/livros/default.jpg'} 
             alt={livro.titulo}
             onError={(e) => {
-              e.target.src = '/livros/default.jpg';
+              console.log(`Imagem do livro não encontrada: ${e.target.src}`);
+              e.target.style.display = 'none';
+              // Criar um placeholder personalizado
+              const placeholder = document.createElement('div');
+              placeholder.className = styles.imagePlaceholder;
+              placeholder.innerHTML = `
+                <div style="font-size: 2.5rem; color: #4f8209; margin-bottom: 8px;">📚</div>
+                <div style="font-size: 0.8rem; color: #6b8e23; text-align: center; padding: 0 8px; line-height: 1.2;">${livro.titulo}</div>
+              `;
+              e.target.parentNode.appendChild(placeholder);
+            }}
+            onLoad={(e) => {
+              // Se a imagem carregar com sucesso, remover qualquer placeholder
+              const placeholder = e.target.parentNode.querySelector(`.${styles.imagePlaceholder}`);
+              if (placeholder) {
+                placeholder.remove();
+              }
             }}
           />
         </div>

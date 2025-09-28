@@ -203,7 +203,20 @@ export default function Autores() {
                           src={autor.foto || '/autores/default.jpg'} 
                           alt={autor.nome}
                           onError={(e) => {
-                            e.target.src = '/autores/default.jpg';
+                            console.log(`Imagem do autor não encontrada: ${e.target.src}`);
+                            e.target.style.display = 'none';
+                            const placeholder = document.createElement('div');
+                            placeholder.className = styles.imagePlaceholder;
+                            placeholder.innerHTML = `
+                              <div style="font-size: 2rem; color: #4f8209;">👤</div>
+                            `;
+                            e.target.parentNode.appendChild(placeholder);
+                          }}
+                          onLoad={(e) => {
+                            const placeholder = e.target.parentNode.querySelector(`.${styles.imagePlaceholder}`);
+                            if (placeholder) {
+                              placeholder.remove();
+                            }
                           }}
                         />
                       </div>
@@ -283,7 +296,21 @@ export default function Autores() {
                         src={autor.fotoPerfilUrl || autor.foto || '/autores/default.jpg'} 
                         alt={autor.nome}
                         onError={(e) => {
-                          e.target.src = '/autores/default.jpg';
+                          console.log(`Imagem do autor não encontrada: ${e.target.src}`);
+                          e.target.style.display = 'none';
+                          const placeholder = document.createElement('div');
+                          placeholder.className = styles.imagePlaceholder;
+                          placeholder.innerHTML = `
+                            <div style="font-size: 3rem; color: #4f8209; margin-bottom: 8px;">👤</div>
+                            <div style="font-size: 0.9rem; color: #6b8e23; text-align: center;">${autor.nome}</div>
+                          `;
+                          e.target.parentNode.appendChild(placeholder);
+                        }}
+                        onLoad={(e) => {
+                          const placeholder = e.target.parentNode.querySelector(`.${styles.imagePlaceholder}`);
+                          if (placeholder) {
+                            placeholder.remove();
+                          }
                         }}
                       />
                       {/* Badge de ranking se for top autor */}

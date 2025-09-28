@@ -199,7 +199,23 @@ export default function AutorPage() {
                   src={autor.foto || '/autores/default.jpg'} 
                   alt={autor.nome}
                   onError={(e) => {
-                    e.target.src = '/autores/default.jpg';
+                    console.log(`Imagem do autor não encontrada: ${e.target.src}`);
+                    e.target.style.display = 'none';
+                    // Criar um placeholder personalizado
+                    const placeholder = document.createElement('div');
+                    placeholder.className = styles.imagePlaceholder;
+                    placeholder.innerHTML = `
+                      <div style="font-size: 4rem; color: #4f8209; margin-bottom: 10px;">👤</div>
+                      <div style="font-size: 1rem; color: #6b8e23;">${autor.nome}</div>
+                    `;
+                    e.target.parentNode.appendChild(placeholder);
+                  }}
+                  onLoad={(e) => {
+                    // Se a imagem carregar com sucesso, remover qualquer placeholder
+                    const placeholder = e.target.parentNode.querySelector(`.${styles.imagePlaceholder}`);
+                    if (placeholder) {
+                      placeholder.remove();
+                    }
                   }}
                 />
               </div>

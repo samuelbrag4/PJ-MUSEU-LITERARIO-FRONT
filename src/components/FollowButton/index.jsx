@@ -27,7 +27,12 @@ export default function FollowButton({ escritorId, escritorNome, onFollowChange 
       const response = await apiService.verificarSeguindo(escritorId);
       setSeguindo(response.segue);
     } catch (error) {
-      console.error('Erro ao verificar seguindo:', error);
+      console.error('🚨 ERRO ao verificar seguindo:', {
+        error: error,
+        message: error.message,
+        escritorId: escritorId,
+        endpoint: `/seguidores/verificar/${escritorId}`
+      });
     } finally {
       setLoading(false);
     }
@@ -60,8 +65,17 @@ export default function FollowButton({ escritorId, escritorNome, onFollowChange 
       }
       
     } catch (error) {
-      console.error('Erro ao seguir/deixar de seguir:', error);
-      alert('Erro ao processar ação. Tente novamente.');
+      console.error('🚨 ERRO DETALHADO no FollowButton:', {
+        error: error,
+        message: error.message,
+        stack: error.stack,
+        escritorId: escritorId,
+        user: user,
+        acao: seguindo ? 'deixar de seguir' : 'seguir'
+      });
+      
+      // Mostrar erro mais detalhado
+      alert(`Erro ao ${seguindo ? 'deixar de seguir' : 'seguir'} escritor: ${error.message}`);
     } finally {
       setActionLoading(false);
     }

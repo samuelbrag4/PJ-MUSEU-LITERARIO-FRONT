@@ -8,14 +8,15 @@ import {
   FaBookOpen, 
   FaUser, 
   FaBars, 
-  FaTimes 
+  FaTimes,
+  FaLightbulb,
+  FaHeart
 } from 'react-icons/fa';
 import styles from './header.module.css';
 
 export default function Header() {
   const [user, setUser] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +27,28 @@ export default function Header() {
     }
   }, []);
 
+  useEffect(() => {
+    // Fechar menu com ESC
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    // Prevenir scroll quando menu aberto
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', handleEsc);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [isMenuOpen]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -35,10 +58,6 @@ export default function Header() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
   };
 
   return (
@@ -52,133 +71,115 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Menu de Navegação Desktop */}
-        <nav className={styles.nav}>
-          <ul className={styles.navList}>
-            <li className={styles.navItem}>
-              <Link href="/home" className={styles.navLink}>
-                <FaHome /> Início
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/livros" className={styles.navLink}>
-                <FaBookOpen /> Livros
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/autores" className={styles.navLink}>
-                <FaUser /> Autores
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/curiosidades" className={styles.navLink}>
-                💡 Curiosidades
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/favoritos" className={styles.navLink}>
-                ❤️ Favoritos
-              </Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* Área do Usuário */}
-        <div className={styles.userArea}>
-          {user ? (
-            <div className={styles.userMenu}>
-              <button 
-                className={styles.userButton}
-                onClick={toggleUserMenu}
-              >
-                {user.foto ? (
-                  <img 
-                    src={user.foto} 
-                    alt="Foto do usuário" 
-                    className={styles.userPhoto}
-                  />
-                ) : (
-                  <div className={styles.userAvatar}>
-                    {user.nome?.charAt(0)?.toUpperCase() || <FaUser />}
-                  </div>
-                )}
-                <span className={styles.userName}>{user.nome}</span>
-                <span className={styles.dropdownArrow}>▼</span>
-              </button>
-
-              {isUserMenuOpen && (
-                <div className={styles.userDropdown}>
-                  <Link href="/rotas/profile" className={styles.dropdownItem}>
-                    <FaUser /> Meu Perfil
-                  </Link>
-                  <button 
-                    onClick={handleLogout}
-                    className={styles.dropdownItem}
-                  >
-                    🚪 Sair
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className={styles.authButtons}>
-              <Link href="/" className={styles.loginButton}>
-                Entrar
-              </Link>
-              <Link href="/rotas/register" className={styles.registerButton}>
-                Cadastrar
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Menu Mobile */}
+        {/* Menu Hambúrguer */}
         <button 
-          className={styles.mobileMenuButton}
+          className={styles.hamburgerButton}
           onClick={toggleMenu}
+          aria-label="Menu de navegação"
         >
-          <span className={styles.hamburger}></span>
-          <span className={styles.hamburger}></span>
-          <span className={styles.hamburger}></span>
+          <div className={`${styles.hamburgerLine} ${isMenuOpen ? styles.line1Open : ''}`}></div>
+          <div className={`${styles.hamburgerLine} ${isMenuOpen ? styles.line2Open : ''}`}></div>
+          <div className={`${styles.hamburgerLine} ${isMenuOpen ? styles.line3Open : ''}`}></div>
         </button>
+
+
+
+
       </div>
 
-      {/* Menu Mobile Expandido */}
-      {isMenuOpen && (
-        <div className={styles.mobileMenu}>
-          <nav className={styles.mobileNav}>
-            <Link href="/home" className={styles.mobileNavLink}>
-              <FaHome /> Início
+      {/* Menu Lateral Moderno */}
+      <div className={`${styles.sideMenu} ${isMenuOpen ? styles.sideMenuOpen : ''}`}>
+        <div className={styles.sideMenuContent}>
+          {/* Header do Menu */}
+          <div className={styles.sideMenuHeader}>
+            <div className={styles.menuTitle}>
+              <FaBook className={styles.menuTitleIcon} />
+              <span>Navegação</span>
+            </div>
+            <button 
+              className={styles.closeMenuButton}
+              onClick={toggleMenu}
+              aria-label="Fechar menu"
+            >
+              <FaTimes />
+            </button>
+          </div>
+
+          {/* Links de Navegação */}
+          <nav className={styles.sideNav}>
+            <Link href="/home" className={styles.sideNavLink} onClick={toggleMenu}>
+              <FaHome /> <span>Início</span>
             </Link>
-            <Link href="/livros" className={styles.mobileNavLink}>
-              <FaBookOpen /> Livros
+            <Link href="/livros" className={styles.sideNavLink} onClick={toggleMenu}>
+              <FaBookOpen /> <span>Livros</span>
             </Link>
-            <Link href="/autores" className={styles.mobileNavLink}>
-              <FaUser /> Autores
+            <Link href="/autores" className={styles.sideNavLink} onClick={toggleMenu}>
+              <FaUser /> <span>Autores</span>
             </Link>
-            <Link href="/curiosidades" className={styles.mobileNavLink}>
-              💡 Curiosidades
+            <Link href="/curiosidades" className={styles.sideNavLink} onClick={toggleMenu}>
+              <FaLightbulb /> <span>Curiosidades</span>
             </Link>
-            <Link href="/favoritos" className={styles.mobileNavLink}>
-              ❤️ Favoritos
+            <Link href="/favoritos" className={styles.sideNavLink} onClick={toggleMenu}>
+              <FaHeart /> <span>Favoritos</span>
             </Link>
             
+            {/* Seção do Usuário */}
             {user && (
               <>
-                <hr className={styles.mobileDivider} />
-                <Link href="/rotas/profile" className={styles.mobileNavLink}>
-                  <FaUser /> Meu Perfil
+                <div className={styles.sideMenuDivider}></div>
+                <div className={styles.userSection}>
+                  <div className={styles.userInfo}>
+                    {user.foto ? (
+                      <img 
+                        src={user.foto} 
+                        alt="Foto do usuário" 
+                        className={styles.sideUserPhoto}
+                      />
+                    ) : (
+                      <div className={styles.sideUserPlaceholder}>
+                        {user.nome.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className={styles.userDetails}>
+                      <span className={styles.userName}>{user.nome}</span>
+                      <span className={styles.userType}>
+                        {user.tipo === 'ESCRITOR' ? 'Escritor' : 'Leitor'}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <Link href="/rotas/profile" className={styles.sideNavLink} onClick={toggleMenu}>
+                    <FaUser /> <span>Meu Perfil</span>
+                  </Link>
+                  
+                  <button 
+                    onClick={() => { handleLogout(); toggleMenu(); }}
+                    className={styles.logoutButton}
+                  >
+                    <FaTimes /> <span>Sair</span>
+                  </button>
+                </div>
+              </>
+            )}
+
+            {!user && (
+              <>
+                <div className={styles.sideMenuDivider}></div>
+                <Link href="/" className={styles.loginButton} onClick={toggleMenu}>
+                  <FaUser /> <span>Entrar</span>
                 </Link>
-                <button 
-                  onClick={handleLogout}
-                  className={styles.mobileNavLink}
-                >
-                  🚪 Sair
-                </button>
               </>
             )}
           </nav>
         </div>
+      </div>
+
+      {/* Overlay */}
+      {isMenuOpen && (
+        <div 
+          className={styles.menuOverlay} 
+          onClick={toggleMenu}
+        ></div>
       )}
     </header>
   );

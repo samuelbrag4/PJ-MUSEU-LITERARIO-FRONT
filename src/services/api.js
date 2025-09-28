@@ -37,22 +37,58 @@ class ApiService {
     }
 
     try {
+      console.log('🔄 API Request:', {
+        method: config.method || 'GET',
+        url: url,
+        headers: config.headers,
+        hasToken: !!config.headers.Authorization
+      });
+
       const response = await fetch(url, config);
-      const data = await response.json();
+      
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('🚨 Erro ao fazer parse JSON:', jsonError);
+        throw new Error(`Resposta inválida do servidor: ${response.status} ${response.statusText}`);
+      }
+
+      console.log('📡 API Response:', {
+        status: response.status,
+        ok: response.ok,
+        data: data
+      });
 
       if (!response.ok) {
         // Se token expirou, limpar localStorage e redirecionar
-        if (response.status === 401 && data.error === 'Token inválido.') {
+        if (response.status === 401 && (data.error === 'Token inválido.' || data.message === 'Token inválido.')) {
+          console.warn('🔒 Token expirado, fazendo logout...');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           window.location.href = '/';
           return;
         }
-        throw new Error(data.error || `Erro ${response.status}: ${response.statusText}`);
+        
+        const errorMessage = data.error || data.message || `Erro ${response.status}: ${response.statusText}`;
+        console.error('🚨 API Error:', {
+          status: response.status,
+          error: errorMessage,
+          data: data,
+          url: url
+        });
+        
+        throw new Error(errorMessage);
       }
 
       return data;
     } catch (error) {
+      console.error('🚨 Request Error:', {
+        error: error,
+        message: error.message,
+        url: url,
+        config: config
+      });
       throw error;
     }
   }

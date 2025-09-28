@@ -49,6 +49,18 @@
     object-fit: cover;
 }
 
+.imagePlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(79, 130, 9, 0.1);
+    text-align: center;
+    padding: 15px;
+}
+
 .bookInfo {
     padding: 25px;
 }
