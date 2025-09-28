@@ -220,6 +220,121 @@
   opacity: 0.9;
 }
 
+/* Estilos para estatísticas dinâmicas */
+.statsLoading {
+  text-align: center;
+  padding: 60px 0;
+  color: #4f8209;
+}
+
+.statsError {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 15px;
+  border: 2px solid rgba(255, 0, 0, 0.2);
+}
+
+.statsHeader {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.statsTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4f8209;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.statsSubtitle {
+  font-size: 1.1rem;
+  color: #666;
+  opacity: 0.8;
+}
+
+.detailedStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.statSection {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  border: 2px solid #edffc8;
+  box-shadow: 0 4px 15px rgba(166, 240, 43, 0.1);
+}
+
+.statSectionTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #4f8209;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.genresList,
+.authorsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.genreItem,
+.authorItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  background: #f8ffe6;
+  border-radius: 10px;
+  border: 1px solid #edffc8;
+  transition: all 0.3s ease;
+}
+
+.genreItem:hover,
+.authorItem:hover {
+  background: #edffc8;
+  transform: translateX(5px);
+}
+
+.genreRank,
+.authorRank {
+  background: #a6f02b;
+  color: #4f8209;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  min-width: 35px;
+  text-align: center;
+}
+
+.genreName,
+.authorName {
+  flex: 1;
+  margin-left: 15px;
+  font-weight: 500;
+  color: #4f8209;
+}
+
+.genreCount,
+.authorCount {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
 /* Features Section */
 .features {
   padding: 140px 0;

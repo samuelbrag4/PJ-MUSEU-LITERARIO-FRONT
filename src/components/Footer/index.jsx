@@ -58,8 +58,8 @@ export default function Footer() {
               <Link href="/rotas/livros" className={styles.footerLink}>
                 <FaBookOpen /> Acervo
               </Link>
-              <Link href="/rotas/escritores" className={styles.footerLink}>
-                <FaUser /> Escritores
+              <Link href="/autores" className={styles.footerLink}>
+                <FaUser /> Autores
               </Link>
               <Link href="/rotas/profile" className={styles.footerLink}>
                 <FaUser /> Perfil

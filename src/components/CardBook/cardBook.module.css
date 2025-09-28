@@ -85,6 +85,7 @@
     opacity: 0.9;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -148,6 +149,7 @@
     
     .bookDescription {
         -webkit-line-clamp: 2;
+        line-clamp: 2;
     }
 }
 

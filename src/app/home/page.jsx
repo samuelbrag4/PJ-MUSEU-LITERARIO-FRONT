@@ -1,6 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { 
+  FaBook, 
+  FaPen, 
+  FaUsers, 
+  FaList, 
+  FaChartBar,
+  FaChartLine,
+  FaTrophy
+} from 'react-icons/fa';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import styles from './home.module.css';
@@ -19,6 +28,10 @@ export default function Home() {
   const [totalResults, setTotalResults] = useState(0);
   const [itemsPerPage] = useState(6);
   
+  // Dashboard statistics states
+  const [dashboardStats, setDashboardStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -33,7 +46,29 @@ export default function Home() {
     
     setUser(JSON.parse(userData));
     setLoading(false);
+    
+    // Carregar estatísticas do dashboard
+    loadDashboardStats();
   }, [router]);
+
+  // Função para carregar estatísticas do dashboard
+  const loadDashboardStats = async () => {
+    try {
+      setStatsLoading(true);
+      const response = await fetch('http://localhost:5000/dashboard/estatisticas');
+      
+      if (response.ok) {
+        const data = await response.json();
+        setDashboardStats(data);
+      } else {
+        console.error('Erro ao carregar estatísticas');
+      }
+    } catch (error) {
+      console.error('Erro ao carregar estatísticas:', error);
+    } finally {
+      setStatsLoading(false);
+    }
+  };
 
   // Search functions
   const handleSearch = async () => {
@@ -242,28 +277,94 @@ export default function Home() {
         {/* Stats Section */}
         <section className={styles.stats}>
           <div className={styles.container}>
-            <div className={styles.statsGrid}>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon}>📚</div>
-                <div className={styles.statNumber}>2,847</div>
-                <div className={styles.statLabel}>Livros Catalogados</div>
+            {statsLoading ? (
+              <div className={styles.statsLoading}>
+                <div className={styles.spinner}></div>
+                <p>Carregando estatísticas...</p>
               </div>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon}>✍️</div>
-                <div className={styles.statNumber}>456</div>
-                <div className={styles.statLabel}>Escritores</div>
+            ) : dashboardStats ? (
+              <>
+                <div className={styles.statsHeader}>
+                  <h2 className={styles.statsTitle}>
+                    <FaChartBar /> Estatísticas do Acervo
+                  </h2>
+                  <p className={styles.statsSubtitle}>
+                    Dados atualizados em tempo real do nosso sistema
+                  </p>
+                </div>
+                
+                <div className={styles.statsGrid}>
+                  <div className={styles.statCard}>
+                    <div className={styles.statIcon}><FaBook /></div>
+                    <div className={styles.statNumber}>
+                      {dashboardStats.resumo.totalLivros.toLocaleString()}
+                    </div>
+                    <div className={styles.statLabel}>Livros Catalogados</div>
+                  </div>
+                  
+                  <div className={styles.statCard}>
+                    <div className={styles.statIcon}><FaPen /></div>
+                    <div className={styles.statNumber}>
+                      {dashboardStats.resumo.totalEscritores.toLocaleString()}
+                    </div>
+                    <div className={styles.statLabel}>Escritores</div>
+                  </div>
+                  
+                  <div className={styles.statCard}>
+                    <div className={styles.statIcon}><FaUsers /></div>
+                    <div className={styles.statNumber}>
+                      {dashboardStats.resumo.totalUsuarios.toLocaleString()}
+                    </div>
+                    <div className={styles.statLabel}>Usuários Registrados</div>
+                  </div>
+                  
+                  <div className={styles.statCard}>
+                    <div className={styles.statIcon}><FaList /></div>
+                    <div className={styles.statNumber}>
+                      {dashboardStats.resumo.totalGeneros.toLocaleString()}
+                    </div>
+                    <div className={styles.statLabel}>Gêneros Literários</div>
+                  </div>
+                </div>
+
+                {/* Estatísticas Detalhadas */}
+                <div className={styles.detailedStats}>
+                  <div className={styles.statSection}>
+                    <h3 className={styles.statSectionTitle}>
+                      <FaChartLine /> Gêneros Mais Populares
+                    </h3>
+                    <div className={styles.genresList}>
+                      {dashboardStats.generosMaisPopulares.slice(0, 5).map((item, index) => (
+                        <div key={item.genero} className={styles.genreItem}>
+                          <span className={styles.genreRank}>#{index + 1}</span>
+                          <span className={styles.genreName}>{item.genero}</span>
+                          <span className={styles.genreCount}>{item.quantidade} livros</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className={styles.statSection}>
+                    <h3 className={styles.statSectionTitle}>
+                      <FaTrophy /> Escritores Mais Produtivos
+                    </h3>
+                    <div className={styles.authorsList}>
+                      {dashboardStats.escritoresComMaisLivros.slice(0, 5).map((autor, index) => (
+                        <div key={autor.id} className={styles.authorItem}>
+                          <span className={styles.authorRank}>#{index + 1}</span>
+                          <span className={styles.authorName}>{autor.nome}</span>
+                          <span className={styles.authorCount}>{autor.quantidadeLivros} obras</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className={styles.statsError}>
+                <p>Erro ao carregar estatísticas</p>
               </div>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon}>👥</div>
-                <div className={styles.statNumber}>12,389</div>
-                <div className={styles.statLabel}>Usuários Ativos</div>
-              </div>
-              <div className={styles.statCard}>
-                <div className={styles.statIcon}>⭐</div>
-                <div className={styles.statNumber}>18,567</div>
-                <div className={styles.statLabel}>Avaliações</div>
-              </div>
-            </div>
+            )}
           </div>
         </section>
 

@@ -11,7 +11,8 @@ import {
   FaPen, 
   FaSearch, 
   FaRocket,
-  FaHeart
+  FaHeart,
+  FaFilter
 } from 'react-icons/fa';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -24,8 +25,10 @@ export default function Livros() {
   const [loading, setLoading] = useState(true);
   const [livrosPorGenero, setLivrosPorGenero] = useState({});
   const [generosDisponiveis, setGenerosDisponiveis] = useState([]);
-  const [autores, setAutores] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('todos');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchFilter, setSearchFilter] = useState('titulo'); // 'titulo' ou 'autor'
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [popup, setPopup] = useState({ isVisible: false, type: '', message: '' });
   
@@ -80,7 +83,6 @@ export default function Livros() {
     // Carregar dados da API
     carregarLivrosPorGenero();
     carregarGeneros();
-    carregarAutores();
   }, [router]);
 
   const carregarLivrosPorGenero = async () => {
@@ -130,42 +132,48 @@ export default function Livros() {
     }
   };
 
-  const carregarAutores = async () => {
+
+  // Função de pesquisa
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) {
+      setFilteredBooks([]);
+      return;
+    }
+
     try {
-      // Usar o endpoint de escritores com livros incluídos (mais completo)
-      const response = await fetch('http://localhost:5000/escritores');
-      const data = await response.json();
+      let searchResults = [];
       
-      if (response.ok) {
-        // O endpoint retorna os dados diretamente como array
-        const escritores = Array.isArray(data) ? data : (data.value || data.escritores || []);
-        setAutores(escritores);
-      } else {
-        console.error('Erro ao carregar escritores:', data.error);
-        // Fallback: tentar endpoint de usuários
-        await carregarAutoresFallback();
+      if (searchFilter === 'titulo') {
+        // Pesquisar por título do livro
+        const response = await fetch(`http://localhost:5000/livros?busca=${encodeURIComponent(searchTerm)}`);
+        if (response.ok) {
+          const data = await response.json();
+          searchResults = Array.isArray(data) ? data : data.livros || [];
+        }
+      } else if (searchFilter === 'autor') {
+        // Pesquisar livros por nome do autor
+        const response = await fetch(`http://localhost:5000/livros?autor=${encodeURIComponent(searchTerm)}`);
+        if (response.ok) {
+          const data = await response.json();
+          searchResults = Array.isArray(data) ? data : data.livros || [];
+        }
       }
+      
+      setFilteredBooks(searchResults);
     } catch (error) {
-      console.error('Erro ao carregar escritores:', error);
-      // Fallback: tentar endpoint de usuários
-      await carregarAutoresFallback();
+      console.error('Erro na pesquisa:', error);
+      setFilteredBooks([]);
     }
   };
 
-  const carregarAutoresFallback = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/users?tipo=escritor');
-      const data = await response.json();
-      
-      if (response.ok) {
-        setAutores(data.users || []);
-      } else {
-        console.error('Erro ao carregar usuários escritores:', data.error);
-      }
-    } catch (error) {
-      console.error('Erro no fallback de autores:', error);
-    }
-  };
+  // Executar pesquisa quando o termo mudar
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      handleSearch();
+    }, 500); // Debounce de 500ms
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, searchFilter]);
 
   const showPopup = (type, message) => {
     setPopup({ isVisible: true, type, message });
@@ -295,8 +303,53 @@ export default function Livros() {
             </div>
           </section>
 
+          {/* Barra de Pesquisa */}
+          <section className={styles.searchSection}>
+            <div className={styles.searchContainer}>
+              <div className={styles.searchBox}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Pesquisar livros ou autores..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
+                <select
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                  className={styles.searchFilter}
+                >
+                  <option value="titulo">Por Título</option>
+                  <option value="autor">Por Autor</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Resultados da Pesquisa */}
+            {searchTerm && (
+              <div className={styles.searchResults}>
+                <h3 className={styles.searchTitle}>
+                  Resultados para "{searchTerm}" ({filteredBooks.length} encontrados)
+                </h3>
+                {filteredBooks.length > 0 ? (
+                  <div className={styles.searchBooksGrid}>
+                    {filteredBooks.map(livro => (
+                      <CardBook key={livro.id} livro={livro} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className={styles.noResults}>
+                    Nenhum livro encontrado com esse termo de pesquisa.
+                  </p>
+                )}
+              </div>
+            )}
+          </section>
+
           {/* Filtros por Categoria */}
-          <section className={styles.categoriesSection}>
+          {!searchTerm && (
+            <section className={styles.categoriesSection}>
             <h2 className={styles.sectionTitle}>Explorar por Categoria</h2>
             <div className={styles.categoriesGrid}>
               <button
@@ -319,6 +372,7 @@ export default function Livros() {
               ))}
             </div>
           </section>
+          )}
 
           {/* Seções de Livros Estilo Netflix */}
           <section className={styles.netflixSection}>
@@ -351,39 +405,6 @@ export default function Livros() {
                 </div>
               )
             )}
-          </section>
-
-          {/* Seção de Autores */}
-          <section className={styles.authorsSection}>
-            <h2 className={styles.sectionTitle}>🖋️ Escritores Brasileiros</h2>
-            <div className={styles.authorsGrid}>
-              {autores.map(autor => (
-                <Link key={autor.id} href={`/autor/${autor.id}`} className={styles.authorCardLink}>
-                  <div className={styles.authorCard}>
-                    <div className={styles.authorImage}>
-                      <img 
-                        src={autor.fotoPerfilUrl || autor.foto || '/autores/default.jpg'} 
-                        alt={autor.nome}
-                        onError={(e) => {
-                          e.target.src = '/autores/default.jpg';
-                        }}
-                      />
-                    </div>
-                    <div className={styles.authorInfo}>
-                      <h3 className={styles.authorName}>{autor.nome}</h3>
-                      <p className={styles.authorBooks}>
-                        {autor.livros ? `${autor.livros.length} obras` : 
-                         autor.totalLivros ? `${autor.totalLivros} obras` : 
-                         'Escritor'}
-                      </p>
-                      {autor.email && (
-                        <p className={styles.authorEmail}>{autor.email}</p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
           </section>
         </div>
 

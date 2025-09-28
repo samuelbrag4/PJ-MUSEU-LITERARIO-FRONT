@@ -66,8 +66,8 @@ export default function Header() {
               </Link>
             </li>
             <li className={styles.navItem}>
-              <Link href="/escritores" className={styles.navLink}>
-                ✍️ Escritores
+              <Link href="/autores" className={styles.navLink}>
+                <FaUser /> Autores
               </Link>
             </li>
             <li className={styles.navItem}>
@@ -151,8 +151,8 @@ export default function Header() {
             <Link href="/livros" className={styles.mobileNavLink}>
               <FaBookOpen /> Livros
             </Link>
-            <Link href="/escritores" className={styles.mobileNavLink}>
-              ✍️ Escritores
+            <Link href="/autores" className={styles.mobileNavLink}>
+              <FaUser /> Autores
             </Link>
             <Link href="/favoritos" className={styles.mobileNavLink}>
               ❤️ Favoritos
