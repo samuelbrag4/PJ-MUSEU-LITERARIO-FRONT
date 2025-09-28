@@ -263,6 +263,68 @@ class ApiService {
   async getEstatisticasUsuario(usuarioId) {
     return this.request(`/seguidores/usuario/${usuarioId}/estatisticas`);
   }
+
+  // ===== FAVORITOS COM STATUS DE LEITURA =====
+  
+  // Buscar favoritos com status de leitura
+  async getMeusFavoritos(filtros = {}) {
+    const params = new URLSearchParams(filtros);
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    return this.request(`/favoritos/meus/favoritos${queryString}`);
+  }
+
+  // Atualizar status de leitura de um favorito
+  async atualizarStatusLeitura(livroId, dados) {
+    return this.request(`/favoritos/status/${livroId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dados)
+    });
+  }
+
+  // ===== CRONOGRAMA DE LEITURA =====
+  
+  // Buscar cronograma do usuário
+  async getMeuCronograma(filtros = {}) {
+    const params = new URLSearchParams(filtros);
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    return this.request(`/cronograma/meus${queryString}`);
+  }
+
+  // Criar evento no cronograma
+  async criarEventoCronograma(dados) {
+    return this.request('/cronograma', {
+      method: 'POST',
+      body: JSON.stringify(dados)
+    });
+  }
+
+  // Atualizar evento do cronograma
+  async atualizarEventoCronograma(eventoId, dados) {
+    return this.request(`/cronograma/${eventoId}`, {
+      method: 'PUT',
+      body: JSON.stringify(dados)
+    });
+  }
+
+  // Alternar status de conclusão do evento
+  async toggleEventoCronograma(eventoId) {
+    return this.request(`/cronograma/${eventoId}/toggle`, {
+      method: 'PATCH'
+    });
+  }
+
+  // Deletar evento do cronograma
+  async deletarEventoCronograma(eventoId) {
+    return this.request(`/cronograma/${eventoId}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Buscar favoritos do usuário com filtros
+  async getMeusFavoritos(params = {}) {
+    const queryParams = new URLSearchParams(params);
+    return this.request(`/usuarios/favoritos?${queryParams}`);
+  }
 }
 
 const apiService = new ApiService();

@@ -15,6 +15,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [popup, setPopup] = useState({ isVisible: false, type: '', message: '' });
+  const [showTestPopup, setShowTestPopup] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (e) => {
@@ -35,6 +36,28 @@ export default function Login() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleTestLogin = async (email, senha, userType) => {
+    setLoading(true);
+    setShowTestPopup(false);
+    
+    try {
+      const response = await apiService.login(email, senha);
+      
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+      
+      showPopup('loading', `Login de teste realizado com sucesso como ${userType}! Redirecionando...`);
+      
+      setTimeout(() => {
+        router.push('/home');
+      }, 2000);
+      
+    } catch (error) {
+      showPopup('error', `Erro no login de teste: ${error.message}`);
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -62,6 +85,58 @@ export default function Login() {
   return (
     <>
       <main className={styles.main}>
+        {/* Botão de teste secreto - quase invisível */}
+        <button 
+          className={styles.secretTestButton}
+          onClick={() => setShowTestPopup(true)}
+          title="Clique para acessar credenciais de teste"
+        >
+        </button>
+
+        {/* Popup com credenciais de teste */}
+        {showTestPopup && (
+          <div className={styles.testPopupOverlay} onClick={() => setShowTestPopup(false)}>
+            <div className={styles.testPopup} onClick={(e) => e.stopPropagation()}>
+              <h3 className={styles.testTitle}>🧪 Credenciais de Teste</h3>
+              
+              <div className={styles.testUser}>
+                <h4>📚 Usuário LEITOR</h4>
+                <p><strong>Nome:</strong> Ana Clara Silva</p>
+                <p><strong>Email:</strong> ana.clara@museu.com</p>
+                <p><strong>Senha:</strong> leitor2025</p>
+                <button 
+                  className={styles.testLoginBtn}
+                  onClick={() => handleTestLogin('ana.clara@museu.com', 'leitor2025', 'LEITOR')}
+                  disabled={loading}
+                >
+                  Entrar como Leitor
+                </button>
+              </div>
+
+              <div className={styles.testUser}>
+                <h4>✍️ Usuário ESCRITOR</h4>
+                <p><strong>Nome:</strong> Carlos Eduardo Santos</p>
+                <p><strong>Email:</strong> carlos.santos@literatura.com</p>
+                <p><strong>Senha:</strong> escritor2025</p>
+                <button 
+                  className={styles.testLoginBtn}
+                  onClick={() => handleTestLogin('carlos.santos@literatura.com', 'escritor2025', 'ESCRITOR')}
+                  disabled={loading}
+                >
+                  Entrar como Escritor
+                </button>
+              </div>
+              
+              <button 
+                className={styles.closeTestBtn}
+                onClick={() => setShowTestPopup(false)}
+              >
+                ✕ Fechar
+              </button>
+            </div>
+          </div>
+        )}
+
       <div className={styles.formSection}>
         <div className={styles.container}>
           <div className={styles.loginBox}>

@@ -1,0 +1,546 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Modal Principal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modalContent {
+    background: white;
+    border-radius: 25px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    font-family: 'Poppins', sans-serif;
+}
+
+.modalHeader {
+    background: linear-gradient(135deg, #4f8209, #a6f02b);
+    color: white;
+    padding: 25px 30px;
+    border-radius: 25px 25px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.closeButton {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Container do Calendário */
+.calendarContainer {
+    padding: 30px;
+}
+
+/* Header do Calendário */
+.calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.navButton {
+    background: rgba(79, 130, 9, 0.1);
+    border: none;
+    color: #4f8209;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.navButton:hover {
+    background: #4f8209;
+    color: white;
+    transform: scale(1.1);
+}
+
+.monthYear {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4f8209;
+    margin: 0;
+}
+
+/* Dias da Semana */
+.weekDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    margin-bottom: 10px;
+}
+
+.weekDay {
+    background: rgba(79, 130, 9, 0.1);
+    color: #4f8209;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 8px;
+}
+
+/* Calendário */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.calendarDay {
+    background: white;
+    border: 1px solid #f0f0f0;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.emptyDay {
+    background: #f8f8f8;
+    cursor: default;
+}
+
+.validDay:hover {
+    background: rgba(166, 240, 43, 0.1);
+    transform: scale(1.02);
+}
+
+.hasEvents {
+    background: rgba(79, 130, 9, 0.05);
+}
+
+.dayNumber {
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.eventDots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4f8209;
+    transition: all 0.3s ease;
+}
+
+.eventDot.completed {
+    background: #28a745;
+}
+
+.moreEvents {
+    font-size: 0.7rem;
+    color: #4f8209;
+    font-weight: 600;
+    margin-left: 2px;
+}
+
+/* Lista de Eventos */
+.eventsList {
+    border-top: 2px solid rgba(79, 130, 9, 0.1);
+    padding-top: 30px;
+}
+
+.eventsTitle {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #4f8209;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.eventsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.eventItem {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(79, 130, 9, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.eventItem:hover {
+    border-color: rgba(79, 130, 9, 0.3);
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.eventCompleted {
+    opacity: 0.7;
+    background: rgba(40, 167, 69, 0.05);
+    border-color: rgba(40, 167, 69, 0.2);
+}
+
+.eventHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.eventDate {
+    background: rgba(79, 130, 9, 0.1);
+    color: #4f8209;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.eventActions {
+    display: flex;
+    gap: 8px;
+}
+
+.actionButton {
+    background: rgba(79, 130, 9, 0.1);
+    border: none;
+    color: #4f8209;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.actionButton:hover {
+    background: #4f8209;
+    color: white;
+    transform: scale(1.1);
+}
+
+.eventContent {
+    padding-left: 10px;
+}
+
+.eventTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.eventDescription {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+}
+
+.eventBook {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4f8209;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: rgba(79, 130, 9, 0.05);
+    padding: 8px 12px;
+    border-radius: 10px;
+    display: inline-flex;
+}
+
+.noEvents {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.noEvents svg {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 15px;
+}
+
+.noEvents p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Modal de Evento */
+.eventModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    padding: 20px;
+}
+
+.eventModal {
+    background: white;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.eventModalHeader {
+    background: linear-gradient(135deg, #4f8209, #a6f02b);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eventModalHeader h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.eventModalClose {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.eventModalClose:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Formulário */
+.eventForm {
+    padding: 25px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formLabel {
+    display: block;
+    font-weight: 600;
+    color: #4f8209;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.formInput,
+.formTextarea,
+.formSelect {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.formInput:focus,
+.formTextarea:focus,
+.formSelect:focus {
+    outline: none;
+    border-color: #a6f02b;
+    box-shadow: 0 0 0 3px rgba(166, 240, 43, 0.2);
+}
+
+.formTextarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.formActions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.cancelButton,
+.saveButton {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancelButton {
+    background: #f8f9fa;
+    color: #666;
+    border: 2px solid #e0e0e0;
+}
+
+.cancelButton:hover {
+    background: #e9ecef;
+    border-color: #ccc;
+}
+
+.saveButton {
+    background: linear-gradient(135deg, #4f8209, #a6f02b);
+    color: white;
+}
+
+.saveButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 130, 9, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .modalContent {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .calendarContainer {
+        padding: 20px;
+    }
+    
+    .calendar {
+        gap: 1px;
+    }
+    
+    .calendarDay {
+        min-height: 50px;
+        padding: 6px 2px;
+    }
+    
+    .dayNumber {
+        font-size: 0.9rem;
+    }
+    
+    .eventDot {
+        width: 5px;
+        height: 5px;
+    }
+    
+    .modalHeader {
+        padding: 20px;
+    }
+    
+    .modalTitle {
+        font-size: 1.3rem;
+    }
+    
+    .eventForm {
+        padding: 20px;
+    }
+    
+    .formActions {
+        flex-direction: column;
+    }
+    
+    .cancelButton,
+    .saveButton {
+        width: 100%;
+    }
+}

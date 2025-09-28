@@ -188,3 +188,28 @@
         gap: 5px;
     }
 }
+
+/* Estilos para status de leitura */
+.readingStatus {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.statusBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    border: 1px solid currentColor;
+    transition: all 0.3s ease;
+}
+
+.statusBadge:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+}

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import FollowingModal from '../../../components/FollowingModal';
+import CronogramaLeitura from '../../../components/CronogramaLeitura';
 import apiService from '../../../services/api';
 import styles from './profile.module.css';
 
@@ -23,6 +24,13 @@ export default function Profile() {
     livrosFavoritos: 0
   });
   const [showFollowingModal, setShowFollowingModal] = useState(false);
+  const [showCronograma, setShowCronograma] = useState(false);
+  const [estatisticasLeitura, setEstatisticasLeitura] = useState({
+    queroLer: 0,
+    lendo: 0,
+    jaLi: 0,
+    total: 0
+  });
   const [newBook, setNewBook] = useState({
     titulo: '',
     anoLancamento: '',
@@ -72,6 +80,17 @@ export default function Profile() {
     }
   };
 
+  const loadEstatisticasLeitura = async () => {
+    try {
+      const response = await apiService.getMeusFavoritos();
+      if (response.estatisticas) {
+        setEstatisticasLeitura(response.estatisticas);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar estatísticas de leitura:', error);
+    }
+  };
+
   const loadUserData = async () => {
     try {
       const userData = localStorage.getItem('user');
@@ -107,6 +126,9 @@ export default function Profile() {
 
       // Carregar estatísticas sociais para todos os usuários
       loadSocialStats();
+      
+      // Carregar estatísticas de leitura
+      loadEstatisticasLeitura();
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       setError('Erro ao carregar perfil do usuário');
@@ -292,6 +314,37 @@ export default function Profile() {
                   <span className={styles.statNumber}>{books.length}</span>
                   <span className={styles.statLabel}>{user.tipo === 'ESCRITOR' ? 'livros' : 'favoritos'}</span>
                 </div>
+              </div>
+
+              {/* Estatísticas de Leitura */}
+              <div className={styles.readingStats}>
+                <h3 className={styles.readingStatsTitle}>📚 Estatísticas de Leitura</h3>
+                <div className={styles.readingStatsGrid}>
+                  <div className={styles.readingStat}>
+                    <span className={styles.readingStatNumber}>{estatisticasLeitura.queroLer}</span>
+                    <span className={styles.readingStatLabel}>Quero Ler</span>
+                  </div>
+                  <div className={styles.readingStat}>
+                    <span className={styles.readingStatNumber}>{estatisticasLeitura.lendo}</span>
+                    <span className={styles.readingStatLabel}>Lendo</span>
+                  </div>
+                  <div className={styles.readingStat}>
+                    <span className={styles.readingStatNumber}>{estatisticasLeitura.jaLi}</span>
+                    <span className={styles.readingStatLabel}>Já Li</span>
+                  </div>
+                  <div className={styles.readingStat}>
+                    <span className={styles.readingStatNumber}>{estatisticasLeitura.total}</span>
+                    <span className={styles.readingStatLabel}>Total</span>
+                  </div>
+                </div>
+                
+                {/* Botão do Cronograma */}
+                <button 
+                  className={styles.cronogramaButton}
+                  onClick={() => setShowCronograma(true)}
+                >
+                  📅 Cronograma de Leitura
+                </button>
               </div>
             </div>
           </div>
@@ -635,6 +688,12 @@ export default function Profile() {
       <FollowingModal 
         isOpen={showFollowingModal}
         onClose={() => setShowFollowingModal(false)}
+      />
+      
+      {/* Modal do Cronograma de Leitura */}
+      <CronogramaLeitura 
+        isOpen={showCronograma}
+        onClose={() => setShowCronograma(false)}
       />
     </div>
   );

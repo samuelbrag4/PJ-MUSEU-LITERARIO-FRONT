@@ -1,8 +1,26 @@
 import Link from 'next/link';
-import { FaChartBar, FaFilm } from 'react-icons/fa';
+import { FaChartBar, FaFilm, FaBook, FaBookOpen, FaCheckCircle } from 'react-icons/fa';
 import styles from './cardBook.module.css';
 
-export default function CardBook({ livro }) {
+const STATUS_ICONS = {
+  'QUERO_LER': FaBook,
+  'LENDO': FaBookOpen,
+  'JA_LI': FaCheckCircle
+};
+
+const STATUS_LABELS = {
+  'QUERO_LER': 'Quero Ler',
+  'LENDO': 'Lendo',
+  'JA_LI': 'Já Li'
+};
+
+const STATUS_COLORS = {
+  'QUERO_LER': '#007bff',
+  'LENDO': '#ffc107',
+  'JA_LI': '#28a745'
+};
+
+export default function CardBook({ livro, showReadingStatus = false, onStatusChange = null }) {
   if (!livro) return null;
 
   return (
@@ -58,6 +76,22 @@ export default function CardBook({ livro }) {
                   <FaFilm /> Tem adaptação
                 </span>
               )}
+            </div>
+          )}
+
+          {showReadingStatus && livro.statusLeitura && (
+            <div className={styles.readingStatus}>
+              {(() => {
+                const StatusIcon = STATUS_ICONS[livro.statusLeitura];
+                return (
+                  <span 
+                    className={styles.statusBadge}
+                    style={{ color: STATUS_COLORS[livro.statusLeitura] }}
+                  >
+                    <StatusIcon /> {STATUS_LABELS[livro.statusLeitura]}
+                  </span>
+                );
+              })()}
             </div>
           )}
         </div>
