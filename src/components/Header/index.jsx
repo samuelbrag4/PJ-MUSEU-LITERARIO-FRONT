@@ -71,6 +71,11 @@ export default function Header() {
               </Link>
             </li>
             <li className={styles.navItem}>
+              <Link href="/curiosidades" className={styles.navLink}>
+                💡 Curiosidades
+              </Link>
+            </li>
+            <li className={styles.navItem}>
               <Link href="/favoritos" className={styles.navLink}>
                 ❤️ Favoritos
               </Link>
@@ -105,9 +110,6 @@ export default function Header() {
                 <div className={styles.userDropdown}>
                   <Link href="/rotas/profile" className={styles.dropdownItem}>
                     <FaUser /> Meu Perfil
-                  </Link>
-                  <Link href="/configuracoes" className={styles.dropdownItem}>
-                    ⚙️ Configurações
                   </Link>
                   <button 
                     onClick={handleLogout}
@@ -154,6 +156,9 @@ export default function Header() {
             <Link href="/autores" className={styles.mobileNavLink}>
               <FaUser /> Autores
             </Link>
+            <Link href="/curiosidades" className={styles.mobileNavLink}>
+              💡 Curiosidades
+            </Link>
             <Link href="/favoritos" className={styles.mobileNavLink}>
               ❤️ Favoritos
             </Link>
@@ -163,9 +168,6 @@ export default function Header() {
                 <hr className={styles.mobileDivider} />
                 <Link href="/rotas/profile" className={styles.mobileNavLink}>
                   <FaUser /> Meu Perfil
-                </Link>
-                <Link href="/configuracoes" className={styles.mobileNavLink}>
-                  ⚙️ Configurações
                 </Link>
                 <button 
                   onClick={handleLogout}
