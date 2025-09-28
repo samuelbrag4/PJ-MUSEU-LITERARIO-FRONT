@@ -442,3 +442,84 @@
         height: 60px;
     }
 }
+
+/* Estados de Loading e Error */
+.loading, .errorContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.loading {
+    flex-direction: column;
+    gap: 20px;
+    color: #4f8209;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.spinner {
+    font-size: 3rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.errorContainer {
+    padding: 40px;
+}
+
+.errorContent {
+    text-align: center;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.errorIcon {
+    font-size: 4rem;
+    color: #ff4757;
+    margin-bottom: 20px;
+}
+
+.errorContent h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.errorContent p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.retryButton {
+    background: linear-gradient(135deg, #4f8209, #6b8e23);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.retryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 130, 9, 0.3);
+}

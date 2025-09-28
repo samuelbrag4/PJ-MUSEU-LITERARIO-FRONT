@@ -15,7 +15,8 @@ import {
 } from 'react-icons/fa';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
-import CardBook from '../../../components/CardBook';  
+import CardBook from '../../../components/CardBook';
+import apiService from '../../../services/api';
 import styles from './livro.module.css';
 
 export default function LivroPage() {
@@ -38,40 +39,38 @@ export default function LivroPage() {
   const carregarLivro = async () => {
     try {
       setLoading(true);
+      setError(null);
       
-      // Tentar buscar o livro específico
-      try {
-        const response = await fetch(`http://localhost:5000/livros/${livroId}`);
-        
-        if (response.ok) {
-          const data = await response.json();
-          if (data.livro) {
-            setLivro(data.livro);
-            await carregarAutorDoLivro(data.livro.autorId);
-            return;
-          }
-        }
-      } catch (error) {
-        console.log('Endpoint específico não disponível, usando fallback...');
+      console.log('� Carregando livro com ID:', livroId);
+      
+      const data = await apiService.getBookById(livroId);
+      console.log('📦 Dados retornados pelo apiService:', data);
+      console.log('🔍 Estrutura dos dados:', JSON.stringify(data, null, 2));
+      console.log('🔍 data.livro existe?', !!data?.livro);
+      console.log('🔍 Propriedades do data:', Object.keys(data || {}));
+      
+      // Verificar diferentes estruturas de resposta
+      let livroData = null;
+      
+      if (data && data.livro) {
+        // Estrutura: { livro: {...} }
+        livroData = data.livro;
+        console.log('✅ Livro encontrado (estrutura livro):', livroData.titulo);
+      } else if (data && data.id) {
+        // Estrutura: livro diretamente
+        livroData = data;
+        console.log('✅ Livro encontrado (estrutura direta):', livroData.titulo);
+      } else if (data && data.titulo) {
+        // Estrutura: livro com título
+        livroData = data;
+        console.log('✅ Livro encontrado (com título):', livroData.titulo);
       }
       
-      // Fallback: buscar todos os livros e filtrar pelo ID
-      const todosLivrosResponse = await fetch('http://localhost:5000/livros');
-      
-      if (!todosLivrosResponse.ok) {
-        setError('Erro ao carregar dados dos livros.');
-        return;
-      }
-
-      const todosLivros = await todosLivrosResponse.json();
-      const livros = todosLivros.livros || [];
-      
-      const livroEncontrado = livros.find(l => l.id === parseInt(livroId));
-      
-      if (livroEncontrado) {
-        setLivro(livroEncontrado);
-        await carregarAutorDoLivro(livroEncontrado.autorId);
+      if (livroData) {
+        setLivro(livroData);
+        await carregarAutorDoLivro(livroData.autorId);
       } else {
+        console.log('❌ Dados inválidos retornados:', data);
         setError('Livro não encontrado.');
       }
       
@@ -85,22 +84,18 @@ export default function LivroPage() {
 
   const carregarAutorDoLivro = async (autorId) => {
     try {
-      // Buscar dados do autor
-      const response = await fetch('http://localhost:5000/escritores');
+      // Buscar dados do autor usando apiService
+      const data = await apiService.request('/escritores');
+      const escritores = Array.isArray(data) ? data : (data.value || []);
       
-      if (response.ok) {
-        const data = await response.json();
-        const escritores = Array.isArray(data) ? data : (data.value || []);
+      const autorEncontrado = escritores.find(escritor => escritor.id === autorId);
+      
+      if (autorEncontrado) {
+        setAutor(autorEncontrado);
         
-        const autorEncontrado = escritores.find(escritor => escritor.id === autorId);
-        
-        if (autorEncontrado) {
-          setAutor(autorEncontrado);
-          
-          // Filtrar outros livros do mesmo autor (excluindo o atual)
-          const outrosLivros = (autorEncontrado.livros || []).filter(l => l.id !== parseInt(livroId));
-          setOutrosLivrosDoAutor(outrosLivros);
-        }
+        // Filtrar outros livros do mesmo autor (excluindo o atual)
+        const outrosLivros = (autorEncontrado.livros || []).filter(l => l.id !== parseInt(livroId));
+        setOutrosLivrosDoAutor(outrosLivros);
       }
     } catch (error) {
       console.error('Erro ao carregar autor:', error);

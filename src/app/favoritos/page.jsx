@@ -9,7 +9,9 @@ import {
   FaUser,
   FaChartBar,
   FaFilter,
-  FaSpinner
+  FaSpinner,
+  FaExclamationTriangle,
+  FaRedo
 } from 'react-icons/fa';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -53,50 +55,71 @@ export default function Favoritos() {
   const carregarFavoritos = async () => {
     try {
       setLoading(true);
-      let url = '/favoritos/meus/favoritos';
-      const params = new URLSearchParams();
+      setError(null);
       
+      const params = {};
       if (filtroStatus !== 'TODOS') {
-        params.append('statusLeitura', filtroStatus);
+        params.statusLeitura = filtroStatus;
       }
       if (filtroGenero !== 'TODOS') {
-        params.append('genero', filtroGenero);
-      }
-      
-      if (params.toString()) {
-        url += `?${params.toString()}`;
+        params.genero = filtroGenero;
       }
 
-      const response = await apiService.getMeusFavoritos(
-        Object.fromEntries(params.entries())
-      );
+      const response = await apiService.getMeusFavoritos(params);
       
-      if (response.favoritos) {
-        setFavoritos(response.favoritos);
-        setEstatisticas(response.estatisticas || {
-          queroLer: 0,
-          lendo: 0,
-          jaLi: 0,
-          total: 0
-        });
+      // Processar resposta com diferentes formatos possíveis
+      let favoritosData = [];
+      let estatisticasData = { queroLer: 0, lendo: 0, jaLi: 0, total: 0 };
+      
+      if (response && response.favoritos) {
+        // Formato esperado com favoritos e estatísticas
+        favoritosData = response.favoritos;
+        estatisticasData = response.estatisticas || estatisticasData;
+      } else if (Array.isArray(response)) {
+        // Fallback: resposta é um array direto
+        favoritosData = response.map(item => ({
+          id: item.id || Math.random(),
+          livro: item.livro || item,
+          statusLeitura: item.statusLeitura || 'QUERO_LER',
+          progresso: item.progresso || 0
+        }));
         
-        // Organizar por gênero
-        const porGenero = {};
-        response.favoritos.forEach(fav => {
-          const genero = fav.livro.genero || 'Outros';
-          if (!porGenero[genero]) {
-            porGenero[genero] = [];
-          }
-          porGenero[genero].push(fav);
-        });
-        setFavoritosPorGenero(porGenero);
-        
-        // Extrair gêneros únicos
-        const generosUnicos = [...new Set(response.favoritos.map(fav => fav.livro.genero))];
-        setGeneros(generosUnicos.filter(Boolean));
+        // Calcular estatísticas manualmente
+        estatisticasData = favoritosData.reduce((acc, fav) => {
+          const status = fav.statusLeitura;
+          if (status === 'QUERO_LER') acc.queroLer++;
+          else if (status === 'LENDO') acc.lendo++;
+          else if (status === 'JA_LI') acc.jaLi++;
+          acc.total++;
+          return acc;
+        }, { queroLer: 0, lendo: 0, jaLi: 0, total: 0 });
       }
+      
+      setFavoritos(favoritosData);
+      setEstatisticas(estatisticasData);
+      
+      // Organizar por gênero
+      const porGenero = {};
+      favoritosData.forEach(fav => {
+        const genero = fav.livro?.genero || 'Outros';
+        if (!porGenero[genero]) {
+          porGenero[genero] = [];
+        }
+        porGenero[genero].push(fav);
+      });
+      setFavoritosPorGenero(porGenero);
+      
+      // Extrair gêneros únicos
+      const generosUnicos = [...new Set(favoritosData.map(fav => fav.livro?.genero).filter(Boolean))];
+      setGeneros(generosUnicos);
+      
     } catch (error) {
       console.error('Erro ao carregar favoritos:', error);
+      setError('Não foi possível carregar os favoritos. Verifique sua conexão.');
+      setFavoritos([]);
+      setEstatisticas({ queroLer: 0, lendo: 0, jaLi: 0, total: 0 });
+      setFavoritosPorGenero({});
+      setGeneros([]);
     } finally {
       setLoading(false);
     }
@@ -159,8 +182,17 @@ export default function Favoritos() {
   };
 
   useEffect(() => {
+    // Verificar se o usuário está logado
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (!token || !user) {
+      router.push('/');
+      return;
+    }
+    
     carregarFavoritos();
-  }, [filtroStatus, filtroGenero]);
+  }, [filtroStatus, filtroGenero, router]);
 
   if (loading) {
     return (
@@ -169,6 +201,28 @@ export default function Favoritos() {
         <div className={styles.loading}>
           <FaSpinner className={styles.spinner} />
           <span>Carregando seus favoritos...</span>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.pageContainer}>
+        <Header />
+        <div className={styles.errorContainer}>
+          <div className={styles.errorContent}>
+            <FaExclamationTriangle className={styles.errorIcon} />
+            <h2>Ops! Algo deu errado</h2>
+            <p>{error}</p>
+            <button 
+              onClick={carregarFavoritos}
+              className={styles.retryButton}
+            >
+              <FaRedo /> Tentar novamente
+            </button>
+          </div>
         </div>
         <Footer />
       </div>
