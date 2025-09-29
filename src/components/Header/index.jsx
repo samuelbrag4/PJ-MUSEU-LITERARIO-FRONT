@@ -10,7 +10,8 @@ import {
   FaBars, 
   FaTimes,
   FaLightbulb,
-  FaHeart
+  FaHeart,
+  FaPlay
 } from 'react-icons/fa';
 import styles from './header.module.css';
 
@@ -121,6 +122,12 @@ export default function Header() {
             </Link>
             <Link href="/favoritos" className={styles.sideNavLink} onClick={toggleMenu}>
               <FaHeart /> <span>Favoritos</span>
+            </Link>
+            
+            {/* Separador para Apresentação */}
+            <div className={styles.sideMenuDivider}></div>
+            <Link href="/apresentacao" className={`${styles.sideNavLink} ${styles.presentationLink}`} onClick={toggleMenu}>
+              <FaPlay /> <span>Modo Apresentação</span>
             </Link>
             
             {/* Seção do Usuário */}

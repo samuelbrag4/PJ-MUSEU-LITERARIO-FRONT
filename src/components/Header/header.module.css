@@ -543,6 +543,21 @@
     min-width: 20px;
 }
 
+/* Link de Apresentação Especial */
+.presentationLink {
+    background: linear-gradient(135deg, rgba(166, 240, 43, 0.2) 0%, rgba(79, 130, 9, 0.2) 100%);
+    border-left-color: #a6f02b !important;
+    border-radius: 10px;
+    margin: 10px 15px;
+}
+
+.presentationLink:hover {
+    background: linear-gradient(135deg, rgba(166, 240, 43, 0.3) 0%, rgba(79, 130, 9, 0.3) 100%);
+    border-left-color: #a6f02b !important;
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(166, 240, 43, 0.3);
+}
+
 /* Divisor */
 .sideMenuDivider {
     height: 1px;

@@ -1011,3 +1011,81 @@
     font-size: 0.9rem;
   }
 }
+/* Responsividade para novos elementos */
+@media (max-width: 1024px) {
+  .gridCards,
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gridCard,
+  .featureCard {
+    padding: 25px 20px;
+    min-height: 160px;
+  }
+  
+  .cardIcon,
+  .featureIcon {
+    font-size: 2.5rem;
+  }
+  
+  .gridCard h3,
+  .featureCard h3 {
+    font-size: 1.6rem;
+  }
+  
+  .gridCard p,
+  .featureCard p {
+    font-size: 1.3rem;
+  }
+  
+  .modalContent {
+    padding: 30px 20px;
+    width: 95%;
+  }
+  
+  .modalHeader h2 {
+    font-size: 2rem;
+  }
+  
+  .modalSection h4 {
+    font-size: 1.8rem;
+  }
+  
+  .modalSection p,
+  .modalBody p {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroActions {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .gridCard,
+  .featureCard {
+    padding: 20px 15px;
+    min-height: 140px;
+  }
+  
+  .cardIcon,
+  .featureIcon {
+    font-size: 2rem;
+  }
+  
+  .gridCard h3,
+  .featureCard h3 {
+    font-size: 1.4rem;
+  }
+  
+  .gridCard p,
+  .featureCard p {
+    font-size: 1.2rem;
+  }
+}
