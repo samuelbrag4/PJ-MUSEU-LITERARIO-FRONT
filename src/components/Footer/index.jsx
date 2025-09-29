@@ -65,7 +65,7 @@ export default function Footer() {
                 <FaUser /> Perfil
               </Link>
               <Link href="/rotas/favoritos" className={styles.footerLink}>
-                ❤️ Favoritos
+                Favoritos
               </Link>
             </nav>
           </div>
@@ -108,7 +108,7 @@ export default function Footer() {
                 ></textarea>
               </div>
               <button type="submit" className={styles.submitBtn}>
-                📤 Enviar Mensagem
+                Enviar Mensagem
               </button>
             </form>
           </div>
@@ -125,7 +125,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className={styles.socialLink}
             >
-              <span className={styles.socialIcon}>🐙</span>
+              <span className={styles.socialIcon}>◉</span>
               GitHub
             </a>
             <a 
@@ -134,7 +134,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className={styles.socialLink}
             >
-              <span className={styles.socialIcon}>💼</span>
+              <span className={styles.socialIcon}>◈</span>
               LinkedIn
             </a>
           </div>
@@ -143,7 +143,7 @@ export default function Footer() {
           <div className={styles.copyright}>
             <p>© 2025 Museu Literário Brasileiro. Todos os direitos reservados.</p>
             <p className={styles.developedBy}>
-              Desenvolvido com ❤️ por <strong>Samuel Braga</strong>
+              Desenvolvido com dedicação por <strong>Samuel Braga</strong>
             </p>
           </div>
 

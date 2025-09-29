@@ -355,3 +355,24 @@
         font-size: 1rem;
     }
 }
+
+/* Ensure all icons are white */
+.metaIcon,
+.statIcon,
+.awardIcon,
+.quoteIcon {
+    color: white !important;
+}
+
+/* Additional icon styles for better visibility */
+.authorPhoto .metaIcon,
+.authorStats .statIcon {
+    background: rgba(79, 130, 9, 0.1);
+    padding: 8px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -262,15 +262,15 @@ export default function Home() {
             </p>
             <div className={styles.heroActions}>
               <button className={styles.primaryButton}>
-                📚 Explorar Acervo
+                Explorar Acervo
               </button>
               <button className={styles.secondaryButton}>
-                ✍️ Conhecer Escritores
+                Conhecer Escritores
               </button>
             </div>
           </div>
           <div className={styles.heroImage}>
-            <div className={styles.bookAnimation}>📖</div>
+            <div className={styles.bookAnimation}></div>
           </div>
         </section>
 
@@ -374,7 +374,6 @@ export default function Home() {
             <h2 className={styles.sectionTitle}>Descubra a Literatura Brasileira</h2>
             <div className={styles.featuresGrid}>
               <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>📖</div>
                 <h3 className={styles.featureTitle}>Acervo Digital</h3>
                 <p className={styles.featureDescription}>
                   Explore nossa vasta coleção de obras digitalizadas, desde clássicos 
@@ -384,7 +383,6 @@ export default function Home() {
               </div>
               
               <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>🎭</div>
                 <h3 className={styles.featureTitle}>Biografias</h3>
                 <p className={styles.featureDescription}>
                   Conheça a vida e obra dos grandes nomes da literatura brasileira 
@@ -394,7 +392,6 @@ export default function Home() {
               </div>
               
               <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>💭</div>
                 <h3 className={styles.featureTitle}>Análises</h3>
                 <p className={styles.featureDescription}>
                   Acesse análises críticas e interpretações de especialistas sobre 
@@ -404,7 +401,6 @@ export default function Home() {
               </div>
               
               <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>❤️</div>
                 <h3 className={styles.featureTitle}>Favoritos</h3>
                 <p className={styles.featureDescription}>
                   Crie sua biblioteca pessoal salvando suas obras e autores favoritos 
@@ -422,31 +418,119 @@ export default function Home() {
             <h2 className={styles.sectionTitle}>Livros em Destaque</h2>
             <div className={styles.booksGrid}>
               <div className={styles.bookCard}>
-                <div className={styles.bookCover}>📚</div>
+                <div className={styles.bookCover} style={{backgroundImage: 'linear-gradient(45deg, #8B4513, #D2691E)'}}>
+                  <span className={styles.bookCoverTitle}>DOM<br/>CASMURRO</span>
+                </div>
                 <h3 className={styles.bookTitle}>Dom Casmurro</h3>
                 <p className={styles.bookAuthor}>Machado de Assis</p>
-                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+                <p className={styles.bookYear}>1899</p>
+                <div className={styles.bookRating}>★★★★★</div>
               </div>
               
               <div className={styles.bookCard}>
-                <div className={styles.bookCover}>📖</div>
+                <div className={styles.bookCover} style={{backgroundImage: 'linear-gradient(45deg, #006400, #32CD32)'}}>
+                  <span className={styles.bookCoverTitle}>O<br/>CORTIÇO</span>
+                </div>
                 <h3 className={styles.bookTitle}>O Cortiço</h3>
                 <p className={styles.bookAuthor}>Aluísio Azevedo</p>
-                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+                <p className={styles.bookYear}>1890</p>
+                <div className={styles.bookRating}>★★★★★</div>
               </div>
               
               <div className={styles.bookCard}>
-                <div className={styles.bookCover}>📕</div>
-                <h3 className={styles.bookTitle}>Iracema</h3>
-                <p className={styles.bookAuthor}>José de Alencar</p>
-                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+                <div className={styles.bookCover} style={{backgroundImage: 'linear-gradient(45deg, #4B0082, #9370DB)'}}>
+                  <span className={styles.bookCoverTitle}>VIDAS<br/>SECAS</span>
+                </div>
+                <h3 className={styles.bookTitle}>Vidas Secas</h3>
+                <p className={styles.bookAuthor}>Graciliano Ramos</p>
+                <p className={styles.bookYear}>1938</p>
+                <div className={styles.bookRating}>★★★★★</div>
               </div>
               
               <div className={styles.bookCard}>
-                <div className={styles.bookCover}>📗</div>
+                <div className={styles.bookCover} style={{backgroundImage: 'linear-gradient(45deg, #8B0000, #DC143C)'}}>
+                  <span className={styles.bookCoverTitle}>CAPITÃES<br/>DA AREIA</span>
+                </div>
                 <h3 className={styles.bookTitle}>Capitães da Areia</h3>
                 <p className={styles.bookAuthor}>Jorge Amado</p>
-                <div className={styles.bookRating}>⭐⭐⭐⭐⭐</div>
+                <p className={styles.bookYear}>1937</p>
+                <div className={styles.bookRating}>★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Book Lottery Section */}
+        <section className={styles.lotterySection}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Sorteio de Livro</h2>
+            <p className={styles.sectionSubtitle}>
+              Descubra sua próxima leitura! Clique no botão para sortear um livro da literatura brasileira.
+            </p>
+            <div className={styles.lotteryContainer}>
+              <div className={styles.lotteryCard}>
+                <div className={styles.lotteryBook}>
+                  <div className={styles.bookCover}></div>
+                  <h3 id="lotteryTitle">Clique para sortear!</h3>
+                  <p id="lotteryAuthor">Autor será revelado</p>
+                  <p id="lotteryGenre">Gênero será revelado</p>
+                </div>
+                <button 
+                  className={styles.lotteryButton} 
+                  onClick={() => {
+                    const books = [
+                      { title: "Dom Casmurro", author: "Machado de Assis", genre: "Romance" },
+                      { title: "O Cortiço", author: "Aluísio Azevedo", genre: "Naturalismo" },
+                      { title: "Iracema", author: "José de Alencar", genre: "Romance Indianista" },
+                      { title: "Capitães da Areia", author: "Jorge Amado", genre: "Romance Social" },
+                      { title: "Vidas Secas", author: "Graciliano Ramos", genre: "Romance Regional" },
+                      { title: "O Guarani", author: "José de Alencar", genre: "Romance Indianista" },
+                      { title: "Memórias Póstumas de Brás Cubas", author: "Machado de Assis", genre: "Romance Realista" },
+                      { title: "Grande Sertão: Veredas", author: "Guimarães Rosa", genre: "Romance Regional" }
+                    ];
+                    const randomBook = books[Math.floor(Math.random() * books.length)];
+                    document.getElementById('lotteryTitle').textContent = randomBook.title;
+                    document.getElementById('lotteryAuthor').textContent = randomBook.author;
+                    document.getElementById('lotteryGenre').textContent = randomBook.genre;
+                  }}
+                >
+                  Sortear Livro
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Author Discovery Section */}
+        <section className={styles.authorSection}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Descubra Novos Autores</h2>
+            <p className={styles.sectionSubtitle}>
+              Conheça escritores brasileiros que talvez você ainda não tenha descoberto.
+            </p>
+            <div className={styles.authorsGrid}>
+              <div className={styles.authorCard}>
+                <div className={styles.authorPhoto}></div>
+                <h3 className={styles.authorName}>Clarice Lispector</h3>
+                <p className={styles.authorBio}>Escritora ucraniano-brasileira, foi uma das mais importantes escritoras do século XX...</p>
+                <p className={styles.authorWorks}>Obras: "A Hora da Estrela", "Perto do Coração Selvagem"</p>
+                <button className={styles.authorButton}>Conhecer Melhor</button>
+              </div>
+              
+              <div className={styles.authorCard}>
+                <div className={styles.authorPhoto}></div>
+                <h3 className={styles.authorName}>Lima Barreto</h3>
+                <p className={styles.authorBio}>Escritor e jornalista brasileiro, precursor do Modernismo no Brasil...</p>
+                <p className={styles.authorWorks}>Obras: "O Triste Fim de Policarpo Quaresma", "Clara dos Anjos"</p>
+                <button className={styles.authorButton}>Conhecer Melhor</button>
+              </div>
+              
+              <div className={styles.authorCard}>
+                <div className={styles.authorPhoto}></div>
+                <h3 className={styles.authorName}>Carolina Maria de Jesus</h3>
+                <p className={styles.authorBio}>Escritora brasileira, catadora de papel que se tornou uma das vozes mais importantes...</p>
+                <p className={styles.authorWorks}>Obras: "Quarto de Despejo", "Casa de Alvenaria"</p>
+                <button className={styles.authorButton}>Conhecer Melhor</button>
               </div>
             </div>
           </div>
@@ -473,7 +557,7 @@ export default function Home() {
                     className={styles.searchButton}
                     disabled={searchLoading}
                   >
-                    {searchLoading ? '🔄' : '🔍'}
+                    {searchLoading ? 'Buscando...' : 'Buscar'}
                   </button>
                 </div>
               </div>
@@ -501,7 +585,7 @@ export default function Home() {
                   onClick={clearFilters}
                   className={styles.clearFiltersBtn}
                 >
-                  🗑️ Limpar Filtros
+                  Limpar Filtros
                 </button>
               </div>
             </div>
@@ -519,7 +603,7 @@ export default function Home() {
                 <div className={styles.resultsGrid}>
                   {searchResults.map((book) => (
                     <div key={book.id} className={styles.resultCard}>
-                      <div className={styles.resultCover}>📚</div>
+                      <div className={styles.resultCover}></div>
                       <div className={styles.resultInfo}>
                         <h4 className={styles.resultTitle}>{book.titulo}</h4>
                         <p className={styles.resultAuthor}>{book.autor}</p>
@@ -527,10 +611,10 @@ export default function Home() {
                         <p className={styles.resultYear}>{book.ano_lancamento}</p>
                         <div className={styles.resultActions}>
                           <button className={styles.viewBookBtn}>
-                            👁️ Ver Detalhes
+                            Ver Detalhes
                           </button>
                           <button className={styles.favoriteBtn}>
-                            ❤️ Favoritar
+                            Favoritar
                           </button>
                         </div>
                       </div>
@@ -586,7 +670,6 @@ export default function Home() {
             {/* No Results */}
             {searchQuery && searchResults.length === 0 && !searchLoading && (
               <div className={styles.noResults}>
-                <div className={styles.noResultsIcon}>📭</div>
                 <h3 className={styles.noResultsTitle}>Nenhum livro encontrado</h3>
                 <p className={styles.noResultsText}>
                   Tente pesquisar com outros termos ou verifique se a grafia está correta.
