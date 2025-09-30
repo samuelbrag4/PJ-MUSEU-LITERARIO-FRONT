@@ -102,6 +102,83 @@
     }
 }
 
+/* Seções de Entretenimento */
+.entertainmentSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 40px 0;
+    width: 100%;
+}
+
+.jokeSection,
+.curiositySection {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    color: #4f8209;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.sectionIcon {
+    font-size: 1.2rem;
+}
+
+.jokeCard,
+.curiosityCard {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    padding: 20px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jokeText,
+.curiosityText {
+    font-size: 1rem;
+    color: #4f8209;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-style: italic;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.refreshButton {
+    background: linear-gradient(135deg, #4f8209, #6ba30c);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-end;
+    font-family: 'Poppins', sans-serif;
+}
+
+.refreshButton:hover {
+    background: linear-gradient(135deg, #5a9510, #7bb40d);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 130, 9, 0.3);
+}
+
 .actions {
     display: flex;
     gap: 20px;
@@ -222,6 +299,11 @@
     
     .description {
         font-size: 1.1rem;
+    }
+    
+    .entertainmentSection {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .actions {

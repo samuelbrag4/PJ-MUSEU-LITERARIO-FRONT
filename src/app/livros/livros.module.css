@@ -17,6 +17,7 @@
     background: linear-gradient(135deg, #f8ffe6, #edffc8);
     /* padding-top removido - usando o global do globals.css */
     padding-bottom: 40px;
+    margin-top: 2rem;
     font-family: 'Poppins', sans-serif;
 }
 

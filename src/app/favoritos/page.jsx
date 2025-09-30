@@ -23,6 +23,7 @@ export default function Favoritos() {
   const [favoritos, setFavoritos] = useState([]);
   const [escritoresFavoritos, setEscritoresFavoritos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const [estatisticas, setEstatisticas] = useState({
     queroLer: 0,
