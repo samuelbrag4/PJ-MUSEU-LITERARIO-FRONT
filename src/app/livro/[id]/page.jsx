@@ -11,7 +11,12 @@ import {
   FaChartBar, 
   FaFilm, 
   FaBook,
-  FaPen 
+  FaPen,
+  FaHeart,
+  FaRegHeart,
+  FaSpinner,
+  FaTimes,
+  FaCheckCircle
 } from 'react-icons/fa';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
@@ -19,12 +24,37 @@ import CardBook from '../../../components/CardBook';
 import apiService from '../../../services/api';
 import styles from './livro.module.css';
 
+const STATUS_ICONS = {
+  'QUERO_LER': FaBook,
+  'LENDO': FaBookOpen,
+  'JA_LI': FaCheckCircle
+};
+
+const STATUS_LABELS = {
+  'QUERO_LER': 'Quero Ler',
+  'LENDO': 'Lendo',
+  'JA_LI': 'Já Li'
+};
+
+const STATUS_COLORS = {
+  'QUERO_LER': '#007bff',
+  'LENDO': '#ffc107',
+  'JA_LI': '#28a745'
+};
+
 export default function LivroPage() {
   const [livro, setLivro] = useState(null);
   const [autor, setAutor] = useState(null);
   const [outrosLivrosDoAutor, setOutrosLivrosDoAutor] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Estados para favorito e status de leitura
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [readingStatus, setReadingStatus] = useState(null);
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
+  const [isLoadingStatus, setIsLoadingStatus] = useState(false);
+  const [showStatusSelector, setShowStatusSelector] = useState(false);
   
   const router = useRouter();
   const params = useParams();
@@ -130,6 +160,56 @@ export default function LivroPage() {
     }
   };
 
+  const handleFavoriteClick = async () => {
+    if (isLoadingFavorite) return;
+    
+    try {
+      setIsLoadingFavorite(true);
+      
+      if (isFavorite) {
+        // Remover dos favoritos
+        await apiService.removeFavorite(livroId);
+        setIsFavorite(false);
+      } else {
+        // Adicionar aos favoritos
+        await apiService.addFavorite(livroId, readingStatus || 'QUERO_LER');
+        setIsFavorite(true);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar favorito:', error);
+    } finally {
+      setIsLoadingFavorite(false);
+    }
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    if (isLoadingStatus) return;
+    
+    try {
+      setIsLoadingStatus(true);
+      
+      if (isFavorite) {
+        // Atualizar status do favorito existente
+        await apiService.atualizarStatusLeitura(livroId, { status: newStatus });
+      } else {
+        // Adicionar aos favoritos com o status
+        await apiService.addFavorite(livroId, newStatus);
+        setIsFavorite(true);
+      }
+      
+      setReadingStatus(newStatus);
+      setShowStatusSelector(false);
+    } catch (error) {
+      console.error('Erro ao atualizar status de leitura:', error);
+    } finally {
+      setIsLoadingStatus(false);
+    }
+  };
+
+  const handleStatusSelectorClick = () => {
+    setShowStatusSelector(!showStatusSelector);
+  };
+
   if (loading) {
     return (
       <>
@@ -201,99 +281,189 @@ export default function LivroPage() {
             ← Voltar aos Livros
           </button>
 
-          {/* Informações do Livro */}
-          <section className={styles.bookSection}>
-            <div className={styles.bookHeader}>
-              <div className={styles.bookImageLarge}>
-                <img 
-                  src={livro.imagem || '/livros/default.jpg'} 
-                  alt={livro.titulo}
-                  onError={(e) => {
-                    console.log(`Imagem do livro não encontrada: ${e.target.src}`);
-                    e.target.style.display = 'none';
-                    // Criar um placeholder personalizado
-                    const placeholder = document.createElement('div');
-                    placeholder.className = styles.imagePlaceholder;
-                    placeholder.innerHTML = `
-                      <div style="font-size: 4rem; color: #4f8209; margin-bottom: 10px;">📚</div>
-                      <div style="font-size: 1rem; color: #6b8e23; text-align: center; padding: 0 10px;">${livro.titulo}</div>
-                    `;
-                    e.target.parentNode.appendChild(placeholder);
-                  }}
-                  onLoad={(e) => {
-                    // Se a imagem carregar com sucesso, remover qualquer placeholder
-                    const placeholder = e.target.parentNode.querySelector(`.${styles.imagePlaceholder}`);
-                    if (placeholder) {
-                      placeholder.remove();
-                    }
-                  }}
-                />
+          {/* Hero Section do Livro */}
+          <section className={styles.heroSection}>
+            <div className={styles.heroContent}>
+              <div className={styles.bookImageContainer}>
+                <div className={styles.bookImageWrapper}>
+                  <img 
+                    src={livro.imagem || '/livros/default.jpg'} 
+                    alt={livro.titulo}
+                    className={styles.bookImage}
+                    onError={(e) => {
+                      console.log(`Imagem do livro não encontrada: ${e.target.src}`);
+                      e.target.style.display = 'none';
+                      const placeholder = document.createElement('div');
+                      placeholder.className = styles.imagePlaceholder;
+                      placeholder.innerHTML = `
+                        <div style="font-size: 4rem; color: #4f8209; margin-bottom: 10px;">📚</div>
+                        <div style="font-size: 1rem; color: #6b8e23; text-align: center; padding: 0 10px;">${livro.titulo}</div>
+                      `;
+                      e.target.parentNode.appendChild(placeholder);
+                    }}
+                  />
+                </div>
               </div>
               
-              <div className={styles.bookInfo}>
-                <h1 className={styles.bookTitle}>{livro.titulo}</h1>
-                
-                <div className={styles.bookDetails}>
+              <div className={styles.bookMainMainInfo}>
+                <div className={styles.bookHeader}>
+                  <h1 className={styles.bookTitle}>{livro.titulo}</h1>
+                  
                   {autor && (
-                    <div className={styles.detail}>
-                      <span className={styles.detailLabel}><FaPen /> Autor:</span>
-                      <Link 
-                        href={`/autor/${autor.id}`} 
-                        className={styles.authorLink}
-                      >
+                    <div className={styles.authorInfo}>
+                      <FaPen className={styles.authorIcon} />
+                      <span>por </span>
+                      <Link href={`/autor/${autor.id}`} className={styles.authorLink}>
                         {autor.nome}
                       </Link>
                     </div>
                   )}
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaCalendarAlt /> Ano:</span>
-                    <span className={styles.detailValue}>{livro.anoLancamento}</span>
+                </div>
+
+                <div className={styles.bookMeta}>
+                  <div className={styles.metaGrid}>
+                    <div className={styles.metaItem}>
+                      <FaCalendarAlt className={styles.metaIcon} />
+                      <span className={styles.metaLabel}>Ano</span>
+                      <span className={styles.metaValue}>{livro.anoLancamento}</span>
+                    </div>
+                    
+                    <div className={styles.metaItem}>
+                      <FaTheaterMasks className={styles.metaIcon} />
+                      <span className={styles.metaLabel}>Gênero</span>
+                      <span className={styles.metaValue}>{livro.genero}</span>
+                    </div>
+                    
+                    <div className={styles.metaItem}>
+                      <FaBookOpen className={styles.metaIcon} />
+                      <span className={styles.metaLabel}>Páginas</span>
+                      <span className={styles.metaValue}>{livro.numeroPaginas}</span>
+                    </div>
+                    
+                    <div className={styles.metaItem}>
+                      <FaDollarSign className={styles.metaIcon} />
+                      <span className={styles.metaLabel}>Preço</span>
+                      <span className={styles.metaValue}>R$ {livro.mediaPreco}</span>
+                    </div>
+                    
+                    <div className={styles.metaItem}>
+                      <FaChartBar className={styles.metaIcon} />
+                      <span className={styles.metaLabel}>Dificuldade</span>
+                      <span 
+                        className={styles.difficultyBadge}
+                        style={{ backgroundColor: getDificuldadeColor(livro.dificuldade) }}
+                      >
+                        {getDificuldadeText(livro.dificuldade)}
+                      </span>
+                    </div>
+                    
+                    {livro.temAdaptacao && (
+                      <div className={styles.metaItem}>
+                        <FaFilm className={styles.metaIcon} />
+                        <span className={styles.metaLabel}>Adaptação</span>
+                        <span className={styles.adaptationBadge}>Disponível</span>
+                      </div>
+                    )}
                   </div>
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaTheaterMasks /> Gênero:</span>
-                    <span className={styles.genreTag}>{livro.genero}</span>
-                  </div>
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaDollarSign /> Preço:</span>
-                    <span className={styles.priceValue}>R$ {livro.mediaPreco}</span>
-                  </div>
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaBookOpen /> Páginas:</span>
-                    <span className={styles.detailValue}>{livro.numeroPaginas}</span>
-                  </div>
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaChartBar /> Dificuldade:</span>
-                    <span 
-                      className={styles.difficultyTag}
-                      style={{ backgroundColor: getDificuldadeColor(livro.dificuldade) }}
+                </div>
+
+                {/* Botões de Ação */}
+                <div className={styles.bookActions}>
+                  {/* Botão de Favoritar */}
+                  <button
+                    className={`${styles.favoriteButton} ${isFavorite ? styles.favorited : ''}`}
+                    onClick={handleFavoriteClick}
+                    disabled={isLoadingFavorite}
+                    title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                  >
+                    {isLoadingFavorite ? (
+                      <FaSpinner className={styles.spinner} />
+                    ) : isFavorite ? (
+                      <FaHeart />
+                    ) : (
+                      <FaRegHeart />
+                    )}
+                    <span>
+                      {isLoadingFavorite ? 'Carregando...' : isFavorite ? 'Favorito' : 'Favoritar'}
+                    </span>
+                  </button>
+
+                  {/* Seletor de Status de Leitura */}
+                  <div className={styles.statusSelector}>
+                    <button
+                      className={`${styles.statusButton} ${readingStatus ? styles.hasStatus : ''}`}
+                      onClick={handleStatusSelectorClick}
+                      disabled={isLoadingStatus}
+                      title="Status de leitura"
                     >
-                      {getDificuldadeText(livro.dificuldade)}
-                    </span>
-                  </div>
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaFilm /> Adaptação:</span>
-                    <span className={styles.detailValue}>
-                      {livro.temAdaptacao ? 'Sim' : 'Não'}
-                      {livro.temAdaptacao && <FaTheaterMasks />}
-                    </span>
+                      {isLoadingStatus ? (
+                        <FaSpinner className={styles.spinner} />
+                      ) : readingStatus ? (
+                        (() => {
+                          const StatusIcon = STATUS_ICONS[readingStatus];
+                          return (
+                            <>
+                              <StatusIcon style={{ color: STATUS_COLORS[readingStatus] }} />
+                              <span>{STATUS_LABELS[readingStatus]}</span>
+                            </>
+                          );
+                        })()
+                      ) : (
+                        <>
+                          <FaBook />
+                          <span>Marcar Status</span>
+                        </>
+                      )}
+                    </button>
+
+                    {showStatusSelector && (
+                      <div className={styles.statusDropdown}>
+                        <div className={styles.statusDropdownHeader}>
+                          <span>Status de Leitura</span>
+                          <button
+                            className={styles.closeDropdown}
+                            onClick={() => setShowStatusSelector(false)}
+                          >
+                            <FaTimes />
+                          </button>
+                        </div>
+                        <div className={styles.statusOptions}>
+                          {Object.entries(STATUS_LABELS).map(([key, label]) => {
+                            const StatusIcon = STATUS_ICONS[key];
+                            return (
+                              <button
+                                key={key}
+                                className={`${styles.statusOption} ${readingStatus === key ? styles.active : ''}`}
+                                onClick={() => handleStatusChange(key)}
+                                disabled={isLoadingStatus}
+                              >
+                                <StatusIcon style={{ color: STATUS_COLORS[key] }} />
+                                <span>{label}</span>
+                                {readingStatus === key && <FaCheckCircle className={styles.checkIcon} />}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
+          </section>
 
-            {livro.descricao && (
-              <div className={styles.description}>
-                <h2 className={styles.descriptionTitle}><FaBook /> Descrição</h2>
+          {/* Descrição do Livro */}
+          {livro.descricao && (
+            <section className={styles.descriptionSection}>
+              <div className={styles.descriptionContainer}>
+                <h2 className={styles.sectionTitle}>
+                  <FaBook className={styles.sectionIcon} />
+                  Sobre o Livro
+                </h2>
                 <p className={styles.descriptionText}>{livro.descricao}</p>
               </div>
-            )}
-          </section>
+            </section>
+          )}
 
           {/* Informações do Autor */}
           {autor && (

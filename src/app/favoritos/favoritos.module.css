@@ -234,71 +234,49 @@
 
 .bookCardWrapper {
     position: relative;
-}
-
-.bookStatus {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 15px;
-    border-radius: 0 0 25px 25px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-}
-
-.statusInfo {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: #4f8209;
+    flex-direction: column;
 }
 
-.statusIcon {
-    font-size: 1.2rem;
-}
-
+/* Barra de Progresso - Quando necessária */
 .progressBar {
+    background: rgba(255, 255, 255, 0.95);
+    margin: -25px 15px 0 15px;
+    padding: 12px 15px;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    position: relative;
+    border: 1px solid rgba(79, 130, 9, 0.1);
+}
+
+.progressBar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    right: 15px;
+    height: 6px;
     background: #f0f0f0;
     border-radius: 10px;
-    height: 8px;
-    margin-bottom: 10px;
-    position: relative;
-    overflow: hidden;
 }
 
 .progressFill {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    height: 6px;
     background: linear-gradient(90deg, #4f8209, #a6f02b);
-    height: 100%;
     transition: width 0.3s ease;
     border-radius: 10px;
 }
 
 .progressText {
-    position: absolute;
-    top: -25px;
-    right: 0;
-    font-size: 0.8rem;
+    margin-top: 8px;
+    font-size: 0.85rem;
     color: #4f8209;
     font-weight: 600;
-}
-
-.statusSelect {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #dcfe98;
-    border-radius: 10px;
-    background: white;
-    color: #4f8209;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.statusSelect:focus {
-    outline: none;
-    border-color: #a6f02b;
-    box-shadow: 0 0 0 3px rgba(166, 240, 43, 0.2);
+    text-align: center;
 }
 
 /* Estado Vazio */
@@ -432,6 +410,27 @@
         gap: 20px;
     }
     
+    .progressBar {
+        margin: -20px 10px 0 10px;
+        padding: 10px 12px;
+    }
+    
+    .progressBar::before {
+        left: 12px;
+        right: 12px;
+        height: 5px;
+    }
+    
+    .progressFill {
+        left: 12px;
+        height: 5px;
+    }
+    
+    .progressText {
+        font-size: 0.8rem;
+        margin-top: 6px;
+    }
+
     .writersGrid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 15px;

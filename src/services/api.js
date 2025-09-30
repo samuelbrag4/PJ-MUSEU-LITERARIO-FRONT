@@ -248,6 +248,13 @@ class ApiService {
     });
   }
 
+  // Remover dos favoritos
+  async removeFavorite(livroId) {
+    return this.request(`/favoritos/${livroId}`, {
+      method: 'DELETE',
+    });
+  }
+
   // Buscar perfil do usuário
   async getUserProfile(id) {
     return this.request(`/users/${id}`);

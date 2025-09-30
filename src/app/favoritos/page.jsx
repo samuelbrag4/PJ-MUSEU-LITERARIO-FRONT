@@ -156,32 +156,6 @@ export default function Favoritos() {
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'QUERO_LER':
-        return <FaBook className={styles.statusIcon} />;
-      case 'LENDO':
-        return <FaBookOpen className={styles.statusIcon} />;
-      case 'JA_LI':
-        return <FaCheckCircle className={styles.statusIcon} />;
-      default:
-        return <FaHeart className={styles.statusIcon} />;
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case 'QUERO_LER':
-        return 'Quero Ler';
-      case 'LENDO':
-        return 'Lendo';
-      case 'JA_LI':
-        return 'Já Li';
-      default:
-        return 'Favorito';
-    }
-  };
-
   useEffect(() => {
     // Verificar se o usuário está logado
     const token = localStorage.getItem('token');
@@ -341,32 +315,22 @@ export default function Favoritos() {
                       <div key={favorito.id} className={styles.bookCardWrapper}>
                         <CardBook 
                           livro={{...favorito.livro, statusLeitura: favorito.statusLeitura}} 
-                          showReadingStatus={true} 
+                          showReadingStatus={true}
+                          showFavoriteButton={true}
+                          showReadingSelector={true}
+                          isFavorited={true}
+                          currentStatus={favorito.statusLeitura}
+                          onStatusChange={atualizarStatusLeitura}
                         />
-                        <div className={styles.bookStatus}>
-                          <div className={styles.statusInfo}>
-                            {getStatusIcon(favorito.statusLeitura)}
-                            <span>{getStatusText(favorito.statusLeitura)}</span>
+                        {favorito.progresso > 0 && (
+                          <div className={styles.progressBar}>
+                            <div 
+                              className={styles.progressFill}
+                              style={{ width: `${favorito.progresso}%` }}
+                            ></div>
+                            <span className={styles.progressText}>{favorito.progresso}%</span>
                           </div>
-                          {favorito.progresso > 0 && (
-                            <div className={styles.progressBar}>
-                              <div 
-                                className={styles.progressFill}
-                                style={{ width: `${favorito.progresso}%` }}
-                              ></div>
-                              <span className={styles.progressText}>{favorito.progresso}%</span>
-                            </div>
-                          )}
-                          <select
-                            value={favorito.statusLeitura}
-                            onChange={(e) => atualizarStatusLeitura(favorito.livro.id, e.target.value)}
-                            className={styles.statusSelect}
-                          >
-                            <option value="QUERO_LER">Quero Ler</option>
-                            <option value="LENDO">Lendo</option>
-                            <option value="JA_LI">Já Li</option>
-                          </select>
-                        </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -379,32 +343,22 @@ export default function Favoritos() {
                   <div key={favorito.id} className={styles.bookCardWrapper}>
                     <CardBook 
                       livro={{...favorito.livro, statusLeitura: favorito.statusLeitura}} 
-                      showReadingStatus={true} 
+                      showReadingStatus={true}
+                      showFavoriteButton={true}
+                      showReadingSelector={true}
+                      isFavorited={true}
+                      currentStatus={favorito.statusLeitura}
+                      onStatusChange={atualizarStatusLeitura}
                     />
-                    <div className={styles.bookStatus}>
-                      <div className={styles.statusInfo}>
-                        {getStatusIcon(favorito.statusLeitura)}
-                        <span>{getStatusText(favorito.statusLeitura)}</span>
+                    {favorito.progresso > 0 && (
+                      <div className={styles.progressBar}>
+                        <div 
+                          className={styles.progressFill}
+                          style={{ width: `${favorito.progresso}%` }}
+                        ></div>
+                        <span className={styles.progressText}>{favorito.progresso}%</span>
                       </div>
-                      {favorito.progresso > 0 && (
-                        <div className={styles.progressBar}>
-                          <div 
-                            className={styles.progressFill}
-                            style={{ width: `${favorito.progresso}%` }}
-                          ></div>
-                          <span className={styles.progressText}>{favorito.progresso}%</span>
-                        </div>
-                      )}
-                      <select
-                        value={favorito.statusLeitura}
-                        onChange={(e) => atualizarStatusLeitura(favorito.livro.id, e.target.value)}
-                        className={styles.statusSelect}
-                      >
-                        <option value="QUERO_LER">Quero Ler</option>
-                        <option value="LENDO">Lendo</option>
-                        <option value="JA_LI">Já Li</option>
-                      </select>
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>

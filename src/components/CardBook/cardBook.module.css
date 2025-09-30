@@ -255,3 +255,232 @@
     word-wrap: break-word;
     hyphens: auto;
 }
+
+/* ===== AÇÕES DO CARD ===== */
+.cardActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Botão de Favoritar */
+.favoriteButton {
+    background: none;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.favoriteButton:hover {
+    transform: scale(1.1);
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+.favoriteButton.favorited {
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    border-color: #ff6b6b;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.favoriteButton.favorited:hover {
+    background: linear-gradient(135deg, #ff5252, #ff4444);
+    transform: scale(1.05);
+}
+
+.favoriteButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Seletor de Status */
+.statusSelector {
+    position: relative;
+    flex-shrink: 0;
+    width: 36px;
+}
+
+.statusButton {
+    background: none;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+    font-size: 1rem;
+    position: relative;
+}
+
+.statusButton:hover {
+    border-color: #4f8209;
+    color: #4f8209;
+    box-shadow: 0 2px 8px rgba(79, 130, 9, 0.15);
+}
+
+.statusButton.hasStatus {
+    background: rgba(79, 130, 9, 0.1);
+    border-color: #4f8209;
+    color: #4f8209;
+}
+
+.statusButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Dropdown de Status */
+.statusDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 200px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.statusDropdownHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #4f8209, #6b8e23);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.closeDropdown {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.closeDropdown:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.statusOptions {
+    padding: 8px 0;
+}
+
+.statusOption {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: #333;
+    position: relative;
+}
+
+.statusOption:hover {
+    background: rgba(79, 130, 9, 0.05);
+    color: #4f8209;
+}
+
+.statusOption.active {
+    background: rgba(79, 130, 9, 0.1);
+    color: #4f8209;
+    font-weight: 600;
+}
+
+.statusOption:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.checkIcon {
+    margin-left: auto;
+    color: #4f8209;
+    font-size: 0.9rem;
+}
+
+/* Spinner de Loading */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsividade para ações do card */
+@media (max-width: 768px) {
+    .cardActions {
+        gap: 6px;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+    
+    .favoriteButton {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .statusSelector {
+        width: 32px;
+    }
+    
+    .statusButton {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .statusDropdown {
+        right: -10px;
+        width: 180px;
+    }
+}

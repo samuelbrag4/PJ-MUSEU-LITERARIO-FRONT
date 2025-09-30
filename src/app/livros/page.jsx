@@ -31,6 +31,8 @@ export default function Livros() {
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [popup, setPopup] = useState({ isVisible: false, type: '', message: '' });
+  const [favoritos, setFavoritos] = useState(new Set());
+  const [statusLeitura, setStatusLeitura] = useState({});
   
   // Estado para adicionar livro
   const [newBook, setNewBook] = useState({
@@ -47,6 +49,16 @@ export default function Livros() {
   });
 
   const router = useRouter();
+
+  // Callback para quando status de leitura muda
+  const handleStatusChange = (livroId, newStatus) => {
+    setStatusLeitura(prev => ({
+      ...prev,
+      [livroId]: newStatus
+    }));
+    
+    showPopup('success', 'Status de leitura atualizado com sucesso!');
+  };
 
   // Ícones para cada gênero
   const iconesGeneros = {
@@ -83,6 +95,7 @@ export default function Livros() {
     // Carregar dados da API
     carregarLivrosPorGenero();
     carregarGeneros();
+    carregarFavoritos();
   }, [router]);
 
   const carregarLivrosPorGenero = async () => {
@@ -129,6 +142,37 @@ export default function Livros() {
       console.error('Erro ao carregar gêneros:', error);
       // Fallback com gêneros padrão
       setGenerosDisponiveis(['Romance', 'Terror', 'Ficção', 'Drama', 'Aventura']);
+    }
+  };
+
+  // Carregar favoritos e status de leitura do usuário
+  const carregarFavoritos = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/favoritos/meus/favoritos', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const favoritosIds = new Set();
+        const statusMap = {};
+        
+        if (Array.isArray(data)) {
+          data.forEach(item => {
+            favoritosIds.add(item.livroId || item.id);
+            if (item.status) {
+              statusMap[item.livroId || item.id] = item.status;
+            }
+          });
+        }
+        
+        setFavoritos(favoritosIds);
+        setStatusLeitura(statusMap);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar favoritos:', error);
     }
   };
 
@@ -369,7 +413,13 @@ export default function Livros() {
                 {filteredBooks.length > 0 ? (
                   <div className={styles.searchBooksGrid}>
                     {filteredBooks.map(livro => (
-                      <CardBook key={livro.id} livro={livro} />
+                      <CardBook 
+                        key={livro.id} 
+                        livro={livro}
+                        showFavoriteButton={true}
+                        showReadingSelector={true}
+                        onStatusChange={handleStatusChange}
+                      />
                     ))}
                   </div>
                 ) : (
@@ -419,7 +469,13 @@ export default function Livros() {
                   </h2>
                   <div className={styles.booksCarousel}>
                     {livros.map(livro => (
-                      <CardBook key={livro.id} livro={livro} />
+                      <CardBook 
+                        key={livro.id} 
+                        livro={livro}
+                        showFavoriteButton={true}
+                        showReadingSelector={true}
+                        onStatusChange={handleStatusChange}
+                      />
                     ))}
                   </div>
                 </div>
@@ -433,7 +489,13 @@ export default function Livros() {
                   </h2>
                   <div className={styles.booksGrid}>
                     {livrosPorGenero[selectedCategory].map(livro => (
-                      <CardBook key={livro.id} livro={livro} />
+                      <CardBook 
+                        key={livro.id} 
+                        livro={livro}
+                        showFavoriteButton={true}
+                        showReadingSelector={true}
+                        onStatusChange={handleStatusChange}
+                      />
                     ))}
                   </div>
                 </div>
