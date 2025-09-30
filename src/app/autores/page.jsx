@@ -28,6 +28,16 @@ export default function Autores() {
   const [rankingEscritores, setRankingEscritores] = useState([]);
   const [showRanking, setShowRanking] = useState(false);
   
+  // Estados para paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12); // 12 autores por página
+  
+  // Estados para filtros avançados
+  const [selectedNationality, setSelectedNationality] = useState('todos');
+  const [selectedPeriod, setSelectedPeriod] = useState('todos');
+  const [sortBy, setSortBy] = useState('nome');
+  const [sortOrder, setSortOrder] = useState('asc');
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -103,7 +113,7 @@ export default function Autores() {
     }
   };
 
-  // Filtrar autores por pesquisa e gênero
+  // Filtrar autores por pesquisa, gênero, nacionalidade e período
   useEffect(() => {
     let filtered = autores;
 
@@ -111,7 +121,9 @@ export default function Autores() {
     if (searchTerm.trim()) {
       filtered = filtered.filter(autor => 
         autor.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        autor.email?.toLowerCase().includes(searchTerm.toLowerCase())
+        autor.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        autor.nacionalidade?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        autor.biografia?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -123,8 +135,94 @@ export default function Autores() {
       );
     }
 
+    // Filtrar por nacionalidade
+    if (selectedNationality !== 'todos') {
+      filtered = filtered.filter(autor => 
+        autor.nacionalidade === selectedNationality
+      );
+    }
+
+    // Filtrar por período
+    if (selectedPeriod !== 'todos') {
+      filtered = filtered.filter(autor => {
+        const nascimento = new Date(autor.data_nascimento);
+        const ano = nascimento.getFullYear();
+        
+        switch (selectedPeriod) {
+          case 'classico':
+            return ano < 1900;
+          case 'moderno':
+            return ano >= 1900 && ano < 1950;
+          case 'contemporaneo':
+            return ano >= 1950;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Ordenar resultados
+    filtered.sort((a, b) => {
+      let aValue, bValue;
+      
+      switch (sortBy) {
+        case 'nome':
+          aValue = a.nome || '';
+          bValue = b.nome || '';
+          break;
+        case 'data_nascimento':
+          aValue = new Date(a.data_nascimento || 0);
+          bValue = new Date(b.data_nascimento || 0);
+          break;
+        case 'nacionalidade':
+          aValue = a.nacionalidade || '';
+          bValue = b.nacionalidade || '';
+          break;
+        case 'livros':
+          aValue = a.livros?.length || 0;
+          bValue = b.livros?.length || 0;
+          break;
+        default:
+          aValue = a.nome || '';
+          bValue = b.nome || '';
+      }
+
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
     setFilteredAuthors(filtered);
-  }, [searchTerm, selectedGenre, autores]);
+    setCurrentPage(1); // Resetar para primeira página quando filtros mudarem
+  }, [searchTerm, selectedGenre, selectedNationality, selectedPeriod, sortBy, sortOrder, autores]);
+
+  // Função para obter nacionalidades únicas
+  const getNacionalidades = () => {
+    const nacionalidades = [...new Set(autores.map(autor => autor.nacionalidade).filter(Boolean))];
+    return nacionalidades.sort();
+  };
+
+  // Função para calcular paginação
+  const getPaginatedAuthors = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredAuthors.slice(startIndex, endIndex);
+  };
+
+  // Função para calcular total de páginas
+  const getTotalPages = () => {
+    return Math.ceil(filteredAuthors.length / itemsPerPage);
+  };
+
+  // Função para mudar página
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Scroll para o topo da seção de autores
+    document.querySelector(`.${styles.authorsSection}`)?.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+  };
 
   const formatarData = (dataString) => {
     if (!dataString) return '';
@@ -166,15 +264,143 @@ export default function Autores() {
       <Header />
       <main className={styles.main}>
         <div className={styles.container}>
-          {/* Seção de Introdução */}
-          <section className={styles.introSection}>
-            <div className={styles.introContent}>
-              <h1 className={styles.pageTitle}><FaPen /> Escritores Brasileiros</h1>
-              <p className={styles.pageDescription}>
+          {/* Hero Section */}
+          <section className={styles.heroSection}>
+            <div className={styles.heroContent}>
+              <h1 className={styles.heroTitle}>
+                <FaPen /> Escritores Brasileiros
+              </h1>
+              <p className={styles.heroSubtitle}>
                 Conheça os grandes nomes da literatura brasileira! Explore biografias, obras e 
-                o legado dos autores que moldaram nossa cultura literária. Desde os clássicos 
-                até os contemporâneos, descubra a riqueza da produção literária nacional.
+                o legado dos autores que moldaram nossa cultura literária.
               </p>
+              
+              <div className={styles.heroStats}>
+                <div className={styles.statCard}>
+                  <span className={styles.statNumber}>{autores.length}</span>
+                  <span className={styles.statLabel}>Escritores</span>
+                </div>
+                <div className={styles.statCard}>
+                  <span className={styles.statNumber}>
+                    {autores.reduce((total, autor) => total + (autor.livros?.length || 0), 0)}
+                  </span>
+                  <span className={styles.statLabel}>Obras</span>
+                </div>
+                <div className={styles.statCard}>
+                  <span className={styles.statNumber}>{generosDisponiveis.length}</span>
+                  <span className={styles.statLabel}>Gêneros</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Barra de Pesquisa e Filtros */}
+          <section className={styles.searchSection}>
+            <div className={styles.searchContainer}>
+              <h2 className={styles.searchTitle}>🔍 Encontre seu autor favorito</h2>
+              
+              <div className={styles.searchBox}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Pesquisar por nome, email, nacionalidade ou biografia..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
+              </div>
+
+              <div className={styles.filtersSection}>
+                <div className={styles.filterRow}>
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                      <FaFilter /> Gênero:
+                    </label>
+                    <select
+                      value={selectedGenre}
+                      onChange={(e) => setSelectedGenre(e.target.value)}
+                      className={styles.filterSelect}
+                    >
+                      <option value="todos">Todos os gêneros</option>
+                      {generosDisponiveis.map(genero => (
+                        <option key={genero} value={genero}>{genero}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                      🌍 Nacionalidade:
+                    </label>
+                    <select
+                      value={selectedNationality}
+                      onChange={(e) => setSelectedNationality(e.target.value)}
+                      className={styles.filterSelect}
+                    >
+                      <option value="todos">Todas as nacionalidades</option>
+                      {getNacionalidades().map(nacionalidade => (
+                        <option key={nacionalidade} value={nacionalidade}>
+                          {nacionalidade}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                      <FaCalendarAlt /> Período:
+                    </label>
+                    <select
+                      value={selectedPeriod}
+                      onChange={(e) => setSelectedPeriod(e.target.value)}
+                      className={styles.filterSelect}
+                    >
+                      <option value="todos">Todos os períodos</option>
+                      <option value="classico">Clássico (até 1900)</option>
+                      <option value="moderno">Moderno (1900-1950)</option>
+                      <option value="contemporaneo">Contemporâneo (1950+)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className={styles.sortRow}>
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                      📊 Ordenar por:
+                    </label>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className={styles.filterSelect}
+                    >
+                      <option value="nome">Nome</option>
+                      <option value="data_nascimento">Data de Nascimento</option>
+                      <option value="nacionalidade">Nacionalidade</option>
+                      <option value="livros">Número de Livros</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                      🔄 Ordem:
+                    </label>
+                    <select
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value)}
+                      className={styles.filterSelect}
+                    >
+                      <option value="asc">Crescente</option>
+                      <option value="desc">Decrescente</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.resultsInfo}>
+                    <span className={styles.resultsCount}>
+                      {filteredAuthors.length} {filteredAuthors.length === 1 ? 'autor encontrado' : 'autores encontrados'}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -285,11 +511,18 @@ export default function Autores() {
               <h2 className={styles.sectionTitle}>
                 <FaUser /> {filteredAuthors.length} Autor{filteredAuthors.length !== 1 ? 'es' : ''} Encontrado{filteredAuthors.length !== 1 ? 's' : ''}
               </h2>
+              {getTotalPages() > 1 && (
+                <div className={styles.pageInfo}>
+                  Página {currentPage} de {getTotalPages()} | 
+                  Mostrando {getPaginatedAuthors().length} de {filteredAuthors.length} autores
+                </div>
+              )}
             </div>
 
             {filteredAuthors.length > 0 ? (
-              <div className={styles.authorsGrid}>
-                {filteredAuthors.map(autor => (
+              <>
+                <div className={styles.authorsGrid}>
+                  {getPaginatedAuthors().map(autor => (
                   <div key={autor.id} className={styles.authorCard}>
                     <div className={styles.authorImage}>
                       <img 
@@ -388,6 +621,80 @@ export default function Autores() {
                   </div>
                 ))}
               </div>
+
+              {/* Paginação */}
+              {getTotalPages() > 1 && (
+                <div className={styles.paginationSection}>
+                  <div className={styles.pagination}>
+                    {/* Botão Anterior */}
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`${styles.paginationButton} ${styles.paginationArrow} ${currentPage === 1 ? styles.disabled : ''}`}
+                    >
+                      ← Anterior
+                    </button>
+
+                    {/* Números das páginas */}
+                    <div className={styles.paginationNumbers}>
+                      {Array.from({ length: getTotalPages() }, (_, i) => i + 1).map(page => {
+                        // Mostrar apenas páginas próximas à atual
+                        if (
+                          page === 1 ||
+                          page === getTotalPages() ||
+                          (page >= currentPage - 2 && page <= currentPage + 2)
+                        ) {
+                          return (
+                            <button
+                              key={page}
+                              onClick={() => handlePageChange(page)}
+                              className={`${styles.paginationButton} ${styles.paginationNumber} ${
+                                page === currentPage ? styles.active : ''
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          );
+                        } else if (
+                          page === currentPage - 3 ||
+                          page === currentPage + 3
+                        ) {
+                          return <span key={page} className={styles.paginationEllipsis}>...</span>;
+                        }
+                        return null;
+                      })}
+                    </div>
+
+                    {/* Botão Próximo */}
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === getTotalPages()}
+                      className={`${styles.paginationButton} ${styles.paginationArrow} ${
+                        currentPage === getTotalPages() ? styles.disabled : ''
+                      }`}
+                    >
+                      Próximo →
+                    </button>
+                  </div>
+
+                  {/* Informações adicionais */}
+                  <div className={styles.paginationInfo}>
+                    <select
+                      value={itemsPerPage}
+                      onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1);
+                      }}
+                      className={styles.itemsPerPageSelect}
+                    >
+                      <option value={12}>12 por página</option>
+                      <option value={24}>24 por página</option>
+                      <option value={36}>36 por página</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            </>
             ) : (
               <div className={styles.noResults}>
                 <FaSearch className={styles.noResultsIcon} />
