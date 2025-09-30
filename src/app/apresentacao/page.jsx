@@ -167,7 +167,7 @@ export default function ApresentacaoPage() {
               </div>
               
               <div className={styles.authorInfo}>
-                <h2 className={styles.authorName}>Samuel Santos Braga</h2>
+                <h2 className={styles.authorName}>Samuel dos Santos Braga</h2>
                 <p className={styles.courseInfo}>Técnico em Desenvolvimento de Sistemas</p>
                 <p className={styles.courseInfo}>Projeto 3</p>
                 <div className={styles.senaiLogo}>SENAI</div>
