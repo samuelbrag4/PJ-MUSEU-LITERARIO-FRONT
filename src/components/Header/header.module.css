@@ -80,6 +80,53 @@
     100% { background-position: 0% 50%; }
 }
 
+/* Indicador da Página Atual */
+.currentPage {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 20px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.currentPage:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.currentPageMarker {
+    color: #c1fa5c;
+    font-size: 0.9rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.currentPageInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.currentPageIcon {
+    color: white;
+    font-size: 1.1rem;
+}
+
+.currentPageName {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 /* Navegação Desktop */
 .nav {
     flex: 1;
@@ -352,6 +399,20 @@
         max-width: calc(100% - 20px);
     }
     
+    .container {
+        padding: 0 20px;
+        height: 80px;
+    }
+    
+    .currentPage {
+        padding: 8px 15px;
+        gap: 8px;
+    }
+    
+    .currentPageName {
+        font-size: 0.9rem;
+    }
+    
     .nav {
         display: none;
     }
@@ -393,6 +454,20 @@
     
     .container {
         height: 70px;
+        padding: 0 15px;
+    }
+    
+    .currentPage {
+        padding: 6px 12px;
+        gap: 6px;
+    }
+    
+    .currentPageName {
+        display: none; /* Mostra apenas o ícone em telas muito pequenas */
+    }
+    
+    .currentPageIcon {
+        font-size: 1.2rem;
     }
 }
 
@@ -536,6 +611,18 @@
     background: rgba(255, 255, 255, 0.1);
     border-left-color: #dcfe98;
     transform: translateX(5px);
+}
+
+.activeNavLink {
+    background: linear-gradient(135deg, rgba(166, 240, 43, 0.25) 0%, rgba(79, 130, 9, 0.25) 100%);
+    border-left-color: #a6f02b !important;
+    transform: translateX(8px);
+    box-shadow: 0 3px 10px rgba(166, 240, 43, 0.2);
+}
+
+.activeNavLink:hover {
+    background: linear-gradient(135deg, rgba(166, 240, 43, 0.3) 0%, rgba(79, 130, 9, 0.3) 100%);
+    transform: translateX(10px);
 }
 
 .sideNavLink svg {

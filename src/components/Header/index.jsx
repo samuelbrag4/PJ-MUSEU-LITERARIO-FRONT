@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { 
   FaBook, 
@@ -11,7 +11,8 @@ import {
   FaTimes,
   FaLightbulb,
   FaHeart,
-  FaPlay
+  FaPlay,
+  FaMapMarkerAlt
 } from 'react-icons/fa';
 import styles from './header.module.css';
 
@@ -19,6 +20,44 @@ export default function Header() {
   const [user, setUser] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Função para obter o nome da página atual
+  const getCurrentPageName = () => {
+    const pathMap = {
+      '/home': 'Início',
+      '/livros': 'Livros',
+      '/autores': 'Autores',
+      '/curiosidades': 'Curiosidades',
+      '/favoritos': 'Favoritos',
+      '/apresentacao': 'Apresentação',
+      '/rotas/profile': 'Meu Perfil',
+      '/seguindo': 'Seguindo',
+      '/not-found': 'Página não encontrada'
+    };
+
+    // Verifica rotas dinâmicas
+    if (pathname?.startsWith('/autor/')) return 'Perfil do Autor';
+    if (pathname?.startsWith('/livro/')) return 'Detalhes do Livro';
+    if (pathname?.startsWith('/rotas/')) return 'Perfil';
+    
+    return pathMap[pathname] || 'Museu Literário';
+  };
+
+  // Função para obter o ícone da página atual
+  const getCurrentPageIcon = () => {
+    if (pathname?.startsWith('/autor/')) return <FaUser />;
+    if (pathname?.startsWith('/livro/')) return <FaBookOpen />;
+    if (pathname === '/home') return <FaHome />;
+    if (pathname === '/livros') return <FaBookOpen />;
+    if (pathname === '/autores') return <FaUser />;
+    if (pathname === '/curiosidades') return <FaLightbulb />;
+    if (pathname === '/favoritos') return <FaHeart />;
+    if (pathname === '/apresentacao') return <FaPlay />;
+    if (pathname?.startsWith('/rotas/')) return <FaUser />;
+    
+    return <FaBook />;
+  };
 
   useEffect(() => {
     // Verificar se há usuário logado
@@ -72,6 +111,15 @@ export default function Header() {
           </Link>
         </div>
 
+        {/* Indicador da Página Atual */}
+        <div className={styles.currentPage}>
+          <FaMapMarkerAlt className={styles.currentPageMarker} />
+          <div className={styles.currentPageInfo}>
+            <span className={styles.currentPageIcon}>{getCurrentPageIcon()}</span>
+            <span className={styles.currentPageName}>{getCurrentPageName()}</span>
+          </div>
+        </div>
+
         {/* Menu Hambúrguer */}
         <button 
           className={styles.hamburgerButton}
@@ -108,25 +156,49 @@ export default function Header() {
 
           {/* Links de Navegação */}
           <nav className={styles.sideNav}>
-            <Link href="/home" className={styles.sideNavLink} onClick={toggleMenu}>
+            <Link 
+              href="/home" 
+              className={`${styles.sideNavLink} ${pathname === '/home' ? styles.activeNavLink : ''}`} 
+              onClick={toggleMenu}
+            >
               <FaHome /> <span>Início</span>
             </Link>
-            <Link href="/livros" className={styles.sideNavLink} onClick={toggleMenu}>
+            <Link 
+              href="/livros" 
+              className={`${styles.sideNavLink} ${pathname === '/livros' ? styles.activeNavLink : ''}`} 
+              onClick={toggleMenu}
+            >
               <FaBookOpen /> <span>Livros</span>
             </Link>
-            <Link href="/autores" className={styles.sideNavLink} onClick={toggleMenu}>
+            <Link 
+              href="/autores" 
+              className={`${styles.sideNavLink} ${pathname === '/autores' ? styles.activeNavLink : ''}`} 
+              onClick={toggleMenu}
+            >
               <FaUser /> <span>Autores</span>
             </Link>
-            <Link href="/curiosidades" className={styles.sideNavLink} onClick={toggleMenu}>
+            <Link 
+              href="/curiosidades" 
+              className={`${styles.sideNavLink} ${pathname === '/curiosidades' ? styles.activeNavLink : ''}`} 
+              onClick={toggleMenu}
+            >
               <FaLightbulb /> <span>Curiosidades</span>
             </Link>
-            <Link href="/favoritos" className={styles.sideNavLink} onClick={toggleMenu}>
+            <Link 
+              href="/favoritos" 
+              className={`${styles.sideNavLink} ${pathname === '/favoritos' ? styles.activeNavLink : ''}`} 
+              onClick={toggleMenu}
+            >
               <FaHeart /> <span>Favoritos</span>
             </Link>
             
             {/* Separador para Apresentação */}
             <div className={styles.sideMenuDivider}></div>
-            <Link href="/apresentacao" className={`${styles.sideNavLink} ${styles.presentationLink}`} onClick={toggleMenu}>
+            <Link 
+              href="/apresentacao" 
+              className={`${styles.sideNavLink} ${styles.presentationLink} ${pathname === '/apresentacao' ? styles.activeNavLink : ''}`} 
+              onClick={toggleMenu}
+            >
               <FaPlay /> <span>Modo Apresentação</span>
             </Link>
             

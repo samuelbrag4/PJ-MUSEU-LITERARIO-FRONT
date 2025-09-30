@@ -12,11 +12,11 @@
     font-style: normal;
 }
 
+/* Container Principal */
 .main {
     min-height: 100vh;
     background: linear-gradient(135deg, #f8ffe6, #edffc8);
-    /* padding-top removido - usando o global do globals.css */
-    padding-bottom: 40px;
+    padding: 20px 0 40px;
     margin-top: 2rem;
     font-family: 'Poppins', sans-serif;
 }
@@ -35,6 +35,81 @@
     font-size: 1.2rem;
     color: #4f8209;
     font-family: 'Poppins', sans-serif;
+}
+
+/* Hero Section - Banner Principal */
+.heroSection {
+    background: linear-gradient(135deg, rgba(166, 240, 43, 0.95), rgba(79, 130, 9, 0.9));
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.heroSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/book-pattern.svg') repeat;
+    opacity: 0.05;
+    z-index: 1;
+}
+
+.heroContent {
+    position: relative;
+    z-index: 2;
+}
+
+.heroTitle {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.heroSubtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.heroStats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.statCard {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.statNumber {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.statLabel {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
 }
 
 /* Seção de Introdução */
@@ -113,14 +188,53 @@
     background: linear-gradient(135deg, #5a9510, #7bb40d);
 }
 
-/* Seção de Pesquisa */
+/* Seção de Pesquisa Melhorada */
 .searchSection {
     margin-bottom: 50px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .searchContainer {
     max-width: 800px;
     margin: 0 auto;
+}
+
+.searchTitle {
+    text-align: center;
+    font-size: 2rem;
+    color: #4f8209;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.searchControls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.searchTypeSelector {
+    padding: 12px 20px;
+    border: 2px solid #4f8209;
+    border-radius: 25px;
+    background: white;
+    color: #4f8209;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.searchTypeSelector:hover,
+.searchTypeSelector.active {
+    background: #4f8209;
+    color: white;
+    transform: translateY(-2px);
 }
 
 .searchBox {
@@ -141,7 +255,7 @@
 }
 
 .searchIcon {
-    color: #4f8209;
+    color: #2d5e06;
     font-size: 1.2rem;
     margin-right: 15px;
 }
@@ -159,6 +273,25 @@
 
 .searchInput::placeholder {
     color: #888;
+}
+
+.searchButton {
+    background: linear-gradient(135deg, #4f8209, #6ba30c);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
+.searchButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 130, 9, 0.3);
 }
 
 .searchFilter {
@@ -209,16 +342,17 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Categorias */
+/* Categorias Melhoradas */
 .categoriesSection {
     margin-bottom: 60px;
+    padding: 40px 0;
 }
 
 .categoriesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -226,31 +360,134 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 25px 20px;
-    background: rgba(255, 255, 255, 0.8);
+    gap: 15px;
+    padding: 30px 25px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 255, 230, 0.8));
     border: 2px solid transparent;
-    border-radius: 25px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(79, 130, 9, 0.1);
+}
+
+.categoryCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(166, 240, 43, 0.1), rgba(79, 130, 9, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.categoryCard:hover::before {
+    opacity: 1;
 }
 
 .categoryCard:hover {
-    background: rgba(166, 240, 43, 0.3);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(79, 130, 9, 0.2);
+    transform: translateY(-8px) scale(1.02);
+    border-color: #4f8209;
+    box-shadow: 0 15px 40px rgba(79, 130, 9, 0.25);
 }
 
 .categoryCard.active {
-    background: rgba(166, 240, 43, 0.9);
-    border-color: #4f8209;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(79, 130, 9, 0.3);
+    background: linear-gradient(135deg, #4f8209, #6ba30c);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(79, 130, 9, 0.3);
+}
+
+.categoryIcon {
+    font-size: 2.8rem;
+    color: #2d5e06;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.categoryCard:hover .categoryIcon,
+.categoryCard.active .categoryIcon {
+    color: white;
+    transform: scale(1.1);
+}
+
+.categoryName {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4f8209;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.categoryCard:hover .categoryName,
+.categoryCard.active .categoryName {
+    color: white;
+}
+
+/* Seções de Livros */
+.booksSection {
+    margin-bottom: 50px;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.genreTitle {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #4f8209;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.viewAllButton {
+    background: linear-gradient(135deg, #4f8209, #6ba30c);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.viewAllButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 130, 9, 0.3);
+}
+
+/* Grades de Livros Melhoradas */
+.booksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.genreSection {
+    margin-bottom: 50px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
 .categoryIcon {
     font-size: 2.5rem;
+    color: #2d5e06;
 }
 
 .categoryName {
@@ -627,9 +864,57 @@
     }
 }
 
-@media (max-width: 480px) {
-    .pageTitle {
-        font-size: 2rem;
+/* Responsividade Melhorada */
+@media (max-width: 1024px) {
+    .heroTitle {
+        font-size: 2.8rem;
+    }
+    
+    .heroStats {
+        gap: 25px;
+    }
+    
+    .categoriesGrid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+    
+    .booksGrid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .heroSection {
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    
+    .heroTitle {
+        font-size: 2.2rem;
+    }
+    
+    .heroSubtitle {
+        font-size: 1.1rem;
+    }
+    
+    .heroStats {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .searchSection {
+        padding: 20px;
+    }
+    
+    .searchControls {
+        flex-direction: column;
+        align-items: stretch;
     }
     
     .sectionTitle {
@@ -637,12 +922,58 @@
     }
     
     .genreTitle {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
     
     .categoriesGrid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
     
+    .categoryCard {
+        padding: 20px 15px;
+    }
+    
+    .categoryIcon {
+        font-size: 2.2rem;
+    }
+    
+    .booksGrid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .genreSection {
+        padding: 20px;
+    }
+}
 
+@media (max-width: 480px) {
+    .heroTitle {
+        font-size: 1.8rem;
+    }
+    
+    .heroSubtitle {
+        font-size: 1rem;
+    }
+    
+    .searchSection {
+        padding: 15px;
+    }
+    
+    .categoriesGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .booksGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .statCard {
+        padding: 15px 20px;
+    }
+    
+    .statNumber {
+        font-size: 2rem;
+    }
 }

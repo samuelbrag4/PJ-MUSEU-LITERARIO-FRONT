@@ -281,17 +281,36 @@ export default function Livros() {
       <Header />
       <main className={styles.main}>
         <div className={styles.container}>
-          {/* Seção de Introdução */}
-          <section className={styles.introSection}>
-            <div className={styles.introContent}>
-              <h1 className={styles.pageTitle}><FaBookOpen /> Biblioteca Brasileira</h1>
-              <p className={styles.pageDescription}>
-                Explore o rico universo da literatura brasileira! Aqui você pode descobrir e pesquisar 
-                obras incríveis de autores nacionais, organizadas por categorias para facilitar sua busca. 
-                Desde clássicos atemporais até obras contemporâneas, nosso acervo celebra a diversidade 
-                e riqueza da produção literária do Brasil.
+          {/* Hero Section */}
+          <section className={styles.heroSection}>
+            <div className={styles.heroContent}>
+              <h1 className={styles.heroTitle}>
+                <FaBookOpen /> Biblioteca Brasileira
+              </h1>
+              <p className={styles.heroSubtitle}>
+                Explore o rico universo da literatura brasileira! Descubra obras incríveis de autores nacionais, 
+                desde clássicos atemporais até obras contemporâneas que celebram a diversidade cultural do Brasil.
               </p>
               
+              <div className={styles.heroStats}>
+                <div className={styles.statCard}>
+                  <span className={styles.statNumber}>{Object.keys(livrosPorGenero).length}</span>
+                  <span className={styles.statLabel}>Gêneros</span>
+                </div>
+                <div className={styles.statCard}>
+                  <span className={styles.statNumber}>
+                    {Object.values(livrosPorGenero).reduce((total, livros) => total + livros.length, 0)}
+                  </span>
+                  <span className={styles.statLabel}>Livros</span>
+                </div>
+                <div className={styles.statCard}>
+                  <span className={styles.statNumber}>
+                    {new Set(Object.values(livrosPorGenero).flat().map(livro => livro.autor)).size}
+                  </span>
+                  <span className={styles.statLabel}>Autores</span>
+                </div>
+              </div>
+
               {user?.tipo === 'escritor' && (
                 <button 
                   className={styles.addBookButton}
@@ -303,33 +322,48 @@ export default function Livros() {
             </div>
           </section>
 
-          {/* Barra de Pesquisa */}
+          {/* Barra de Pesquisa Melhorada */}
           <section className={styles.searchSection}>
             <div className={styles.searchContainer}>
+              <h2 className={styles.searchTitle}>🔍 Encontre seu próximo livro</h2>
+              
+              <div className={styles.searchControls}>
+                <button 
+                  className={`${styles.searchTypeSelector} ${searchFilter === 'titulo' ? styles.active : ''}`}
+                  onClick={() => setSearchFilter('titulo')}
+                >
+                  📚 Por Título
+                </button>
+                <button 
+                  className={`${styles.searchTypeSelector} ${searchFilter === 'autor' ? styles.active : ''}`}
+                  onClick={() => setSearchFilter('autor')}
+                >
+                  ✍️ Por Autor
+                </button>
+              </div>
+
               <div className={styles.searchBox}>
                 <FaSearch className={styles.searchIcon} />
                 <input
                   type="text"
-                  placeholder="Pesquisar livros ou autores..."
+                  placeholder={`Pesquisar por ${searchFilter === 'titulo' ? 'título do livro' : 'nome do autor'}...`}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className={styles.searchInput}
                 />
-                <select
-                  value={searchFilter}
-                  onChange={(e) => setSearchFilter(e.target.value)}
-                  className={styles.searchFilter}
+                <button 
+                  className={styles.searchButton}
+                  onClick={handleSearch}
                 >
-                  <option value="titulo">Por Título</option>
-                  <option value="autor">Por Autor</option>
-                </select>
+                  Buscar
+                </button>
               </div>
             </div>
 
             {/* Resultados da Pesquisa */}
             {searchTerm && (
               <div className={styles.searchResults}>
-                <h3 className={styles.searchTitle}>
+                <h3 className={styles.searchResultsTitle}>
                   Resultados para "{searchTerm}" ({filteredBooks.length} encontrados)
                 </h3>
                 {filteredBooks.length > 0 ? (
