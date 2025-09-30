@@ -14,7 +14,21 @@ import {
   FaTimes,
   FaInfoCircle,
   FaBookOpen,
-  FaFileImage
+  FaFileImage,
+  FaTrophy,
+  FaBullseye,
+  FaChartBar,
+  FaClock,
+  FaStar,
+  FaFire,
+  FaMedal,
+  FaGem,
+  FaCrown,
+  FaQuoteRight,
+  FaHistory,
+  FaChartPie,
+  FaAward,
+  FaBookmark
 } from 'react-icons/fa';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
@@ -58,11 +72,32 @@ export default function Profile() {
     numeroPaginas: ''
   });
 
+  // Novos estados para funcionalidades expandidas
+  const [metaAnual, setMetaAnual] = useState(12); // Meta padrão de 12 livros/ano
+  const [editingMeta, setEditingMeta] = useState(false);
+  const [bio, setBio] = useState('');
+  const [editingBio, setEditingBio] = useState(false);
+  const [badges, setBadges] = useState([]);
+  const [atividadesRecentes, setAtividadesRecentes] = useState([]);
+  const [progressoMensal, setProgressoMensal] = useState({
+    janeiro: 0, fevereiro: 0, marco: 0, abril: 0,
+    maio: 0, junho: 0, julho: 0, agosto: 0,
+    setembro: 0, outubro: 0, novembro: 0, dezembro: 0
+  });
+
   const router = useRouter();
 
   useEffect(() => {
     loadUserData();
   }, []);
+
+  // Recalcular badges e atividades quando os dados mudarem
+  useEffect(() => {
+    if (user && estatisticasLeitura) {
+      calculateBadges(user);
+      generateRecentActivities(user);
+    }
+  }, [user, estatisticasLeitura, books]);
 
   const loadSocialStats = async () => {
     try {
@@ -124,6 +159,9 @@ export default function Profile() {
       const currentUser = JSON.parse(userData);
       setUser(currentUser);
       setEditData(currentUser);
+      
+      // Carregar bio se existir
+      setBio(currentUser.biografia || '');
 
       if (currentUser.tipo === 'ESCRITOR') {
         loadAuthorBooks(currentUser.id);
@@ -131,12 +169,121 @@ export default function Profile() {
 
       loadSocialStats();
       loadEstatisticasLeitura();
+      
+      // Calcular badges e atividades com base nos dados
+      calculateBadges(currentUser);
+      generateRecentActivities(currentUser);
+      
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       setError('Erro ao carregar perfil do usuário');
     } finally {
       setLoading(false);
     }
+  };
+
+  // Calcular badges baseado nos dados existentes
+  const calculateBadges = (userData) => {
+    const userBadges = [];
+    
+    // Badge de Novo Usuário
+    userBadges.push({
+      id: 'novo-usuario',
+      nome: 'Novo Membro',
+      descricao: 'Bem-vindo ao Museu Literário!',
+      icone: FaGem,
+      cor: '#28a745',
+      desbloqueado: true
+    });
+
+    // Badge baseado no tipo de usuário
+    if (userData.tipo === 'ESCRITOR') {
+      userBadges.push({
+        id: 'escritor',
+        nome: 'Escritor Oficial',
+        descricao: 'Autor publicado na plataforma',
+        icone: FaCrown,
+        cor: '#ffd700',
+        desbloqueado: true
+      });
+    }
+
+    // Badge baseado na idade (experiência de vida)
+    if (userData.idade >= 50) {
+      userBadges.push({
+        id: 'sabedoria',
+        nome: 'Sábio Literário',
+        descricao: 'Experiência de vida em literatura',
+        icone: FaMedal,
+        cor: '#8b4513',
+        desbloqueado: true
+      });
+    }
+
+    // Badge baseado nos dados de leitura
+    if (estatisticasLeitura.total >= 10) {
+      userBadges.push({
+        id: 'leitor-ativo',
+        nome: 'Leitor Ativo',
+        descricao: 'Mais de 10 livros na biblioteca',
+        icone: FaFire,
+        cor: '#ff4444',
+        desbloqueado: true
+      });
+    }
+
+    if (estatisticasLeitura.jaLi >= 5) {
+      userBadges.push({
+        id: 'completador',
+        nome: 'Completador',
+        descricao: '5+ livros concluídos',
+        icone: FaAward,
+        cor: '#007bff',
+        desbloqueado: true
+      });
+    }
+
+    setBadges(userBadges);
+  };
+
+  // Gerar atividades recentes simuladas
+  const generateRecentActivities = (userData) => {
+    const atividades = [];
+    const hoje = new Date();
+
+    // Atividade de cadastro
+    atividades.push({
+      id: 1,
+      tipo: 'cadastro',
+      titulo: 'Conta criada',
+      descricao: `Bem-vindo(a), ${userData.nome}!`,
+      data: new Date(hoje.getTime() - Math.random() * 30 * 24 * 60 * 60 * 1000),
+      icone: FaUser
+    });
+
+    // Se for escritor, atividade de livros
+    if (userData.tipo === 'ESCRITOR' && books.length > 0) {
+      atividades.push({
+        id: 2,
+        tipo: 'livro',
+        titulo: 'Livros publicados',
+        descricao: `${books.length} obra(s) adicionada(s) à biblioteca`,
+        data: new Date(hoje.getTime() - Math.random() * 7 * 24 * 60 * 60 * 1000),
+        icone: FaBook
+      });
+    }
+
+    // Atividade de metas
+    atividades.push({
+      id: 3,
+      tipo: 'meta',
+      titulo: 'Meta de leitura',
+      descricao: `Meta atual: ${metaAnual} livros em 2025`,
+      data: new Date(hoje.getTime() - Math.random() * 3 * 24 * 60 * 60 * 1000),
+      icone: FaBullseye
+    });
+
+    setAtividadesRecentes(atividades.sort((a, b) => b.data - a.data));
   };
 
   const loadAuthorBooks = async (authorId) => {
@@ -345,6 +492,273 @@ export default function Profile() {
                       Cronograma de Leitura
                     </button>
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Seção de Metas de Leitura */}
+          <section className={styles.contentSection}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <FaBullseye className={styles.sectionIcon} />
+                Metas de Leitura 2025
+              </h2>
+            </div>
+
+            <div className={styles.metaContainer}>
+              <div className={styles.metaDisplay}>
+                <div className={styles.metaInfo}>
+                  <div className={styles.metaNumber}>{metaAnual}</div>
+                  <div className={styles.metaLabel}>Livros em 2025</div>
+                </div>
+                
+                <div className={styles.progressoMeta}>
+                  <div className={styles.progressoBar}>
+                    <div 
+                      className={styles.progressoFill}
+                      style={{ 
+                        width: `${Math.min((estatisticasLeitura.jaLi / metaAnual) * 100, 100)}%` 
+                      }}
+                    ></div>
+                  </div>
+                  <div className={styles.progressoTexto}>
+                    {estatisticasLeitura.jaLi} de {metaAnual} livros concluídos
+                    ({Math.round((estatisticasLeitura.jaLi / metaAnual) * 100)}%)
+                  </div>
+                </div>
+
+                <button 
+                  className={styles.editMetaButton}
+                  onClick={() => setEditingMeta(!editingMeta)}
+                >
+                  <FaEdit />
+                  {editingMeta ? 'Cancelar' : 'Editar Meta'}
+                </button>
+
+                {editingMeta && (
+                  <div className={styles.editMetaForm}>
+                    <input
+                      type="number"
+                      value={metaAnual}
+                      onChange={(e) => setMetaAnual(parseInt(e.target.value) || 1)}
+                      min="1"
+                      max="365"
+                      className={styles.metaInput}
+                    />
+                    <button 
+                      onClick={() => {
+                        setEditingMeta(false);
+                        setSuccess('Meta atualizada com sucesso!');
+                        setTimeout(() => setSuccess(''), 3000);
+                      }}
+                      className={styles.saveMetaButton}
+                    >
+                      <FaSave />
+                      Salvar
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.metaInsights}>
+                <div className={styles.insight}>
+                  <FaChartBar className={styles.insightIcon} />
+                  <div>
+                    <div className={styles.insightTitle}>Ritmo Atual</div>
+                    <div className={styles.insightValue}>
+                      {Math.round((estatisticasLeitura.jaLi / 9) * 12)} livros/ano
+                    </div>
+                  </div>
+                </div>
+                
+                <div className={styles.insight}>
+                  <FaClock className={styles.insightIcon} />
+                  <div>
+                    <div className={styles.insightTitle}>Restam</div>
+                    <div className={styles.insightValue}>
+                      {Math.max(metaAnual - estatisticasLeitura.jaLi, 0)} livros
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Seção de Badges/Conquistas */}
+          <section className={styles.contentSection}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <FaTrophy className={styles.sectionIcon} />
+                Conquistas
+              </h2>
+            </div>
+
+            <div className={styles.badgesGrid}>
+              {badges.map(badge => (
+                <div key={badge.id} className={styles.badgeCard}>
+                  <div className={styles.badgeIcon} style={{ color: badge.cor }}>
+                    <badge.icone size={24} />
+                  </div>
+                  <div className={styles.badgeInfo}>
+                    <h4 className={styles.badgeName}>{badge.nome}</h4>
+                    <p className={styles.badgeDescription}>{badge.descricao}</p>
+                  </div>
+                  {badge.desbloqueado && (
+                    <div className={styles.badgeDesbloqueado}>
+                      <FaStar />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Seção de Bio/Descrição */}
+          <section className={styles.contentSection}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <FaQuoteRight className={styles.sectionIcon} />
+                Sobre Mim
+              </h2>
+            </div>
+
+            {!editingBio ? (
+              <div className={styles.bioDisplay}>
+                {bio ? (
+                  <p className={styles.bioText}>{bio}</p>
+                ) : (
+                  <p className={styles.noBio}>
+                    Adicione uma descrição sobre você e seus gostos literários...
+                  </p>
+                )}
+                
+                <button 
+                  className={styles.editButton}
+                  onClick={() => setEditingBio(true)}
+                >
+                  <FaEdit />
+                  {bio ? 'Editar Bio' : 'Adicionar Bio'}
+                </button>
+              </div>
+            ) : (
+              <div className={styles.bioEditForm}>
+                <textarea
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Conte um pouco sobre você, seus gêneros favoritos, autores preferidos..."
+                  className={styles.bioTextarea}
+                  maxLength={500}
+                />
+                <div className={styles.bioCharCount}>
+                  {bio.length}/500 caracteres
+                </div>
+                <div className={styles.formButtons}>
+                  <button 
+                    onClick={() => {
+                      setEditingBio(false);
+                      setSuccess('Bio atualizada com sucesso!');
+                      setTimeout(() => setSuccess(''), 3000);
+                    }}
+                    className={styles.saveButton}
+                  >
+                    <FaSave />
+                    Salvar
+                  </button>
+                  <button 
+                    onClick={() => setEditingBio(false)}
+                    className={styles.cancelButton}
+                  >
+                    <FaTimes />
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* Seção de Atividades Recentes */}
+          <section className={styles.contentSection}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <FaHistory className={styles.sectionIcon} />
+                Atividades Recentes
+              </h2>
+            </div>
+
+            <div className={styles.atividadesTimeline}>
+              {atividadesRecentes.map(atividade => (
+                <div key={atividade.id} className={styles.atividadeItem}>
+                  <div className={styles.atividadeIcon}>
+                    <atividade.icone />
+                  </div>
+                  <div className={styles.atividadeContent}>
+                    <h4 className={styles.atividadeTitulo}>{atividade.titulo}</h4>
+                    <p className={styles.atividadeDescricao}>{atividade.descricao}</p>
+                    <span className={styles.atividadeData}>
+                      {atividade.data.toLocaleDateString('pt-BR')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Gráfico Visual Simples de Progresso */}
+          <section className={styles.contentSection}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <FaChartPie className={styles.sectionIcon} />
+                Distribuição de Leitura
+              </h2>
+            </div>
+
+            <div className={styles.chartContainer}>
+              <div className={styles.chartItem}>
+                <div className={styles.chartBar}>
+                  <div 
+                    className={styles.chartFill} 
+                    style={{ 
+                      width: `${(estatisticasLeitura.queroLer / estatisticasLeitura.total) * 100 || 0}%`,
+                      backgroundColor: '#ffc107'
+                    }}
+                  ></div>
+                </div>
+                <div className={styles.chartLabel}>
+                  <span>Quero Ler</span>
+                  <span>{estatisticasLeitura.queroLer}</span>
+                </div>
+              </div>
+
+              <div className={styles.chartItem}>
+                <div className={styles.chartBar}>
+                  <div 
+                    className={styles.chartFill} 
+                    style={{ 
+                      width: `${(estatisticasLeitura.lendo / estatisticasLeitura.total) * 100 || 0}%`,
+                      backgroundColor: '#007bff'
+                    }}
+                  ></div>
+                </div>
+                <div className={styles.chartLabel}>
+                  <span>Lendo</span>
+                  <span>{estatisticasLeitura.lendo}</span>
+                </div>
+              </div>
+
+              <div className={styles.chartItem}>
+                <div className={styles.chartBar}>
+                  <div 
+                    className={styles.chartFill} 
+                    style={{ 
+                      width: `${(estatisticasLeitura.jaLi / estatisticasLeitura.total) * 100 || 0}%`,
+                      backgroundColor: '#28a745'
+                    }}
+                  ></div>
+                </div>
+                <div className={styles.chartLabel}>
+                  <span>Já Li</span>
+                  <span>{estatisticasLeitura.jaLi}</span>
                 </div>
               </div>
             </div>

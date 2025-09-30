@@ -714,3 +714,422 @@
         font-size: 1.1rem;
     }
 }
+
+/* ===== NOVAS FUNCIONALIDADES ===== */
+
+/* Metas de Leitura */
+.metaContainer {
+    background: linear-gradient(135deg, rgba(79, 130, 9, 0.05), rgba(166, 240, 43, 0.05));
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid rgba(79, 130, 9, 0.1);
+}
+
+.metaDisplay {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.metaInfo {
+    margin-bottom: 25px;
+}
+
+.metaNumber {
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #4f8209, #a6f02b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.metaLabel {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.progressoMeta {
+    margin-bottom: 25px;
+}
+
+.progressoBar {
+    width: 100%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progressoFill {
+    height: 100%;
+    background: linear-gradient(135deg, #4f8209, #a6f02b);
+    transition: width 0.5s ease;
+    border-radius: 10px;
+}
+
+.progressoTexto {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.editMetaButton {
+    background: rgba(79, 130, 9, 0.1);
+    border: 2px solid rgba(79, 130, 9, 0.3);
+    color: #4f8209;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+}
+
+.editMetaButton:hover {
+    background: #4f8209;
+    color: white;
+}
+
+.editMetaForm {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.metaInput {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    width: 100px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.saveMetaButton {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.saveMetaButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.metaInsights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.insight {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.insightIcon {
+    color: #4f8209;
+    font-size: 1.5rem;
+}
+
+.insightTitle {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.insightValue {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #4f8209;
+}
+
+/* Badges/Conquistas */
+.badgesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.badgeCard {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.badgeCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.badgeIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.badgeInfo {
+    flex: 1;
+}
+
+.badgeName {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.badgeDescription {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.badgeDesbloqueado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #ffd700;
+    font-size: 1.2rem;
+}
+
+/* Bio/Descrição */
+.bioDisplay {
+    text-align: center;
+}
+
+.bioText {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 25px;
+    background: rgba(79, 130, 9, 0.05);
+    padding: 25px;
+    border-radius: 12px;
+    border-left: 4px solid #4f8209;
+    font-style: italic;
+}
+
+.noBio {
+    color: #999;
+    font-style: italic;
+    margin-bottom: 25px;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+}
+
+.bioEditForm {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.bioTextarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    resize: vertical;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.bioTextarea:focus {
+    outline: none;
+    border-color: #4f8209;
+    box-shadow: 0 0 0 3px rgba(79, 130, 9, 0.1);
+}
+
+.bioCharCount {
+    text-align: right;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Atividades Recentes */
+.atividadesTimeline {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.atividadeItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #4f8209;
+    transition: all 0.3s ease;
+}
+
+.atividadeItem:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.atividadeIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(79, 130, 9, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4f8209;
+    flex-shrink: 0;
+}
+
+.atividadeContent {
+    flex: 1;
+}
+
+.atividadeTitulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.atividadeDescricao {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.atividadeData {
+    font-size: 0.85rem;
+    color: #999;
+    font-weight: 500;
+}
+
+/* Gráficos */
+.chartContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chartItem {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.chartBar {
+    flex: 1;
+    height: 25px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.chartFill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.8s ease;
+    min-width: 2px;
+}
+
+.chartLabel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 120px;
+    font-weight: 600;
+    color: #333;
+}
+
+.chartLabel span:first-child {
+    font-size: 0.9rem;
+}
+
+.chartLabel span:last-child {
+    font-size: 1.1rem;
+    color: #4f8209;
+}
+
+/* Responsividade para novas seções */
+@media (max-width: 768px) {
+    .metaNumber {
+        font-size: 3rem;
+    }
+    
+    .metaInsights {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .badgesGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .badgeCard {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .editMetaForm {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .chartItem {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .chartLabel {
+        justify-content: space-between;
+        min-width: auto;
+    }
+}
