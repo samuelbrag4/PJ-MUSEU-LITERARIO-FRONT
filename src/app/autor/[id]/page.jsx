@@ -14,6 +14,7 @@ import {
   FaQuoteLeft,
   FaShare,
   FaStar,
+  FaUser,
 } from "react-icons/fa";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
@@ -205,103 +206,141 @@ export default function AutorPage() {
             ← Voltar aos Autores
           </button>
 
-          {/* Informações do Autor */}
-          <section className={styles.authorSection}>
-            <div className={styles.authorHeader}>
-              <div className={styles.authorImageLarge}>
-                <img 
-                  src={autor.foto || '/autores/default.jpg'} 
-                  alt={autor.nome}
-                  onError={(e) => {
-                    console.log(`Imagem do autor não encontrada: ${e.target.src}`);
-                    e.target.style.display = 'none';
-                    // Criar um placeholder personalizado
-                    const placeholder = document.createElement('div');
-                    placeholder.className = styles.imagePlaceholder;
-                    placeholder.innerHTML = `
-                      <div style="font-size: 4rem; color: #4f8209; margin-bottom: 10px;">👤</div>
-                      <div style="font-size: 1rem; color: #6b8e23;">${autor.nome}</div>
-                    `;
-                    e.target.parentNode.appendChild(placeholder);
-                  }}
-                  onLoad={(e) => {
-                    // Se a imagem carregar com sucesso, remover qualquer placeholder
-                    const placeholder = e.target.parentNode.querySelector(`.${styles.imagePlaceholder}`);
-                    if (placeholder) {
-                      placeholder.remove();
-                    }
-                  }}
-                />
-              </div>
-              
-              <div className={styles.authorInfo}>
-                <h1 className={styles.authorName}>{autor.nome}</h1>
-                
-                <div className={styles.authorDetails}>
-                  {autor.dataNascimento && (
-                    <div className={styles.detail}>
-                      <span className={styles.detailLabel}><FaCalendarAlt /> Nascimento:</span>
-                      <span className={styles.detailValue}>
-                        {formatarData(autor.dataNascimento)}
-                        {idade && ` (${idade} anos${isVivo ? '' : ' quando faleceu'})`}
-                      </span>
-                    </div>
-                  )}
-                  
-                  {autor.dataFalecimento && (
-                    <div className={styles.detail}>
-                      <span className={styles.detailLabel}>⚰️ Falecimento:</span>
-                      <span className={styles.detailValue}>
-                        {formatarData(autor.dataFalecimento)}
-                      </span>
-                    </div>
-                  )}
-                  
-                  {autor.email && (
-                    <div className={styles.detail}>
-                      <span className={styles.detailLabel}>📧 Email:</span>
-                      <span className={styles.detailValue}>{autor.email}</span>
-                    </div>
-                  )}
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaBook /> Obras:</span>
-                    <span className={styles.detailValue}>
-                      {livros.length} {livros.length === 1 ? 'obra' : 'obras'} cadastradas
-                    </span>
-                  </div>
-                  
-                  <div className={styles.detail}>
-                    <span className={styles.detailLabel}><FaUsers /> Seguidores:</span>
-                    <span className={styles.detailValue}>
-                      {seguidores} {seguidores === 1 ? 'seguidor' : 'seguidores'}
-                    </span>
+          {/* Hero Section do Autor */}
+          <section className={styles.heroSection}>
+            <div className={styles.heroContent}>
+              {/* Imagem do Autor */}
+              <div className={styles.authorImageContainer}>
+                <div className={styles.authorImageWrapper}>
+                  <img 
+                    src={autor.foto || '/autores/default.jpg'} 
+                    alt={autor.nome}
+                    className={styles.authorImage}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className={styles.imagePlaceholder}>
+                    <FaUser size={60} color="#4f8209" />
+                    <span>Sem foto</span>
                   </div>
                 </div>
-                
+              </div>
+
+              {/* Informações Principais */}
+              <div className={styles.authorMainInfo}>
+                <div className={styles.authorHeader}>
+                  <h1 className={styles.authorTitle}>{autor.nome}</h1>
+                  
+                  <div className={styles.authorQuote}>
+                    <FaQuoteLeft className={styles.quoteIcon} />
+                    <p>"{autor.biografia || 'Um grande escritor da literatura brasileira.'}"</p>
+                  </div>
+                </div>
+
+                {/* Meta Informações */}
+                <div className={styles.authorMeta}>
+                  <div className={styles.metaGrid}>
+                    {autor.dataNascimento && (
+                      <div className={styles.metaItem}>
+                        <FaCalendarAlt className={styles.metaIcon} />
+                        <div>
+                          <span className={styles.metaLabel}>Nascimento</span>
+                          <span className={styles.metaValue}>
+                            {formatarData(autor.dataNascimento)}
+                            {idade && ` (${idade} anos${isVivo ? '' : ' quando faleceu'})`}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {autor.dataFalecimento && (
+                      <div className={styles.metaItem}>
+                        <FaCalendarAlt className={styles.metaIcon} />
+                        <div>
+                          <span className={styles.metaLabel}>Falecimento</span>
+                          <span className={styles.metaValue}>
+                            {formatarData(autor.dataFalecimento)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {autor.email && (
+                      <div className={styles.metaItem}>
+                        <FaUser className={styles.metaIcon} />
+                        <div>
+                          <span className={styles.metaLabel}>Email</span>
+                          <span className={styles.metaValue}>{autor.email}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className={styles.metaItem}>
+                      <FaBook className={styles.metaIcon} />
+                      <div>
+                        <span className={styles.metaLabel}>Obras</span>
+                        <span className={styles.metaValue}>
+                          {livros.length} {livros.length === 1 ? 'obra' : 'obras'}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className={styles.metaItem}>
+                      <FaUsers className={styles.metaIcon} />
+                      <div>
+                        <span className={styles.metaLabel}>Seguidores</span>
+                        <span className={styles.metaValue}>
+                          {seguidores} {seguidores === 1 ? 'seguidor' : 'seguidores'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Botão de Seguir */}
-                <div className={styles.followSection}>
+                <div className={styles.authorActions}>
                   <FollowButton 
                     escritorId={parseInt(autorId)} 
                     onFollowChange={carregarSeguidores}
                   />
+                  
+                  <button className={styles.shareButton}>
+                    <FaShare />
+                    Compartilhar
+                  </button>
                 </div>
               </div>
             </div>
+          </section>
 
-            {autor.biografia && (
-              <div className={styles.biography}>
-                <h2 className={styles.biographyTitle}><FaBookOpen /> Biografia</h2>
+          {/* Seção de Biografia Detalhada */}
+          {autor.biografia && (
+            <section className={styles.biographySection}>
+              <div className={styles.sectionHeader}>
+                <h2 className={styles.sectionTitle}>
+                  <FaBookOpen className={styles.sectionIcon} />
+                  Biografia
+                </h2>
+              </div>
+              <div className={styles.biographyContent}>
                 <p className={styles.biographyText}>{autor.biografia}</p>
               </div>
-            )}
-          </section>
+            </section>
+          )}
 
           {/* Obras do Autor */}
           <section className={styles.worksSection}>
-            <h2 className={styles.sectionTitle}>
-              <FaBook /> Obras de {autor.nome}
-            </h2>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <FaBook className={styles.sectionIcon} />
+                Obras de {autor.nome}
+              </h2>
+              <span className={styles.worksCount}>
+                {livros.length} {livros.length === 1 ? 'obra' : 'obras'}
+              </span>
+            </div>
             
             {livros.length > 0 ? (
               <div className={styles.booksGrid}>

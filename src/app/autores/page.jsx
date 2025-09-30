@@ -297,7 +297,7 @@ export default function Autores() {
           {/* Barra de Pesquisa e Filtros */}
           <section className={styles.searchSection}>
             <div className={styles.searchContainer}>
-              <h2 className={styles.searchTitle}>🔍 Encontre seu autor favorito</h2>
+              <h2 className={styles.searchTitle}>Encontre seu autor favorito</h2>
               
               <div className={styles.searchBox}>
                 <FaSearch className={styles.searchIcon} />
@@ -330,7 +330,7 @@ export default function Autores() {
 
                   <div className={styles.filterGroup}>
                     <label className={styles.filterLabel}>
-                      🌍 Nacionalidade:
+                      <FaUser /> Nacionalidade:
                     </label>
                     <select
                       value={selectedNationality}
@@ -366,7 +366,7 @@ export default function Autores() {
                 <div className={styles.sortRow}>
                   <div className={styles.filterGroup}>
                     <label className={styles.filterLabel}>
-                      📊 Ordenar por:
+                      <FaFilter /> Ordenar por:
                     </label>
                     <select
                       value={sortBy}
@@ -382,7 +382,7 @@ export default function Autores() {
 
                   <div className={styles.filterGroup}>
                     <label className={styles.filterLabel}>
-                      🔄 Ordem:
+                      <FaCalendarAlt /> Ordem:
                     </label>
                     <select
                       value={sortOrder}
