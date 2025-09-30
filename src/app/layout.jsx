@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
     title: "Museu Literário",
-    description: "Projeto pra mostrar tudo que eu sei",
+    description: "Projeto de valorização da literatura brasileira.",
     icons: {
         icon: "/icons/favicon.ico",
     },
